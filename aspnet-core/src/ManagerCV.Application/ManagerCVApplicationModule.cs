@@ -13,6 +13,9 @@ namespace ManagerCV
         public override void PreInitialize()
         {
             Configuration.Authorization.Providers.Add<ManagerCVAuthorizationProvider>();
+
+            //Adding custom AutoMapper configuration
+            Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomDtoMapper.CreateMappings);
         }
 
         public override void Initialize()

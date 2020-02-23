@@ -13,4 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ManagerCV.Core\ManagerCV.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Employee\Exporting\" />
+  </ItemGroup>
 </Project>
