@@ -11,9 +11,13 @@ namespace ManagerCV.Employee
     public interface IEmployeeAppService: IApplicationService
     {
         Task<PagedResultDto<EmployeeListDto>> GetAll(EmployeeInputDto input);
+
+        Task<PagedResultDto<EmployeeListDto>> GetAll_Gui(EmployeeInputDto input);
         Task<long> Create(CreateEmployeeDto input);
         Task Update(CreateEmployeeDto input);
         Task Delete(int id);
         Task<CreateEmployeeDto> GetId(int id);
+
+        Task CVGuiDi(CVGuiDi input);
     }
 }

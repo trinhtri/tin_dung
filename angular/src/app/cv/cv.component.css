@@ -1,0 +1,24 @@
+.gs-table {
+    margin-top: 20px;
+}
+
+.btn-edit {
+    text-decoration: none;
+    color: inherit;
+}
+
+.expansion-panel-header {
+    position: relative;
+    background-color: #e9e9e9 !important;
+    color: #555;
+}
+
+.btn-action {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+}
+
+.btn-action>button:not(:last-child) {
+    margin-right: 10px;
+}

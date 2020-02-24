@@ -1,0 +1,117 @@
+<div class="row clearfix" [@routerTransition]>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card main-content">
+
+            <div class="body table-responsive">
+                <div class="row">
+                    <form>
+                        <div class="col-md-11">
+                            <mat-form-field>
+                                <input matInput [placeholder]="l('Tìm kiếm')" [(ngModel)]="keyword" name="keyword" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                            <button mat-raised-button color="primary" class="buttonSearch pull-right mt-3" (click)="getDataPage(1)">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
+                    </form>
+                    <mat-accordion class="col-md-12">
+                        <mat-expansion-panel [expanded]="true" hideToggle="true" disabled="true">
+                            <mat-expansion-panel-header style="background-color:#e9e9e9;" class="expansion-panel-header">
+                                <mat-panel-title>
+                                    {{"CV Ứng Viên Gửi Đi" | localize}}
+                                    <div class="btn-action">
+                                        <button mat-raised-button color="primary" (click)="createCV()">
+                                            {{ "Add" | localize }}
+                                        </button>
+                                        <!-- <button mat-raised-button (click)="exportClients()">
+                        {{ "Export" | localize }}
+                      </button> -->
+                                    </div>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="body table-responsive">
+                                <table class="table table-hover table-striped gs-table" [busy]="isTableLoading" matSort (matSortChange)="sortData($event)">
+                                    <thead>
+                                        <tr>
+                                            <th>{{l('Tính Năng')}}</th>
+                                            <th mat-sort-header="hoTen">{{ "Họ Tên" | localize }}</th>
+                                            <th mat-sort-header="sdt">{{ "Số Điện Thoại" | localize }}</th>
+                                            <th mat-sort-header="email">{{ "Email" | localize }}</th>
+                                            <th mat-sort-header="nguyenVong">{{ "Vị Trí Ứng Tuyển" | localize }}</th>
+                                            <th mat-sort-header="ctyNhan">{{ "Công Ty" | localize }}</th>
+                                            <th mat-sort-header="ngayHoTro">{{ "Ngày Gửi" | localize }}</th>
+                                            <th mat-sort-header="ketQua">{{ "Kết Quả" | localize }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let employee of employees | paginate: {
+                                                    id: 'server',
+                                                    itemsPerPage: pageSize,
+                                                    currentPage: pageNumber,
+                                                    totalItems: totalItems
+                                                  }
+                                                  ">
+                                            <td>
+                                                <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                                                    <mat-icon>menu</mat-icon>
+                                                </button>
+                                                <mat-menu #actionsMenu="matMenu">
+                                                    <button mat-menu-item (click)="editCV(employee)" class="btn-edit">
+                                                        <mat-icon>edit</mat-icon>
+                                                        <span>{{ "Chỉnh Sửa" | localize }}</span>
+                                                    </button>
+
+                                                    <button mat-menu-item (click)="approve(employee)" class="btn-edit">
+                                                        <mat-icon>edit</mat-icon>
+                                                        <span>{{ "Đã Nhận" | localize }}</span>
+                                                    </button>
+
+                                                    <button mat-menu-item (click)="discard(employee)" class="btn-edit">
+                                                        <mat-icon>edit</mat-icon>
+                                                        <span>{{ "Hủy Nhận" | localize }}</span>
+                                                    </button>
+                                                    <button mat-menu-item (click)="chuyenVeQLCV(employee)" class="btn-edit">
+                                                        <mat-icon>edit</mat-icon>
+                                                        <span>{{ "Chuyển Về QLCV" | localize }}</span>
+                                                    </button>
+
+                                                    <button mat-menu-item (click)="delete(employee)">
+                                                        <mat-icon>delete</mat-icon>
+                                                        <span>{{ "Xóa" | localize }}</span>
+                                                    </button>
+
+                                                </mat-menu>
+                                            </td>
+                                            <td>{{ employee.hoTen }}</td>
+                                            <td>{{ employee.sdt}}</td>
+                                            <td>{{ employee.email }}</td>
+                                            <td>{{ employee.nguyenVong }}</td>
+                                            <td>{{ employee.ctyNhan}}</td>
+                                            <td>{{ employee.ngayHoTro?.format("L")}}</td>
+                                            <td>
+                                                <span class="kt-badge kt-badge--dark kt-badge--inline" *ngIf="!employee.ketQua">Chưa nhận</span>
+                                                <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="employee.ketQua">Đã nhận</span>
+                                                <!-- {{ employee.ketQua}} -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onChangedPanigation($event)">
+                                </mat-paginator>
+
+                                <div class="abp-pagination-controls-wrapper" *ngIf="totalItems > pageSize">
+                                    <abp-pagination-controls (pageChange)="getDataPage($event)" id="server">
+                                    </abp-pagination-controls>
+                                </div>
+                            </div>
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

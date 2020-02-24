@@ -25,12 +25,12 @@ namespace ManagerCV.Employee.Dto
         public string Nganh { get; set; }
         public string NamTotNghiep { get; set; }
         public string FaceBook { get; set; }
-        public string MoTaCV { get; set; }
+        public string KinhNghiem { get; set; }
         public string LuongMongMuon { get; set; }
         public string NoiDung { get; set; }
         public string CtyNhan { get; set; }
         public DateTime? NgayHoTro { get; set; }
-        public string KetQua { get; set; }
-        public int TrangThai { get; set; }
+        public bool KetQua { get; set; }
+        public bool TrangThai { get; set; }
     }
 }

@@ -272,6 +272,58 @@ export class EmployeeServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    cVGuiDi(body: CVGuiDi | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Employee/CVGuiDi";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCVGuiDi(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCVGuiDi(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCVGuiDi(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -373,6 +425,77 @@ export class EmployeeServiceProxy {
     }
 
     protected processGetAll(response: HttpResponseBase): Observable<EmployeeListDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = EmployeeListDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EmployeeListDtoPagedResultDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll_Gui(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Employee/GetAll_Gui?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll_Gui(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll_Gui(<any>response_);
+                } catch (e) {
+                    return <Observable<EmployeeListDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EmployeeListDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll_Gui(response: HttpResponseBase): Observable<EmployeeListDtoPagedResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2289,13 +2412,13 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
     nganh: string | undefined;
     namTotNghiep: string | undefined;
     faceBook: string | undefined;
-    moTaCV: string | undefined;
+    kinhNghiem: string | undefined;
     luongMongMuon: string | undefined;
     noiDung: string | undefined;
     ctyNhan: string | undefined;
     ngayHoTro: moment.Moment | undefined;
-    ketQua: string | undefined;
-    trangThai: number;
+    ketQua: boolean;
+    trangThai: boolean;
     id: number;
 
     constructor(data?: ICreateEmployeeDto) {
@@ -2325,7 +2448,7 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
             this.nganh = data["nganh"];
             this.namTotNghiep = data["namTotNghiep"];
             this.faceBook = data["faceBook"];
-            this.moTaCV = data["moTaCV"];
+            this.kinhNghiem = data["kinhNghiem"];
             this.luongMongMuon = data["luongMongMuon"];
             this.noiDung = data["noiDung"];
             this.ctyNhan = data["ctyNhan"];
@@ -2361,7 +2484,7 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
         data["nganh"] = this.nganh;
         data["namTotNghiep"] = this.namTotNghiep;
         data["faceBook"] = this.faceBook;
-        data["moTaCV"] = this.moTaCV;
+        data["kinhNghiem"] = this.kinhNghiem;
         data["luongMongMuon"] = this.luongMongMuon;
         data["noiDung"] = this.noiDung;
         data["ctyNhan"] = this.ctyNhan;
@@ -2397,14 +2520,73 @@ export interface ICreateEmployeeDto {
     nganh: string | undefined;
     namTotNghiep: string | undefined;
     faceBook: string | undefined;
-    moTaCV: string | undefined;
+    kinhNghiem: string | undefined;
     luongMongMuon: string | undefined;
     noiDung: string | undefined;
     ctyNhan: string | undefined;
     ngayHoTro: moment.Moment | undefined;
+    ketQua: boolean;
+    trangThai: boolean;
+    id: number;
+}
+
+export class CVGuiDi implements ICVGuiDi {
+    employeeId: number;
+    ctyNhan: string | undefined;
+    ngayHoTro: moment.Moment | undefined;
     ketQua: string | undefined;
     trangThai: number;
-    id: number;
+
+    constructor(data?: ICVGuiDi) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.employeeId = data["employeeId"];
+            this.ctyNhan = data["ctyNhan"];
+            this.ngayHoTro = data["ngayHoTro"] ? moment(data["ngayHoTro"].toString()) : <any>undefined;
+            this.ketQua = data["ketQua"];
+            this.trangThai = data["trangThai"];
+        }
+    }
+
+    static fromJS(data: any): CVGuiDi {
+        data = typeof data === 'object' ? data : {};
+        let result = new CVGuiDi();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["employeeId"] = this.employeeId;
+        data["ctyNhan"] = this.ctyNhan;
+        data["ngayHoTro"] = this.ngayHoTro ? this.ngayHoTro.toISOString() : <any>undefined;
+        data["ketQua"] = this.ketQua;
+        data["trangThai"] = this.trangThai;
+        return data; 
+    }
+
+    clone(): CVGuiDi {
+        const json = this.toJSON();
+        let result = new CVGuiDi();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICVGuiDi {
+    employeeId: number;
+    ctyNhan: string | undefined;
+    ngayHoTro: moment.Moment | undefined;
+    ketQua: string | undefined;
+    trangThai: number;
 }
 
 export class EmployeeListDto implements IEmployeeListDto {
@@ -2424,13 +2606,13 @@ export class EmployeeListDto implements IEmployeeListDto {
     nganh: string | undefined;
     namTotNghiep: string | undefined;
     faceBook: string | undefined;
-    moTaCV: string | undefined;
+    kinhNghiem: string | undefined;
     luongMongMuon: string | undefined;
     noiDung: string | undefined;
     ctyNhan: string | undefined;
     ngayHoTro: moment.Moment | undefined;
-    ketQua: string | undefined;
-    trangThai: number;
+    ketQua: boolean;
+    trangThai: boolean;
     id: number;
 
     constructor(data?: IEmployeeListDto) {
@@ -2460,7 +2642,7 @@ export class EmployeeListDto implements IEmployeeListDto {
             this.nganh = data["nganh"];
             this.namTotNghiep = data["namTotNghiep"];
             this.faceBook = data["faceBook"];
-            this.moTaCV = data["moTaCV"];
+            this.kinhNghiem = data["kinhNghiem"];
             this.luongMongMuon = data["luongMongMuon"];
             this.noiDung = data["noiDung"];
             this.ctyNhan = data["ctyNhan"];
@@ -2496,7 +2678,7 @@ export class EmployeeListDto implements IEmployeeListDto {
         data["nganh"] = this.nganh;
         data["namTotNghiep"] = this.namTotNghiep;
         data["faceBook"] = this.faceBook;
-        data["moTaCV"] = this.moTaCV;
+        data["kinhNghiem"] = this.kinhNghiem;
         data["luongMongMuon"] = this.luongMongMuon;
         data["noiDung"] = this.noiDung;
         data["ctyNhan"] = this.ctyNhan;
@@ -2532,13 +2714,13 @@ export interface IEmployeeListDto {
     nganh: string | undefined;
     namTotNghiep: string | undefined;
     faceBook: string | undefined;
-    moTaCV: string | undefined;
+    kinhNghiem: string | undefined;
     luongMongMuon: string | undefined;
     noiDung: string | undefined;
     ctyNhan: string | undefined;
     ngayHoTro: moment.Moment | undefined;
-    ketQua: string | undefined;
-    trangThai: number;
+    ketQua: boolean;
+    trangThai: boolean;
     id: number;
 }
 

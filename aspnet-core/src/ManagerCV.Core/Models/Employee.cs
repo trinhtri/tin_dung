@@ -43,7 +43,7 @@ namespace ManagerCV.Models
         [StringLength(1000)]
         public string FaceBook { get; set; }
         [StringLength(2000)]
-        public string MoTaCV { get; set; }
+        public string KinhNghiem { get; set; }
         [StringLength(1000)]
         public string LuongMongMuon { get; set; }
         [StringLength(2000)]
@@ -52,7 +52,7 @@ namespace ManagerCV.Models
         public string CtyNhan { get; set; }
         public DateTime? NgayHoTro { get; set; }
         [StringLength(2000)]
-        public string KetQua { get; set; }
-        public int TrangThai { get; set; }
+        public bool KetQua { get; set; }
+        public bool TrangThai { get; set; }
     }
 }

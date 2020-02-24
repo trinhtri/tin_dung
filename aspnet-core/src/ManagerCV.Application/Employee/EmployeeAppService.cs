@@ -29,6 +29,13 @@ namespace ManagerCV.Employee
             return emp.Id;
         }
 
+        public async Task CVGuiDi(CVGuiDi input)
+        {
+            var dto = await _employeeRepository.FirstOrDefaultAsync(x => x.Id == input.EmployeeId);
+            dto.CtyNhan = input.CtyNhan;
+            dto.NgayHoTro = input.NgayHoTro;
+        }
+
         public async Task Delete(int id)
         {
             await _employeeRepository.DeleteAsync(id);
@@ -41,10 +48,34 @@ namespace ManagerCV.Employee
                 input.Filter = Regex.Replace(input.Filter.Trim(), @"\s+", " ");
             }
             var query = _employeeRepository.GetAll()
+                      .Where(x=>x.TrangThai == false)
                       .WhereIf(!input.Filter.IsNullOrEmpty(),
                        x => x.HoTen.Contains(input.Filter)
                       || x.NgonNgu.Contains(input.Filter) 
                       || x.ChoOHienTai.Contains(input.Filter) 
+                      || x.SDT.Contains(input.Filter)
+                      || x.Email.Contains(input.Filter)
+                      || x.SDT.Contains(input.Filter)
+                      );
+            var tatolCount = await query.CountAsync();
+            var result = await query.OrderBy(input.Sorting)
+                .PageBy(input)
+                .ToListAsync();
+            return new PagedResultDto<EmployeeListDto>(tatolCount, ObjectMapper.Map<List<EmployeeListDto>>(result));
+        }
+
+        public async Task<PagedResultDto<EmployeeListDto>> GetAll_Gui(EmployeeInputDto input)
+        {
+            if (!input.Filter.IsNullOrEmpty())
+            {
+                input.Filter = Regex.Replace(input.Filter.Trim(), @"\s+", " ");
+            }
+            var query = _employeeRepository.GetAll()
+                      .Where(x => x.TrangThai == true)
+                      .WhereIf(!input.Filter.IsNullOrEmpty(),
+                       x => x.HoTen.Contains(input.Filter)
+                      || x.NgonNgu.Contains(input.Filter)
+                      || x.ChoOHienTai.Contains(input.Filter)
                       || x.SDT.Contains(input.Filter)
                       || x.Email.Contains(input.Filter)
                       || x.SDT.Contains(input.Filter)

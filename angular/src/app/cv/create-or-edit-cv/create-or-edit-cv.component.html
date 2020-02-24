@@ -1,0 +1,118 @@
+<form novalidate autocomplete="off" #form="ngForm" (ngSubmit)="save()">
+    <h4 mat-dialog-title *ngIf="!CV.id">{{'Thêm mới CV' | localize }}</h4>
+    <h4 mat-dialog-title *ngIf="CV.id">{{'Chỉnh sửa CV' | localize }}:{{CV.hoTen}}</h4>
+    <mat-dialog-content style="width:800px;">
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput required name="hoTen" [placeholder]="'Họ Tên' | localize" maxlength="100" [(ngModel)]="CV.hoTen" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="namSinh" [placeholder]="'Năm Sinh' | localize" [(ngModel)]="CV.namSinh" maxlength="20" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <mat-select required [placeholder]="'Giới Tính' | localize" name="gander" [(ngModel)]="CV.gioiTinh">
+                    <mat-option [value]="1">{{ "Nam" | localize}}</mat-option>
+                    <mat-option [value]="2">{{ "Nữ" | localize}}</mat-option>
+                    <mat-option [value]="3">{{ "Giới Tính Thứ 3" | localize }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="ngonNgu" [placeholder]="'Ngôn Ngữ' | localize" [(ngModel)]="CV.ngonNgu" maxlength="1000" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="danhGiaNgonNgu" [placeholder]="'Đánh Giá Ngôn Ngữ' | localize" [(ngModel)]="CV.danhGiaNgonNgu" maxlength="2000" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="queQuan" [placeholder]="'Quê Quán' | localize" [(ngModel)]="CV.queQuan" maxlength="2000" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="choOHienTai" [placeholder]="'Chỗ ở hiện Tại' | localize" [(ngModel)]="CV.choOHienTai" maxlength="2000" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="nguyenVong" [placeholder]="'Nguyện Vọng' | localize" [(ngModel)]="CV.nguyenVong" maxlength="2000" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="sdt" [placeholder]="'Số Điện Thoại' | localize" [(ngModel)]="CV.sdt" maxlength="30" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="email" [placeholder]="'Email' | localize" [(ngModel)]="CV.email" maxlength="100" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="bangCap" [placeholder]="'Bằng Cấp' | localize" [(ngModel)]="CV.bangCap" maxlength="500" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="truong" [placeholder]="'Trường' | localize" [(ngModel)]="CV.truong" maxlength="600" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="nganh" [placeholder]="'Ngành' | localize" [(ngModel)]="CV.nganh" maxlength="600" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="namTotNghiep" [placeholder]="'Năm Tốt Nghiệp' | localize" [(ngModel)]="CV.namTotNghiep" maxlength="50" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="faceBook" [placeholder]="'FaceBook' | localize" [(ngModel)]="CV.faceBook" maxlength="1000" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="moTaCV" [placeholder]="'Mô Tả Công Việc' | localize" [(ngModel)]="CV.moTaCV" maxlength="2000" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="luongMongMuon" [placeholder]="'Lương Mong Muốn' | localize" [(ngModel)]="CV.luongMongMuon" maxlength="1000" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="noiDung" [placeholder]="'Nội Dung' | localize" [(ngModel)]="CV.noiDung" maxlength="2000" />
+            </mat-form-field>
+        </div>
+        <!-- <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" [placeholder]="'StartDate' | localize" name="StartDate" [(ngModel)]="startDate" [max]="maxDate" [min]="minDate" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="(!form.hasError('max') && startDate) || (!form.hasError('min') && startDate)">
+                    {{"Wrongdatetime.Pleasecheckthedatetime" | localize}}
+                </mat-error>
+            </mat-form-field>
+        </div> -->
+    </mat-dialog-content>
+    <div align="end" class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+        <button mat-raised-button type="button" (click)="close(true)" class="mr-10">
+                  {{ "Cancel" | localize }}
+                </button>
+        <button mat-flat-button type="submit" flex="15" color="primary" [disabled]="!form.form.valid || saving">
+                  {{ "Save" | localize }}
+                </button>
+    </div>
+</form>

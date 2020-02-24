@@ -37,6 +37,11 @@ import { CreateUserDialogComponent } from '@app/users/create-user/create-user-di
 import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
+import { CVGuiDiComponent } from './cv/cv-gui-di/cv-gui-di.component';
+import { EmployeeServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CVComponent } from './cv/cv.component';
+import { CreateOrEditCVComponent } from './cv/create-or-edit-cv/create-or-edit-cv.component';
+import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +67,11 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
     CreateUserDialogComponent,
     EditUserDialogComponent,
     ChangePasswordComponent,
-    ResetPasswordDialogComponent
+    ResetPasswordDialogComponent,
+    CVComponent,
+    CVGuiDiComponent,
+    CreateOrEditCVComponent,
+    CVUngVienGuiComponent
   ],
   imports: [
     CommonModule,
@@ -77,7 +86,9 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
     SharedModule,
     NgxPaginationModule
   ],
-  providers: [],
+  providers: [
+    EmployeeServiceProxy,
+  ],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,
@@ -88,7 +99,9 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
     // users
     CreateUserDialogComponent,
     EditUserDialogComponent,
-    ResetPasswordDialogComponent
+    ResetPasswordDialogComponent,
+    CreateOrEditCVComponent,
+    CVGuiDiComponent
   ]
 })
 export class AppModule {}

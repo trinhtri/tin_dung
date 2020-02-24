@@ -1,0 +1,129 @@
+import { Component, OnInit, Injector } from '@angular/core';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { AppComponentBase } from '@shared/app-component-base';
+import { MatDialog, Sort } from '@angular/material';
+import { EmployeeServiceProxy, EmployeeListDto } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditCVComponent } from './create-or-edit-cv/create-or-edit-cv.component';
+import { CVGuiDiComponent } from './cv-gui-di/cv-gui-di.component';
+
+@Component({
+  selector: 'app-cv',
+  templateUrl: './cv.component.html',
+  styleUrls: ['./cv.component.css'],
+  animations: [appModuleAnimation()]
+})
+export class CVComponent  extends AppComponentBase implements OnInit {
+  public employees: EmployeeListDto[] = [];
+  public pageSize = 10;
+  public pageNumber = 1;
+  public totalPages = 1;
+  public totalItems: number;
+  public keyword: string;
+  public isTableLoading = false;
+
+  private sorting = undefined;
+  private skipCount = (this.pageNumber - 1) * this.pageSize;
+  constructor(injector: Injector,
+    private _clientService: EmployeeServiceProxy,
+    private _dialog: MatDialog) {
+      super(injector);
+    }
+  ngOnInit() {
+    this.getAll();
+  }
+
+  getAll() {
+    this.skipCount = (this.pageNumber - 1) * this.pageSize;
+    this.isTableLoading = true;
+    this._clientService.getAll(this.keyword, this.sorting, this.skipCount, this.pageSize)
+      .subscribe((result) => {
+        this.employees = result.items;
+        this.totalItems = result.totalCount;
+        this.totalPages = ((result.totalCount - (result.totalCount % this.pageSize)) / this.pageSize) + 1;
+
+        this.isTableLoading = false;
+      }, (error) => {
+        this.isTableLoading = false;
+      });
+  }
+
+  getDataPage(page: number): void {
+    this.skipCount = (page - 1) * this.pageSize;
+    this.pageNumber = page;
+    this.getAll();
+  }
+
+
+  delete(client) {
+    this.message.confirm(
+      this.l('AreYouSureWantToDelete', client.clientName),
+      this.l('AreYouSure'),
+      (isConfirmed) => {
+        if (isConfirmed) {
+          this._clientService.delete(client.id)
+            .subscribe(result => {
+              this.getAll();
+              this.notify.info(this.l('DeleteSuccessfully'));
+            }
+            );
+        }
+      }
+    );
+  }
+
+  sortData(sort: Sort) {
+    this.sorting = sort.active + ' ' + sort.direction;
+    this.getAll();
+  }
+
+  resetPanigation() {
+    this.skipCount = 0;
+  }
+
+  onChangedPanigation(event) {
+    this.pageSize = event.pageSize;
+    this.pageNumber = event.pageIndex + 1;
+    this.getAll();
+  }
+  createCV() {
+    this.showAddOrEditClient();
+  }
+  editCV(CV) {
+    this.showAddOrEditClient(CV.id);
+  }
+  CV_Gui(CV) {
+    this.showGuiCV(CV.id);
+  }
+    showAddOrEditClient(id?: any) {
+      let createOrEditGrade;
+      if (id === null || id === undefined) {
+       createOrEditGrade = this._dialog.open(CreateOrEditCVComponent);
+      } else {
+        createOrEditGrade = this._dialog.open(CreateOrEditCVComponent, {
+          data: id
+        });
+      }
+      // createOrEditGrade.componentInstance.onSaveAndAdd.subscribe(() => {
+      //   this.getAll();
+      // });
+      createOrEditGrade.afterClosed().subscribe(result => {
+        this.getAll();
+    });
+    }
+    showGuiCV(id?: any) {
+      let createOrEditGrade;
+      if (id === null || id === undefined) {
+       createOrEditGrade = this._dialog.open(CVGuiDiComponent);
+      } else {
+        createOrEditGrade = this._dialog.open(CVGuiDiComponent, {
+          data: id
+        });
+      }
+      // createOrEditGrade.componentInstance.onSaveAndAdd.subscribe(() => {
+      //   this.getAll();
+      // });
+      createOrEditGrade.afterClosed().subscribe(result => {
+        this.getAll();
+    });
+    }
+}
