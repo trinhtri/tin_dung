@@ -20,7 +20,8 @@ export class CVComponent  extends AppComponentBase implements OnInit {
   public totalItems: number;
   public keyword: string;
   public isTableLoading = false;
-
+  startDate: any;
+  endDate: any;
   private sorting = undefined;
   private skipCount = (this.pageNumber - 1) * this.pageSize;
   constructor(injector: Injector,
@@ -35,7 +36,13 @@ export class CVComponent  extends AppComponentBase implements OnInit {
   getAll() {
     this.skipCount = (this.pageNumber - 1) * this.pageSize;
     this.isTableLoading = true;
-    this._clientService.getAll(this.keyword, this.sorting, this.skipCount, this.pageSize)
+    if (this.startDate == null) {
+      this.startDate = undefined;
+    }
+    if (this.endDate == null) {
+      this.endDate = undefined;
+    }
+    this._clientService.getAll(this.keyword, this.startDate, this.endDate, this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this.employees = result.items;
         this.totalItems = result.totalCount;
@@ -56,14 +63,14 @@ export class CVComponent  extends AppComponentBase implements OnInit {
 
   delete(client) {
     this.message.confirm(
-      this.l('AreYouSureWantToDelete', client.clientName),
-      this.l('AreYouSure'),
+      this.l('Bạn có muốn xóa CV', client.clientName),
+      this.l('Bạn chắc chắn'),
       (isConfirmed) => {
         if (isConfirmed) {
           this._clientService.delete(client.id)
             .subscribe(result => {
               this.getAll();
-              this.notify.info(this.l('DeleteSuccessfully'));
+              this.notify.info(this.l('Xóa thành công'));
             }
             );
         }

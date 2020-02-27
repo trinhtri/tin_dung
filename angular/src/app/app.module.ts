@@ -42,7 +42,7 @@ import { EmployeeServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CVComponent } from './cv/cv.component';
 import { CreateOrEditCVComponent } from './cv/create-or-edit-cv/create-or-edit-cv.component';
 import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.component';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,7 +84,8 @@ import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.compone
     AppRoutingModule,
     ServiceProxyModule,
     SharedModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatDatepickerModule
   ],
   providers: [
     EmployeeServiceProxy,

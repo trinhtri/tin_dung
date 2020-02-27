@@ -48,15 +48,17 @@ namespace ManagerCV.Employee
                 input.Filter = Regex.Replace(input.Filter.Trim(), @"\s+", " ");
             }
             var query = _employeeRepository.GetAll()
-                      .Where(x=>x.TrangThai == false)
+                      .Where(x => x.TrangThai == false)
                       .WhereIf(!input.Filter.IsNullOrEmpty(),
-                       x => x.HoTen.Contains(input.Filter)
-                      || x.NgonNgu.Contains(input.Filter) 
-                      || x.ChoOHienTai.Contains(input.Filter) 
-                      || x.SDT.Contains(input.Filter)
-                      || x.Email.Contains(input.Filter)
-                      || x.SDT.Contains(input.Filter)
-                      );
+                       x => x.HoTen.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.NgonNgu.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.ChoOHienTai.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.Email.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.SDT.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.KinhNghiem.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.BangCap.ToUpper().Contains(input.Filter.ToUpper())
+                      ).WhereIf(input.StartDate.HasValue, x => x.NgayNhanCV >= input.StartDate)
+                       .WhereIf(input.EndDate.HasValue, x => x.NgayNhanCV <= input.EndDate); 
             var tatolCount = await query.CountAsync();
             var result = await query.OrderBy(input.Sorting)
                 .PageBy(input)
@@ -64,7 +66,7 @@ namespace ManagerCV.Employee
             return new PagedResultDto<EmployeeListDto>(tatolCount, ObjectMapper.Map<List<EmployeeListDto>>(result));
         }
 
-        public async Task<PagedResultDto<EmployeeListDto>> GetAll_Gui(EmployeeInputDto input)
+        public async Task<PagedResultDto<EmployeeListDto>> GetAll_Gui(EmployeeGuiInputDto input)
         {
             if (!input.Filter.IsNullOrEmpty())
             {
@@ -73,13 +75,15 @@ namespace ManagerCV.Employee
             var query = _employeeRepository.GetAll()
                       .Where(x => x.TrangThai == true)
                       .WhereIf(!input.Filter.IsNullOrEmpty(),
-                       x => x.HoTen.Contains(input.Filter)
-                      || x.NgonNgu.Contains(input.Filter)
-                      || x.ChoOHienTai.Contains(input.Filter)
-                      || x.SDT.Contains(input.Filter)
-                      || x.Email.Contains(input.Filter)
-                      || x.SDT.Contains(input.Filter)
-                      );
+                       x => x.HoTen.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.NgonNgu.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.CtyNhan.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.NguyenVong.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.SDT.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.Email.ToUpper().Contains(input.Filter.ToUpper())
+                      ).WhereIf(input.StartDate.HasValue, x=>x.NgayHoTro >= input.StartDate)
+                       .WhereIf(input.EndDate.HasValue, x => x.NgayHoTro <= input.EndDate)
+                        .WhereIf(input.KetQua.HasValue, x => x.KetQua == input.KetQua);
             var tatolCount = await query.CountAsync();
             var result = await query.OrderBy(input.Sorting)
                 .PageBy(input)
@@ -92,7 +96,7 @@ namespace ManagerCV.Employee
             var dto = await _employeeRepository.FirstOrDefaultAsync(id);
             return ObjectMapper.Map<CreateEmployeeDto>(dto);
  
-                }
+        }
 
         public async Task Update(CreateEmployeeDto input)
         {

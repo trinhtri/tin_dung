@@ -4,7 +4,8 @@ import { EmployeeListDto, EmployeeServiceProxy } from '@shared/service-proxies/s
 import { CreateOrEditCVComponent } from '@app/cv/create-or-edit-cv/create-or-edit-cv.component';
 import { Sort, MatDialog } from '@angular/material';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { CVGuiDiComponent } from '@app/cv/cv-gui-di/cv-gui-di.component';
 @Component({
   selector: 'app-cv-ung-vien-gui',
   templateUrl: './cv-ung-vien-gui.component.html',
@@ -20,7 +21,9 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
   public totalItems: number;
   public keyword: string;
   public isTableLoading = false;
-
+  ketQua: any;
+  startDate: any;
+  endDate: any;
   private sorting = undefined;
   private skipCount = (this.pageNumber - 1) * this.pageSize;
   constructor(injector: Injector,
@@ -35,7 +38,13 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
   getAll() {
     this.skipCount = (this.pageNumber - 1) * this.pageSize;
     this.isTableLoading = true;
-    this._employeeService.getAll_Gui(this.keyword, this.sorting, this.skipCount, this.pageSize)
+    if (this.startDate == null) {
+      this.startDate = undefined;
+    }
+    if (this.endDate == null) {
+      this.endDate = undefined;
+    }
+    this._employeeService.getAll_Gui(this.keyword, this.ketQua, this.startDate, this.endDate , this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this.employees = result.items;
         this.totalItems = result.totalCount;
@@ -56,14 +65,14 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
 
   delete(client) {
     this.message.confirm(
-      this.l('AreYouSureWantToDelete', client.clientName),
-      this.l('AreYouSure'),
+      this.l('Bạn có muốn xóa CV', client.clientName),
+      this.l('Bạn chắc chắn xóa'),
       (isConfirmed) => {
         if (isConfirmed) {
           this._employeeService.delete(client.id)
             .subscribe(result => {
               this.getAll();
-              this.notify.info(this.l('DeleteSuccessfully'));
+              this.notify.info(this.l('Xóa thành công'));
             }
             );
         }
@@ -94,9 +103,9 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
     showAddOrEditClient(id?: any) {
       let createOrEditGrade;
       if (id === null || id === undefined) {
-       createOrEditGrade = this._dialog.open(CreateOrEditCVComponent);
+       createOrEditGrade = this._dialog.open(CVGuiDiComponent);
       } else {
-        createOrEditGrade = this._dialog.open(CreateOrEditCVComponent, {
+        createOrEditGrade = this._dialog.open(CVGuiDiComponent, {
           data: id
         });
       }
@@ -112,14 +121,14 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
     approve(employee) {
       employee.ketQua = true;
       this._employeeService.update(employee).subscribe(result => {
-        abp.notify.success(this.l('SuccessfullyUpdated'));
+        abp.notify.success(this.l('Cập nhật CV thành công'));
         this.getAll();
       });
     }
     discard(employee) {
       employee.ketQua = false;
       this._employeeService.update(employee).subscribe(result => {
-        abp.notify.success(this.l('SuccessfullyUpdated'));
+        abp.notify.success(this.l('Cập nhật CV thành công'));
         this.getAll();
       });
     }
@@ -128,7 +137,7 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
       employee.ngayHoTro = null;
       employee.ctyNhan = null;
       this._employeeService.update(employee).subscribe(result => {
-        abp.notify.success(this.l('SuccessfullyUpdated'));
+        abp.notify.success(this.l('Chuyển CV thành công'));
         this.getAll();
       });
     }

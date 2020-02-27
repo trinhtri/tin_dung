@@ -5,15 +5,29 @@
             <div class="body table-responsive">
                 <div class="row">
                     <form>
-                        <div class="col-md-11">
+                        <div class="col-md-5">
                             <mat-form-field>
                                 <input matInput [placeholder]="l('Tìm kiếm')" [(ngModel)]="keyword" name="keyword" />
                             </mat-form-field>
                         </div>
+                        <div class="col-md-3">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker" [placeholder]="'Ngày bắt đầu' | localize" name="StartDate" [(ngModel)]="startDate" />
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker1" [placeholder]="'Ngày kết thúc' | localize" name="EndDate" [(ngModel)]="endDate" />
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
                         <div class="col-md-1">
                             <button mat-raised-button color="primary" class="buttonSearch pull-right mt-3" (click)="getDataPage(1)">
-                  <i class="material-icons">search</i>
-                </button>
+                                <i class="material-icons">search</i>
+                            </button>
                         </div>
                     </form>
                     <mat-accordion class="col-md-12">
@@ -23,8 +37,8 @@
                                     {{"Quản lý CV" | localize}}
                                     <div class="btn-action">
                                         <button mat-raised-button color="primary" (click)="createCV()">
-                        {{ "Add" | localize }}
-               </button>
+                                            {{ "Thêm mới" | localize }}
+                                        </button>
                                         <!--     <button mat-raised-button (click)="exportClients()">
                         {{ "Export" | localize }}
                       </button> -->
@@ -37,13 +51,12 @@
                                         <tr>
                                             <th>{{l('Tính Năng')}}</th>
                                             <th mat-sort-header="hoTen">{{ "Họ Tên" | localize }}</th>
-                                            <th mat-sort-header="namSinh">{{ "Năm Sinh" | localize }}</th>
                                             <th mat-sort-header="ngonNgu">{{ "Ngôn Ngữ" | localize }}</th>
                                             <th mat-sort-header="sdt">{{ "Số Điện Thoại" | localize }}</th>
                                             <th mat-sort-header="email">{{ "Email" | localize }}</th>
                                             <th mat-sort-header="bangCap">{{ "Bằng cấp" | localize }}</th>
-                                            <th mat-sort-header="MoTaCV">{{ "Kinh Nghiệm" | localize }}</th>
-
+                                            <th mat-sort-header="KinhNghiem">{{ "Kinh Nghiệm" | localize }}</th>
+                                            <th mat-sort-header="NgayNhanCV">{{ "Ngày Nhận CV" | localize }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -57,32 +70,32 @@
                                             <td>
                                                 <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
                                                     <mat-icon>menu</mat-icon>
-                          </button>
+                                                </button>
                                                 <mat-menu #actionsMenu="matMenu">
                                                     <button mat-menu-item (click)="editCV(employee)" class="btn-edit">
                                                         <mat-icon>edit</mat-icon>
                                                         <span>{{ "Chỉnh Sửa" | localize }}</span>
                                                     </button>
 
-                                                    <button mat-menu-item (click)="delete(employee)">
-                              <mat-icon>delete</mat-icon>
-                              <span>{{ "Xóa" | localize }}</span>
-                            </button>
-
                                                     <button mat-menu-item (click)="CV_Gui(employee)">
-                                <mat-icon>people</mat-icon>
-                                <span>{{ "Gửi CV" | localize }}</span>
-                              </button>
+                                                        <mat-icon>people</mat-icon>
+                                                        <span>{{ "Gửi CV" | localize }}</span>
+                                                    </button>
+
+                                                    <button mat-menu-item (click)="delete(employee)">
+                                                        <mat-icon>delete</mat-icon>
+                                                        <span>{{ "Xóa" | localize }}</span>
+                                                    </button>
 
                                                 </mat-menu>
                                             </td>
                                             <td>{{ employee.hoTen }}</td>
-                                            <td>{{ employee.namSinh }}</td>
                                             <td>{{employee.ngonNgu}}</td>
                                             <td>{{ employee.sdt}}</td>
                                             <td>{{ employee.email }}</td>
                                             <td>{{ employee.bangCap}}</td>
-                                            <td>{{ employee.moTaCV}}</td>
+                                            <td>{{ employee.kinhNghiem}}</td>
+                                            <td>{{ employee.ngayNhanCV?.format("L")}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -41,7 +41,7 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
       if (this.CV.id) {
         this._EmployeeService.update(this.CV)
           .subscribe(() => {
-            abp.notify.success(this.l('SuccessfullyUpdated'));
+            abp.notify.success(this.l('Lưu thành công.'));
             this.close(true);
           });
     }

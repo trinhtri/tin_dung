@@ -7,9 +7,10 @@ using System.Text;
 
 namespace ManagerCV.Employee.Dto
 {
-    public class EmployeeInputDto : PagedAndSortedResultRequestDto, IShouldNormalize
+   public class EmployeeGuiInputDto: PagedAndSortedResultRequestDto, IShouldNormalize
     {
         public string Filter { get; set; }
+        public bool? KetQua { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public void Normalize()
@@ -21,3 +22,4 @@ namespace ManagerCV.Employee.Dto
         }
     }
 }
+

@@ -83,7 +83,7 @@
         </div>
         <div class="col-sm-6">
             <mat-form-field>
-                <input matInput name="moTaCV" [placeholder]="'Mô Tả Công Việc' | localize" [(ngModel)]="CV.moTaCV" maxlength="2000" />
+                <input matInput name="moTaCV" [placeholder]="'Mô Tả Công Việc' | localize" [(ngModel)]="CV.kinhNghiem" maxlength="2000" />
             </mat-form-field>
         </div>
         <div class="col-sm-6">
@@ -96,16 +96,18 @@
                 <input matInput name="noiDung" [placeholder]="'Nội Dung' | localize" [(ngModel)]="CV.noiDung" maxlength="2000" />
             </mat-form-field>
         </div>
-        <!-- <div class="col-sm-6">
+        <div class="col-sm-6">
             <mat-form-field>
-                <input matInput [matDatepicker]="picker" [placeholder]="'StartDate' | localize" name="StartDate" [(ngModel)]="startDate" [max]="maxDate" [min]="minDate" />
+                <input matInput name="cVUrl" [placeholder]="'Đường dẫn' | localize" [(ngModel)]="CV.cvUrl" maxlength="2000" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" [placeholder]="'Ngày Nhận' | localize" name="StartDate" [(ngModel)]="startDate" required/>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="(!form.hasError('max') && startDate) || (!form.hasError('min') && startDate)">
-                    {{"Wrongdatetime.Pleasecheckthedatetime" | localize}}
-                </mat-error>
             </mat-form-field>
-        </div> -->
+        </div>
     </mat-dialog-content>
     <div align="end" class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
         <button mat-raised-button type="button" (click)="close(true)" class="mr-10">

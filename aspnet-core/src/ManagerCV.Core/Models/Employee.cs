@@ -54,5 +54,11 @@ namespace ManagerCV.Models
         [StringLength(2000)]
         public bool KetQua { get; set; }
         public bool TrangThai { get; set; }
+        [StringLength(2000)]
+        public string CVName { get; set; }
+        [StringLength(2000)]
+        public string CVUrl { get; set; }
+        public DateTime? NgayNhanCV { get; set; }
+
     }
 }

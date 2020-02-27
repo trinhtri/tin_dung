@@ -12,7 +12,7 @@ namespace ManagerCV.Employee
     {
         Task<PagedResultDto<EmployeeListDto>> GetAll(EmployeeInputDto input);
 
-        Task<PagedResultDto<EmployeeListDto>> GetAll_Gui(EmployeeInputDto input);
+        Task<PagedResultDto<EmployeeListDto>> GetAll_Gui(EmployeeGuiInputDto input);
         Task<long> Create(CreateEmployeeDto input);
         Task Update(CreateEmployeeDto input);
         Task Delete(int id);

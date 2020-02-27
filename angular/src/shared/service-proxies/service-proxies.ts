@@ -377,17 +377,27 @@ export class EmployeeServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param startDate (optional) 
+     * @param endDate (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
+    getAll(filter: string | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (startDate === null)
+            throw new Error("The parameter 'startDate' cannot be null.");
+        else if (startDate !== undefined)
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&"; 
+        if (endDate === null)
+            throw new Error("The parameter 'endDate' cannot be null.");
+        else if (endDate !== undefined)
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&"; 
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -448,17 +458,32 @@ export class EmployeeServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param ketQua (optional) 
+     * @param startDate (optional) 
+     * @param endDate (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll_Gui(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
+    getAll_Gui(filter: string | undefined, ketQua: boolean | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetAll_Gui?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (ketQua === null)
+            throw new Error("The parameter 'ketQua' cannot be null.");
+        else if (ketQua !== undefined)
+            url_ += "KetQua=" + encodeURIComponent("" + ketQua) + "&"; 
+        if (startDate === null)
+            throw new Error("The parameter 'startDate' cannot be null.");
+        else if (startDate !== undefined)
+            url_ += "StartDate=" + encodeURIComponent(startDate ? "" + startDate.toJSON() : "") + "&"; 
+        if (endDate === null)
+            throw new Error("The parameter 'endDate' cannot be null.");
+        else if (endDate !== undefined)
+            url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&"; 
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -2419,6 +2444,9 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
     ngayHoTro: moment.Moment | undefined;
     ketQua: boolean;
     trangThai: boolean;
+    cvName: string | undefined;
+    cvUrl: string | undefined;
+    ngayNhanCV: moment.Moment | undefined;
     id: number;
 
     constructor(data?: ICreateEmployeeDto) {
@@ -2455,6 +2483,9 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
             this.ngayHoTro = data["ngayHoTro"] ? moment(data["ngayHoTro"].toString()) : <any>undefined;
             this.ketQua = data["ketQua"];
             this.trangThai = data["trangThai"];
+            this.cvName = data["cvName"];
+            this.cvUrl = data["cvUrl"];
+            this.ngayNhanCV = data["ngayNhanCV"] ? moment(data["ngayNhanCV"].toString()) : <any>undefined;
             this.id = data["id"];
         }
     }
@@ -2491,6 +2522,9 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
         data["ngayHoTro"] = this.ngayHoTro ? this.ngayHoTro.toISOString() : <any>undefined;
         data["ketQua"] = this.ketQua;
         data["trangThai"] = this.trangThai;
+        data["cvName"] = this.cvName;
+        data["cvUrl"] = this.cvUrl;
+        data["ngayNhanCV"] = this.ngayNhanCV ? this.ngayNhanCV.toISOString() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
@@ -2527,6 +2561,9 @@ export interface ICreateEmployeeDto {
     ngayHoTro: moment.Moment | undefined;
     ketQua: boolean;
     trangThai: boolean;
+    cvName: string | undefined;
+    cvUrl: string | undefined;
+    ngayNhanCV: moment.Moment | undefined;
     id: number;
 }
 
@@ -2613,6 +2650,9 @@ export class EmployeeListDto implements IEmployeeListDto {
     ngayHoTro: moment.Moment | undefined;
     ketQua: boolean;
     trangThai: boolean;
+    cvName: string | undefined;
+    cvUrl: string | undefined;
+    ngayNhanCV: moment.Moment | undefined;
     id: number;
 
     constructor(data?: IEmployeeListDto) {
@@ -2649,6 +2689,9 @@ export class EmployeeListDto implements IEmployeeListDto {
             this.ngayHoTro = data["ngayHoTro"] ? moment(data["ngayHoTro"].toString()) : <any>undefined;
             this.ketQua = data["ketQua"];
             this.trangThai = data["trangThai"];
+            this.cvName = data["cvName"];
+            this.cvUrl = data["cvUrl"];
+            this.ngayNhanCV = data["ngayNhanCV"] ? moment(data["ngayNhanCV"].toString()) : <any>undefined;
             this.id = data["id"];
         }
     }
@@ -2685,6 +2728,9 @@ export class EmployeeListDto implements IEmployeeListDto {
         data["ngayHoTro"] = this.ngayHoTro ? this.ngayHoTro.toISOString() : <any>undefined;
         data["ketQua"] = this.ketQua;
         data["trangThai"] = this.trangThai;
+        data["cvName"] = this.cvName;
+        data["cvUrl"] = this.cvUrl;
+        data["ngayNhanCV"] = this.ngayNhanCV ? this.ngayNhanCV.toISOString() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
@@ -2721,6 +2767,9 @@ export interface IEmployeeListDto {
     ngayHoTro: moment.Moment | undefined;
     ketQua: boolean;
     trangThai: boolean;
+    cvName: string | undefined;
+    cvUrl: string | undefined;
+    ngayNhanCV: moment.Moment | undefined;
     id: number;
 }
 

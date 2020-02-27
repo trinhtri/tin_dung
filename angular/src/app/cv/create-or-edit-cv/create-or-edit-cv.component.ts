@@ -15,7 +15,7 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
   public isLoading = false;
   public CV: CreateEmployeeDto = new CreateEmployeeDto();
   saving = false;
-  startDate: any;
+  startDate = new Date();
   constructor(injector: Injector,
     private _EmployeeService: EmployeeServiceProxy,
     private dialogRef: MatDialogRef<CreateOrEditCVComponent>,
@@ -32,27 +32,30 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
   getClient(id) {
   this._EmployeeService.getId(id).subscribe( result => {
     this.CV = result;
+    this.startDate = this.CV.ngayNhanCV.toDate();
   });
   }
     save() {
       this.CV.trangThai = false;
+      this.CV.ngayNhanCV = moment(this.startDate);
       this.saving = true;
       // this.client.startDate = moment(this.startDate);
       if (this.CV.id) {
         this._EmployeeService.update(this.CV)
           .subscribe(() => {
-            abp.notify.success(this.l('SuccessfullyUpdated'));
+            abp.notify.success(this.l('Chỉnh sửa thành công.'));
             this.close(true);
           });
       } else {
         this._EmployeeService.create(this.CV)
           .subscribe(() => {
-            abp.notify.success(this.l('SuccessfullyCreated'));
+            abp.notify.success(this.l('Tạo mới thành công.'));
             this.close(true);
           });
       }
     }
     close(result: any): void {
+      this.startDate = new Date();
       this.saving = false;
       this.startDate = null;
       this.CV = new CreateEmployeeDto();

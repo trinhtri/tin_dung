@@ -5,9 +5,34 @@
             <div class="body table-responsive">
                 <div class="row">
                     <form>
-                        <div class="col-md-11">
+                        <div class="col-md-3">
                             <mat-form-field>
                                 <input matInput [placeholder]="l('Tìm kiếm')" [(ngModel)]="keyword" name="keyword" />
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker" [placeholder]="'Ngày bắt đầu' | localize" name="StartDate" [(ngModel)]="startDate" />
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker1" [placeholder]="'Ngày kết thúc' | localize" name="EndDate" [(ngModel)]="endDate" />
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <mat-select [placeholder]="l('Kết Quả')" [(ngModel)]="ketQua" name="isActive">
+                                    <mat-option value="">{{ 'Tất cả' | localize }}</mat-option>
+                                    <mat-option value="true">{{ 'Đã Nhận' | localize }}</mat-option>
+                                    <mat-option value="false">{{ 'Chưa Nhận' | localize }}</mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
                         <div class="col-md-1">
@@ -22,9 +47,9 @@
                                 <mat-panel-title>
                                     {{"CV Ứng Viên Gửi Đi" | localize}}
                                     <div class="btn-action">
-                                        <button mat-raised-button color="primary" (click)="createCV()">
+                                        <!-- <button mat-raised-button color="primary" (click)="createCV()">
                                             {{ "Add" | localize }}
-                                        </button>
+                                        </button> -->
                                         <!-- <button mat-raised-button (click)="exportClients()">
                         {{ "Export" | localize }}
                       </button> -->
@@ -91,8 +116,8 @@
                                             <td>{{ employee.ctyNhan}}</td>
                                             <td>{{ employee.ngayHoTro?.format("L")}}</td>
                                             <td>
-                                                <span class="kt-badge kt-badge--dark kt-badge--inline" *ngIf="!employee.ketQua">Chưa nhận</span>
-                                                <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="employee.ketQua">Đã nhận</span>
+                                                <span class="btn btn-danger" *ngIf="!employee.ketQua">Chưa nhận</span>
+                                                <span class="btn btn-success" *ngIf="employee.ketQua">Đã nhận</span>
                                                 <!-- {{ employee.ketQua}} -->
                                             </td>
                                         </tr>
