@@ -30,16 +30,14 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   getClient(id) {
   this._EmployeeService.getId(id).subscribe( result => {
     this.CV = result;
-    this.ngayHoTro = this.CV.ngayHoTro.toDate();
   });
   }
     save() {
       this.saving = true;
       this.CV.trangThai = true;
       this.CV.ketQua = false;
-      this.CV.ngayHoTro = moment(new Date()) ;
       if (this.CV.id) {
-        this._EmployeeService.update(this.CV)
+        this._EmployeeService.guiCV(this.CV.id, this.CV.ctyNhan)
           .subscribe(() => {
             abp.notify.success(this.l('Lưu thành công.'));
             this.close(true);
@@ -47,7 +45,6 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
     }
   }
     close(result: any): void {
-      this.ngayHoTro = null;
       this.saving = false;
       this.startDate = null;
       this.CV = new CreateEmployeeDto();

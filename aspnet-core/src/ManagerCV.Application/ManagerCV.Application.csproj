@@ -11,9 +11,10 @@
     <RootNamespace>ManagerCV</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ManagerCV.Core\ManagerCV.Core.csproj" />
+    <PackageReference Include="EPPlus" Version="4.5.3.3" />
+    <PackageReference Include="ExcelPackage" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Employee\Exporting\" />
+    <ProjectReference Include="..\ManagerCV.Core\ManagerCV.Core.csproj" />
   </ItemGroup>
 </Project>

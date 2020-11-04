@@ -1,9 +1,14 @@
-import { Component, OnInit, Injector, Optional, Inject } from '@angular/core';
+import { Component, OnInit, Injector, Optional, Inject, ElementRef, ViewChild } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/app-component-base';
 import * as moment from 'moment';
 import { CreateEmployeeDto, EmployeeServiceProxy } from '@shared/service-proxies/service-proxies';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+import { IAjaxResponse } from 'abp-ng2-module/dist/src/abpHttpInterceptor';
+import { AppConsts } from '@shared/AppConsts';
+import { HttpClient } from '@angular/common/http';
+import { TokenService } from 'abp-ng2-module/dist/src/auth/token.service';
 
 @Component({
   selector: 'app-create-or-edit-cv',
@@ -13,11 +18,16 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class CreateOrEditCVComponent extends AppComponentBase implements OnInit {
   public isLoading = false;
+  @ViewChild('documentFileInput', {static: true}) documentFileInput: ElementRef;
+  isSelectedFile = false;
+  documentUploader: FileUploader;
+  _uploaderOptions: FileUploaderOptions = {};
   public CV: CreateEmployeeDto = new CreateEmployeeDto();
   saving = false;
   startDate = new Date();
   constructor(injector: Injector,
     private _EmployeeService: EmployeeServiceProxy,
+    private _tokenService: TokenService,
     private dialogRef: MatDialogRef<CreateOrEditCVComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private data: any,
     ) {
@@ -25,6 +35,7 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
      }
 
      ngOnInit(): void {
+      this.initUploaders();
       if (this.data) {
       this.getClient(this.data);
       }
@@ -35,11 +46,40 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
     this.startDate = this.CV.ngayNhanCV.toDate();
   });
   }
+  selectFile($event) {
+    if (this.documentFileInput) {
+      this.documentFileInput.nativeElement.click();
+    }
+  }
+  initUploaders(): void {
+    console.log('a', AppConsts.remoteServiceBaseUrl);
+    this.documentUploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/Profile/UploadDocumentFile' });
+    this._uploaderOptions.autoUpload = true;
+    this._uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
+    this._uploaderOptions.removeAfterUpload = true;
+    this.documentUploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    };
+    this.documentUploader.onSuccessItem = (item, response) => {
+
+      const resp = <IAjaxResponse>JSON.parse(response);
+      if (!resp.result.errorInfo) {
+        this.CV.cvName = resp.result.fileName;
+        this.CV.contentType = resp.result.contentType;
+        this.isSelectedFile = true;
+        console.log('b', this.isSelectedFile);
+      } else {
+        this.message.error(resp.result.errorInfo.details, resp.result.errorInfo.message);
+      }
+    };
+    this.documentUploader.setOptions(this._uploaderOptions);
+  }
     save() {
       this.CV.trangThai = false;
       this.CV.ngayNhanCV = moment(this.startDate);
       this.saving = true;
-      // this.client.startDate = moment(this.startDate);
+      this.CV.isSeletedFile = this.isSelectedFile;
+      console.log('a', this.CV.isSeletedFile);
       if (this.CV.id) {
         this._EmployeeService.update(this.CV)
           .subscribe(() => {
@@ -57,9 +97,18 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
     close(result: any): void {
       this.startDate = new Date();
       this.saving = false;
+      this.isSelectedFile = false;
       this.startDate = null;
       this.CV = new CreateEmployeeDto();
       this.dialogRef.close(result);
     }
-
+    // tslint:disable-next-line:use-lifecycle-interface
+    ngOnDestroy() {
+      this.deleteTempFile();
+    }
+    deleteTempFile() {
+      if (this.CV.cvName) {
+        this._EmployeeService.deleteDocumentTempFile(this.CV.cvName).subscribe();
+      }
+    }
 }

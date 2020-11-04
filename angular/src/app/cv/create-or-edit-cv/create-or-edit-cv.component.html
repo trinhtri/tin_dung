@@ -1,4 +1,5 @@
-<form novalidate autocomplete="off" #form="ngForm" (ngSubmit)="save()">
+<form novalidate autocomplete="off" #form="ngForm">
+    <!-- (ngSubmit)="save()" -->
     <h4 mat-dialog-title *ngIf="!CV.id">{{'Thêm mới CV' | localize }}</h4>
     <h4 mat-dialog-title *ngIf="CV.id">{{'Chỉnh sửa CV' | localize }}:{{CV.hoTen}}</h4>
     <mat-dialog-content style="width:800px;">
@@ -12,6 +13,7 @@
                 <input matInput name="namSinh" [placeholder]="'Năm Sinh' | localize" [(ngModel)]="CV.namSinh" maxlength="20" />
             </mat-form-field>
         </div>
+
         <div class="col-sm-6">
             <mat-form-field>
                 <mat-select required [placeholder]="'Giới Tính' | localize" name="gander" [(ngModel)]="CV.gioiTinh">
@@ -21,6 +23,25 @@
                 </mat-select>
             </mat-form-field>
         </div>
+
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput [placeholder]="l('CV')" name="documentName" [(ngModel)]="CV.cvName" readonly />
+                <button mat-icon-button matSuffix (click)="selectFile($event)">
+                  <mat-icon style="font-size:20px;"> description
+                </mat-icon>
+                </button>
+                <input id="documentFileInput" #documentFileInput [uploader]="documentUploader" #documentFileInput type="file" ng2FileSelect class="form-control-file" style="display:none;" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" [placeholder]="'Ngày Nhận' | localize" name="StartDate" [(ngModel)]="startDate" required/>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
         <div class="col-sm-6">
             <mat-form-field>
                 <input matInput name="ngonNgu" [placeholder]="'Ngôn Ngữ' | localize" [(ngModel)]="CV.ngonNgu" maxlength="1000" />
@@ -96,24 +117,13 @@
                 <input matInput name="noiDung" [placeholder]="'Nội Dung' | localize" [(ngModel)]="CV.noiDung" maxlength="2000" />
             </mat-form-field>
         </div>
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput name="cVUrl" [placeholder]="'Đường dẫn' | localize" [(ngModel)]="CV.cvUrl" maxlength="2000" />
-            </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput [matDatepicker]="picker" [placeholder]="'Ngày Nhận' | localize" name="StartDate" [(ngModel)]="startDate" required/>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </div>
+
     </mat-dialog-content>
     <div align="end" class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
-        <button mat-raised-button type="button" (click)="close(true)" class="mr-10">
+        <button mat-raised-button type="button" (click)="close(false)" class="mr-10">
                   {{ "Cancel" | localize }}
                 </button>
-        <button mat-flat-button type="submit" flex="15" color="primary" [disabled]="!form.form.valid || saving">
+        <button mat-flat-button type="submit" flex="15" (click)="save()" color="primary" [disabled]="!form.form.valid || saving">
                   {{ "Save" | localize }}
                 </button>
     </div>

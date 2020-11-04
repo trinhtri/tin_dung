@@ -43,6 +43,8 @@ import { CVComponent } from './cv/cv.component';
 import { CreateOrEditCVComponent } from './cv/create-or-edit-cv/create-or-edit-cv.component';
 import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { FileUploadModule } from 'ng2-file-upload';
+import { FileDownloadService } from '@shared/Utils/file-download.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,10 +87,12 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    FileUploadModule
   ],
   providers: [
     EmployeeServiceProxy,
+    FileDownloadService
   ],
   entryComponents: [
     // tenants

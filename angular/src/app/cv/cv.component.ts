@@ -5,6 +5,7 @@ import { MatDialog, Sort } from '@angular/material';
 import { EmployeeServiceProxy, EmployeeListDto } from '@shared/service-proxies/service-proxies';
 import { CreateOrEditCVComponent } from './create-or-edit-cv/create-or-edit-cv.component';
 import { CVGuiDiComponent } from './cv-gui-di/cv-gui-di.component';
+import { FileDownloadService } from '@shared/Utils/file-download.service';
 
 @Component({
   selector: 'app-cv',
@@ -26,6 +27,7 @@ export class CVComponent  extends AppComponentBase implements OnInit {
   private skipCount = (this.pageNumber - 1) * this.pageSize;
   constructor(injector: Injector,
     private _clientService: EmployeeServiceProxy,
+    private _fileDownLoadService: FileDownloadService,
     private _dialog: MatDialog) {
       super(injector);
     }
@@ -132,5 +134,28 @@ export class CVComponent  extends AppComponentBase implements OnInit {
       createOrEditGrade.afterClosed().subscribe(result => {
         this.getAll();
     });
+    }
+    dowload_CV(employee) {
+      this._clientService.downloadTempAttachment(employee.id).subscribe(result => {
+        if (result.fileName) {
+          this._fileDownLoadService.downloadTempFile(result);
+        } else {
+          this.message.error(this.l('RequestedFileDoesNotExists'));
+        }
+      });
+    }
+    export() {
+      if (this.startDate == null) {
+        this.startDate = undefined;
+      }
+      if (this.endDate == null) {
+        this.endDate = undefined;
+      }
+      this._clientService.getCVToExcel(this.keyword, this.startDate, this.endDate, this.sorting, this.skipCount, this.pageSize)
+        .subscribe((result) => {
+         this._fileDownLoadService.downloadTempFile(result);
+        }, (error) => {
+          this.isTableLoading = false;
+        });
     }
 }

@@ -6,6 +6,7 @@ import { Sort, MatDialog } from '@angular/material';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { CVGuiDiComponent } from '@app/cv/cv-gui-di/cv-gui-di.component';
+import { FileDownloadService } from '@shared/Utils/file-download.service';
 @Component({
   selector: 'app-cv-ung-vien-gui',
   templateUrl: './cv-ung-vien-gui.component.html',
@@ -28,6 +29,7 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
   private skipCount = (this.pageNumber - 1) * this.pageSize;
   constructor(injector: Injector,
     private _employeeService: EmployeeServiceProxy,
+    private _fileDownLoadService: FileDownloadService,
     private _dialog: MatDialog) {
       super(injector);
     }
@@ -119,26 +121,42 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
 
     // trong trường hợp CV đã được cty nhận
     approve(employee) {
-      employee.ketQua = true;
-      this._employeeService.update(employee).subscribe(result => {
+      this._employeeService.daNhan(employee.id).subscribe(result => {
         abp.notify.success(this.l('Cập nhật CV thành công'));
         this.getAll();
       });
     }
     discard(employee) {
-      employee.ketQua = false;
-      this._employeeService.update(employee).subscribe(result => {
+      this._employeeService.huyNhan(employee.id).subscribe(result => {
         abp.notify.success(this.l('Cập nhật CV thành công'));
         this.getAll();
       });
     }
     chuyenVeQLCV(employee) {
-      employee.trangThai = false;
-      employee.ngayHoTro = null;
-      employee.ctyNhan = null;
-      this._employeeService.update(employee).subscribe(result => {
+      // employee.trangThai = false;
+      // employee.ngayHoTro = null;
+      // employee.ctyNhan = null;
+      this._employeeService.chuyenVeQLCV(employee.id).subscribe(result => {
         abp.notify.success(this.l('Chuyển CV thành công'));
         this.getAll();
+      });
+    }
+    exportExcel() {
+      this.skipCount = (this.pageNumber - 1) * this.pageSize;
+    this.isTableLoading = true;
+    if (this.startDate == null) {
+      this.startDate = undefined;
+    }
+    if (this.endDate == null) {
+      this.endDate = undefined;
+    }
+    this._employeeService.getGuiCVToExcel(this.keyword, this.ketQua, this.startDate,
+      this.endDate , this.sorting, this.skipCount, this.pageSize)
+      .subscribe((result) => {
+       this._fileDownLoadService.downloadTempFile(result);
+        this.isTableLoading = false;
+      }, (error) => {
+        this.isTableLoading = false;
       });
     }
 }

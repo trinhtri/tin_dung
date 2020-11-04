@@ -39,9 +39,9 @@
                                         <button mat-raised-button color="primary" (click)="createCV()">
                                             {{ "Thêm mới" | localize }}
                                         </button>
-                                        <!--     <button mat-raised-button (click)="exportClients()">
-                        {{ "Export" | localize }}
-                      </button> -->
+                                        <button mat-raised-button (click)="export()">
+                                                {{ "Xuất Excel" | localize }}
+                                            </button>
                                     </div>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
@@ -78,8 +78,13 @@
                                                     </button>
 
                                                     <button mat-menu-item (click)="CV_Gui(employee)">
-                                                        <mat-icon>people</mat-icon>
+                                                        <mat-icon>send</mat-icon>
                                                         <span>{{ "Gửi CV" | localize }}</span>
+                                                    </button>
+
+                                                    <button mat-menu-item (click)="dowload_CV(employee)">
+                                                        <mat-icon>arrow_downward</mat-icon>
+                                                        <span>{{ "Tải CV" | localize }}</span>
                                                     </button>
 
                                                     <button mat-menu-item (click)="delete(employee)">

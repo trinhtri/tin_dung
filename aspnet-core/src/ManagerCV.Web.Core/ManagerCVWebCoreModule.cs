@@ -13,6 +13,8 @@ using ManagerCV.Authentication.JwtBearer;
 using ManagerCV.Configuration;
 using ManagerCV.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using System.IO;
+using Abp.IO;
 
 namespace ManagerCV
 {
@@ -69,8 +71,20 @@ namespace ManagerCV
 
         public override void PostInitialize()
         {
-            IocManager.Resolve<ApplicationPartManager>()
-                .AddApplicationPartsIfNotAddedBefore(typeof(ManagerCVWebCoreModule).Assembly);
+            SetAppFolders();
+            //IocManager.Resolve<ApplicationPartManager>()
+            //    .AddApplicationPartsIfNotAddedBefore(typeof(ManagerCVWebCoreModule).Assembly);
+        }
+         private void SetAppFolders()
+        {
+            var appFolders = IocManager.Resolve<AppFolders>();
+
+            appFolders.TempFileDownloadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Downloads");
+            appFolders.TempFileUploadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Uploads");
+            appFolders.AttachmentsFolder = Path.Combine(_env.WebRootPath, $"Files{Path.DirectorySeparatorChar}Documents");
+            DirectoryHelper.CreateIfNotExists(appFolders.TempFileDownloadFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.TempFileUploadFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.AttachmentsFolder);
         }
     }
 }

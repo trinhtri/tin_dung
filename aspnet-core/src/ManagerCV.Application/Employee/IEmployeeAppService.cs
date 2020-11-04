@@ -13,11 +13,22 @@ namespace ManagerCV.Employee
         Task<PagedResultDto<EmployeeListDto>> GetAll(EmployeeInputDto input);
 
         Task<PagedResultDto<EmployeeListDto>> GetAll_Gui(EmployeeGuiInputDto input);
+        Task<FileDto> GetCVToExcel(EmployeeInputDto input);
+        Task<FileDto> GetGuiCVToExcel(EmployeeGuiInputDto inputDto);
         Task<long> Create(CreateEmployeeDto input);
         Task Update(CreateEmployeeDto input);
         Task Delete(int id);
         Task<CreateEmployeeDto> GetId(int id);
 
         Task CVGuiDi(CVGuiDi input);
+
+        Task DaNhan(int id);
+        Task HuyNhan(int id);
+
+        Task ChuyenVeQLCV(int id);
+
+        Task GuiCV(int id,string tencty);
+
+    
     }
 }

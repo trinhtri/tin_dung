@@ -50,9 +50,9 @@
                                         <!-- <button mat-raised-button color="primary" (click)="createCV()">
                                             {{ "Add" | localize }}
                                         </button> -->
-                                        <!-- <button mat-raised-button (click)="exportClients()">
-                        {{ "Export" | localize }}
-                      </button> -->
+                                        <button mat-raised-button (click)="exportExcel()">
+                        {{ "Xuất Excel" | localize }}
+                      </button>
                                     </div>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
@@ -89,16 +89,16 @@
                                                     </button>
 
                                                     <button mat-menu-item (click)="approve(employee)" class="btn-edit">
-                                                        <mat-icon>edit</mat-icon>
+                                                        <mat-icon>done</mat-icon>
                                                         <span>{{ "Đã Nhận" | localize }}</span>
                                                     </button>
 
                                                     <button mat-menu-item (click)="discard(employee)" class="btn-edit">
-                                                        <mat-icon>edit</mat-icon>
+                                                        <mat-icon>clear</mat-icon>
                                                         <span>{{ "Hủy Nhận" | localize }}</span>
                                                     </button>
                                                     <button mat-menu-item (click)="chuyenVeQLCV(employee)" class="btn-edit">
-                                                        <mat-icon>edit</mat-icon>
+                                                        <mat-icon>settings_backup_restore</mat-icon>
                                                         <span>{{ "Chuyển Về QLCV" | localize }}</span>
                                                     </button>
 

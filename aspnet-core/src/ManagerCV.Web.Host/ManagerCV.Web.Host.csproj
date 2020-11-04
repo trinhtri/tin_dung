@@ -36,10 +36,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\swagger\ui\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\Files\Documents\" />
+    <Folder Include="wwwroot\Files\Document\" />
+    <Folder Include="wwwroot\Temp\Downloads\" />
+    <Folder Include="wwwroot\Temp\Uploads\" />
   </ItemGroup>
 </Project>

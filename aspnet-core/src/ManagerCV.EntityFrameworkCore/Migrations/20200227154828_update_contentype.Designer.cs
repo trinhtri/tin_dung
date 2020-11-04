@@ -4,14 +4,16 @@ using ManagerCV.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManagerCV.Migrations
 {
     [DbContext(typeof(ManagerCVDbContext))]
-    partial class ManagerCVDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200227154828_update_contentype")]
+    partial class update_contentype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

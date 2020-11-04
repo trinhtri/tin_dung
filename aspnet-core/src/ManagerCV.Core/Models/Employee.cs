@@ -59,6 +59,7 @@ namespace ManagerCV.Models
         [StringLength(2000)]
         public string CVUrl { get; set; }
         public DateTime? NgayNhanCV { get; set; }
+        public string ContentType { get; set; }
 
     }
 }
