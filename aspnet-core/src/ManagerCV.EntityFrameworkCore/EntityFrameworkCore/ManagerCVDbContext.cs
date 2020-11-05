@@ -11,6 +11,7 @@ namespace ManagerCV.EntityFrameworkCore
     {
         /* Define a DbSet for each entity of the application */
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<CtgLanguage> CtgLanguage { get; set; }
         public ManagerCVDbContext(DbContextOptions<ManagerCVDbContext> options)
             : base(options)
         {
