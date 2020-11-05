@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <VersionPrefix>1.0.0.0</VersionPrefix>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -11,6 +11,7 @@
     <RootNamespace>ManagerCV</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Abp.MailKit" Version="4.20.0" />
     <PackageReference Include="EPPlus" Version="4.5.3.3" />
     <PackageReference Include="ExcelPackage" Version="1.0.0" />
   </ItemGroup>

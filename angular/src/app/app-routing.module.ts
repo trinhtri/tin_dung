@@ -11,6 +11,7 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { CVComponent } from './cv/cv.component';
 import { CVGuiDiComponent } from './cv/cv-gui-di/cv-gui-di.component';
 import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.component';
+import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
 
 @NgModule({
     imports: [
@@ -27,6 +28,7 @@ import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.compone
                     { path: 'update-password', component: ChangePasswordComponent },
                     { path: 'CVs', component: CVComponent, canActivate: [AppRouteGuard] },
                     { path: 'CV_Gui', component: CVUngVienGuiComponent, canActivate: [AppRouteGuard] },
+                    { path: 'Languages', component: NgonNguComponent, canActivate: [AppRouteGuard] },
                 ]
             }
         ])
