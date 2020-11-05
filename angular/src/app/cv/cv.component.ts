@@ -23,6 +23,9 @@ export class CVComponent  extends AppComponentBase implements OnInit {
   public isTableLoading = false;
   startDate: any;
   endDate: any;
+  selectedRecordId: number[] = [];
+  allRecordId: number[] = [];
+  checkedAll : false;
   private sorting = undefined;
   private skipCount = (this.pageNumber - 1) * this.pageSize;
   constructor(injector: Injector,
@@ -49,6 +52,11 @@ export class CVComponent  extends AppComponentBase implements OnInit {
         this.employees = result.items;
         this.totalItems = result.totalCount;
         this.totalPages = ((result.totalCount - (result.totalCount % this.pageSize)) / this.pageSize) + 1;
+        this.allRecordId = [];
+        this.selectedRecordId = [];
+        result.items.forEach(i => {
+            this.allRecordId.push(i.id);
+        });
 
         this.isTableLoading = false;
       }, (error) => {
@@ -102,6 +110,9 @@ export class CVComponent  extends AppComponentBase implements OnInit {
   }
   CV_Gui(CV) {
     this.showGuiCV(CV.id);
+  }
+  SendJD(){
+    console.log('Gửi JD', this.selectedRecordId)
   }
     showAddOrEditClient(id?: any) {
       let createOrEditGrade;
@@ -158,4 +169,26 @@ export class CVComponent  extends AppComponentBase implements OnInit {
           this.isTableLoading = false;
         });
     }
+    onCheckboxChanged(id: number, e: any) {
+      if (e.checked) {
+          if (!this.selectedRecordId.includes(id)) {
+              this.selectedRecordId.push(id);
+          }
+      } else {
+          let position = this.selectedRecordId.indexOf(id);
+          // tslint:disable-next-line:no-bitwise
+          if (~position) {
+              this.selectedRecordId.splice(position, 1);
+          }
+      }
+    console.log('selectedRecordId', this.selectedRecordId);
+  }
+  onAllCheckboxChanged(e: any) {
+    if (e) {
+        this.selectedRecordId = Object.assign([], this.allRecordId);
+    } else {
+        this.selectedRecordId = [];
+    }
+    console.log('selectedRecordId', this.selectedRecordId);
+}
 }

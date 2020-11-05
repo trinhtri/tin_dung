@@ -22,3 +22,6 @@
 .btn-action>button:not(:last-child) {
     margin-right: 10px;
 }
+.btn-mt{
+    margin-top: 5px;
+}

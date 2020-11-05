@@ -41,7 +41,10 @@
                                         </button>
                                         <button mat-raised-button (click)="export()">
                                                 {{ "Xuất Excel" | localize }}
-                                            </button>
+                                        </button>
+                                        <button mat-raised-button color="accent" (click)="SendJD()" [disabled] = "selectedRecordId.length == 0">
+                                            {{ "Gửi JD" | localize }}
+                                        </button>
                                     </div>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
@@ -49,6 +52,12 @@
                                 <table class="table table-hover table-striped gs-table" [busy]="isTableLoading" matSort (matSortChange)="sortData($event)">
                                     <thead>
                                         <tr>
+                                            <th style="width: 30px; background-color: white;">
+                                                <label class="kt-checkbox" style="margin-bottom: 2px !important; ">
+                                                    <mat-checkbox class="example-margin" [(ngModel)]="checkedAll" (change)="onAllCheckboxChanged(checkedAll)"></mat-checkbox>
+                                                    <span></span>
+                                                </label>
+                                            </th>
                                             <th>{{l('Tính Năng')}}</th>
                                             <th mat-sort-header="hoTen">{{ "Họ Tên" | localize }}</th>
                                             <th mat-sort-header="ngonNgu">{{ "Ngôn Ngữ" | localize }}</th>
@@ -67,6 +76,13 @@
                                                     totalItems: totalItems
                                                   }
                                                   ">
+                                                  <td style="width: 30px">
+                                                    <label class="kt-checkbox" style="padding-top: 2px;">
+                                                    <mat-checkbox class="example-margin" [checked]="selectedRecordId.includes(employee.id) ? true : false"
+                                                    (change)="onCheckboxChanged(employee.id, $event)"></mat-checkbox>
+                                                        <span></span>
+                                                    </label>
+                                                </td>
                                             <td>
                                                 <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
                                                     <mat-icon>menu</mat-icon>
