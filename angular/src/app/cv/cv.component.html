@@ -5,25 +5,43 @@
             <div class="body table-responsive">
                 <div class="row">
                     <form>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <mat-form-field>
                                 <input matInput [placeholder]="l('Tìm kiếm')" [(ngModel)]="keyword" name="keyword" />
                             </mat-form-field>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-select required [placeholder]="'Bằng cấp' | localize" name="bangCap" [(ngModel)]="bangCap">
+                                    <mat-option [value]="1">{{ "Đại học" | localize}}</mat-option>
+                                    <mat-option [value]="2">{{ "Cao đẳng" | localize}}</mat-option>
+                                    <mat-option [value]="3">{{ "Đại học + Cao đẳng" | localize}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-select (selectionChange)="filter($event)" multiple [placeholder]="'Ngôn ngữ' | localize">
+                                    <mat-option *ngFor="let languge of languages" [value]="languge">{{languge}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
                             <mat-form-field>
                                 <input matInput [matDatepicker]="picker" [placeholder]="'Ngày bắt đầu' | localize" name="StartDate" [(ngModel)]="startDate" />
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <mat-form-field>
                                 <input matInput [matDatepicker]="picker1" [placeholder]="'Ngày kết thúc' | localize" name="EndDate" [(ngModel)]="endDate" />
                                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                 <mat-datepicker #picker1></mat-datepicker>
                             </mat-form-field>
                         </div>
+
                         <div class="col-md-1">
                             <button mat-raised-button color="primary" class="buttonSearch pull-right mt-3" (click)="getDataPage(1)">
                                 <i class="material-icons">search</i>

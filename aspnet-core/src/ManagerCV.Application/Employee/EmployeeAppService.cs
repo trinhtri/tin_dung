@@ -14,19 +14,25 @@ using System.Linq.Dynamic.Core;
 using ManagerCV.IO;
 using System.IO;
 using ManagerCV.Employee.Exporting;
+using ManagerCV.Models;
 
 namespace ManagerCV.Employee
 {
     public class EmployeeAppService : ManagerCVAppServiceBase, IEmployeeAppService
     {
         private readonly IRepository<Models.Employee> _employeeRepository;
+        private readonly IRepository<Models.EmployeeLanguage> _employeeLanguageRepository;
         private readonly IAppFolders _appFolders;
         private readonly EmployeeListExcelExporter _employeeListExcelExporter;
-        public EmployeeAppService(IRepository<Models.Employee> employeeRepository, IAppFolders appFolders, EmployeeListExcelExporter employeeListExcelExporter)
+        public EmployeeAppService(IRepository<Models.Employee> employeeRepository,
+            IAppFolders appFolders, 
+            EmployeeListExcelExporter employeeListExcelExporter,
+            IRepository<Models.EmployeeLanguage> employeeLanguageRepository)
         {
             _employeeRepository = employeeRepository;
             _appFolders = appFolders;
             _employeeListExcelExporter = employeeListExcelExporter;
+            _employeeLanguageRepository = employeeLanguageRepository;
         }
         public async Task<long> Create(CreateEmployeeDto input)
         {
@@ -43,9 +49,21 @@ namespace ManagerCV.Employee
                 var filePath = Path.Combine(_appFolders.AttachmentsFolder, input.CVName);
                 emp.CVUrl = filePath;
             }
-            await _employeeRepository.InsertAsync(emp);
+            var employeeId = await _employeeRepository.InsertAndGetIdAsync(emp);
+            // thêm mới dữ liệu trong bảng employeelanguage
+            if (input.Languages.Count > 0)
+            {
+                foreach (var item in input.Languages)
+                {
+                    var el = new EmployeeLanguage();
+                    el.TenantId = AbpSession.TenantId ?? 1;
+                    el.CtgLanguage_Id = item;
+                    el.Employee_Id = employeeId;
+                    await _employeeLanguageRepository.InsertAsync(el);
+                }
+            }
             await CurrentUnitOfWork.SaveChangesAsync();
-            return emp.Id;
+            return employeeId;
         }
 
         public async Task CVGuiDi(CVGuiDi input)

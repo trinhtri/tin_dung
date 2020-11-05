@@ -26,9 +26,14 @@ export class CVComponent  extends AppComponentBase implements OnInit {
   endDate: any;
   selectedRecordId: number[] = [];
   allRecordId: number[] = [];
-  checkedAll : false;
+  checkedAll: false;
+  bangCap: any;
   private sorting = undefined;
   private skipCount = (this.pageNumber - 1) * this.pageSize;
+
+  // tslint:disable-next-line: member-ordering
+  languages: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  selected: any;
   constructor(injector: Injector,
     private _clientService: EmployeeServiceProxy,
     private _fileDownLoadService: FileDownloadService,
@@ -38,7 +43,9 @@ export class CVComponent  extends AppComponentBase implements OnInit {
   ngOnInit() {
     this.getAll();
   }
-
+  filter(data) {
+    console.log(data.value);
+  }
   getAll() {
     this.skipCount = (this.pageNumber - 1) * this.pageSize;
     this.isTableLoading = true;
@@ -113,7 +120,7 @@ export class CVComponent  extends AppComponentBase implements OnInit {
   CV_Gui(CV) {
     this.showGuiCV(CV.id);
   }
-  SendJD(){
+  SendJD() {
     let createOrEditGrade;
       createOrEditGrade = this._dialog.open(SendJDComponent, {
         data: this.selectedRecordId
@@ -183,7 +190,7 @@ export class CVComponent  extends AppComponentBase implements OnInit {
               this.selectedRecordId.push(id);
           }
       } else {
-          let position = this.selectedRecordId.indexOf(id);
+          const position = this.selectedRecordId.indexOf(id);
           // tslint:disable-next-line:no-bitwise
           if (~position) {
               this.selectedRecordId.splice(position, 1);

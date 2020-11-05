@@ -26,7 +26,7 @@ export class SendJDComponent extends AppComponentBase implements OnInit {
 
      ngOnInit(): void {
       if (this.data) {
-        console.log('Gửi JD',this.data)
+        console.log('Gửi JD', this.data);
       // this.getClient(this.data);
       }
     }
@@ -37,19 +37,11 @@ export class SendJDComponent extends AppComponentBase implements OnInit {
   }
     save() {
       this.saving = true;
-      if (this.language.id) {
-        this._languageService.update(this.language)
-          .subscribe(() => {
-            abp.notify.success(this.l('Chỉnh sửa thành công.'));
-            this.close(true);
-          });
-      } else {
         this._languageService.create(this.language)
           .subscribe(() => {
-            abp.notify.success(this.l('Tạo mới thành công.'));
+            abp.notify.success(this.l('Gửi JD thành công.'));
             this.close(true);
           });
-      }
     }
     close(result: any): void {
       this.saving = false;

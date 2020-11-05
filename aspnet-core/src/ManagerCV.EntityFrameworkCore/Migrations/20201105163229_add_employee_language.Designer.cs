@@ -4,14 +4,16 @@ using ManagerCV.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManagerCV.Migrations
 {
     [DbContext(typeof(ManagerCVDbContext))]
-    partial class ManagerCVDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201105163229_add_employee_language")]
+    partial class add_employee_language
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

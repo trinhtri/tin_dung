@@ -39,6 +39,10 @@ namespace ManagerCV.Employee.Dto
 
         public bool IsSeletedFile { get; set; }
         public string ContentType { get; set; }
-
+        public List<int> Languages { get; set; }
+        public CreateEmployeeDto()
+        {
+            Languages = new List<int>();
+        }
     }
 }

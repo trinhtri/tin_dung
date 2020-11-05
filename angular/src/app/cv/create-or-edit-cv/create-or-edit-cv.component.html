@@ -44,8 +44,14 @@
 
         <div class="col-sm-6">
             <mat-form-field>
-                <input matInput name="ngonNgu" [placeholder]="'Ngôn Ngữ' | localize" [(ngModel)]="CV.ngonNgu" maxlength="1000" />
+                <mat-select (selectionChange)="filter($event)" multiple [placeholder]="'Ngôn ngữ' | localize"  [value]="checked">
+                    <mat-option *ngFor="let languge of languages" [value]="languge.id">{{languge.ngonNgu}}</mat-option>
+                </mat-select>
             </mat-form-field>
+
+            <!-- <mat-form-field>
+                <input matInput name="ngonNgu" [placeholder]="'Ngôn Ngữ' | localize" [(ngModel)]="CV.ngonNgu" maxlength="1000" />
+            </mat-form-field> -->
         </div>
         <div class="col-sm-6">
             <mat-form-field>
@@ -79,8 +85,12 @@
         </div>
         <div class="col-sm-6">
             <mat-form-field>
-                <input matInput name="bangCap" [placeholder]="'Bằng Cấp' | localize" [(ngModel)]="CV.bangCap" maxlength="500" />
+                <mat-select required [placeholder]="'Bằng cấp' | localize" name="bangCap" [(ngModel)]="CV.bangCap">
+                    <mat-option [value]="1">{{ "Đại học" | localize}}</mat-option>
+                    <mat-option [value]="2">{{ "Cao đẳng" | localize}}</mat-option>
+                </mat-select>
             </mat-form-field>
+
         </div>
         <div class="col-sm-6">
             <mat-form-field>

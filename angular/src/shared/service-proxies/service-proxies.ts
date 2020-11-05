@@ -4492,6 +4492,7 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
     ngayNhanCV: moment.Moment | undefined;
     isSeletedFile: boolean;
     contentType: string | undefined;
+    languages: number[] | undefined;
     id: number;
 
     constructor(data?: ICreateEmployeeDto) {
@@ -4533,6 +4534,11 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
             this.ngayNhanCV = data["ngayNhanCV"] ? moment(data["ngayNhanCV"].toString()) : <any>undefined;
             this.isSeletedFile = data["isSeletedFile"];
             this.contentType = data["contentType"];
+            if (Array.isArray(data["languages"])) {
+                this.languages = [] as any;
+                for (let item of data["languages"])
+                    this.languages.push(item);
+            }
             this.id = data["id"];
         }
     }
@@ -4574,6 +4580,11 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
         data["ngayNhanCV"] = this.ngayNhanCV ? this.ngayNhanCV.toISOString() : <any>undefined;
         data["isSeletedFile"] = this.isSeletedFile;
         data["contentType"] = this.contentType;
+        if (Array.isArray(this.languages)) {
+            data["languages"] = [];
+            for (let item of this.languages)
+                data["languages"].push(item);
+        }
         data["id"] = this.id;
         return data; 
     }
@@ -4615,6 +4626,7 @@ export interface ICreateEmployeeDto {
     ngayNhanCV: moment.Moment | undefined;
     isSeletedFile: boolean;
     contentType: string | undefined;
+    languages: number[] | undefined;
     id: number;
 }
 
