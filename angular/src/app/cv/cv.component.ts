@@ -6,6 +6,7 @@ import { EmployeeServiceProxy, EmployeeListDto } from '@shared/service-proxies/s
 import { CreateOrEditCVComponent } from './create-or-edit-cv/create-or-edit-cv.component';
 import { CVGuiDiComponent } from './cv-gui-di/cv-gui-di.component';
 import { FileDownloadService } from '@shared/Utils/file-download.service';
+import { SendJDComponent } from './send-jd/send-jd.component';
 
 @Component({
   selector: 'app-cv',
@@ -54,6 +55,7 @@ export class CVComponent  extends AppComponentBase implements OnInit {
         this.totalPages = ((result.totalCount - (result.totalCount % this.pageSize)) / this.pageSize) + 1;
         this.allRecordId = [];
         this.selectedRecordId = [];
+        this.checkedAll = false;
         result.items.forEach(i => {
             this.allRecordId.push(i.id);
         });
@@ -112,7 +114,13 @@ export class CVComponent  extends AppComponentBase implements OnInit {
     this.showGuiCV(CV.id);
   }
   SendJD(){
-    console.log('Gửi JD', this.selectedRecordId)
+    let createOrEditGrade;
+      createOrEditGrade = this._dialog.open(SendJDComponent, {
+        data: this.selectedRecordId
+      });
+    createOrEditGrade.afterClosed().subscribe(result => {
+      this.getAll();
+  });
   }
     showAddOrEditClient(id?: any) {
       let createOrEditGrade;

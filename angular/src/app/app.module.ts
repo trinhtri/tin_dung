@@ -47,6 +47,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { FileDownloadService } from '@shared/Utils/file-download.service';
 import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
 import { CreateOrEditNgonnguComponent } from './ngon-ngu/create-or-edit-ngonngu/create-or-edit-ngonngu.component';
+import { SendJDComponent } from './cv/send-jd/send-jd.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,7 +78,8 @@ import { CreateOrEditNgonnguComponent } from './ngon-ngu/create-or-edit-ngonngu/
     CreateOrEditCVComponent,
     CVUngVienGuiComponent,
     NgonNguComponent,
-    CreateOrEditNgonnguComponent
+    CreateOrEditNgonnguComponent,
+    SendJDComponent
   ],
   imports: [
     CommonModule,
@@ -112,7 +114,8 @@ import { CreateOrEditNgonnguComponent } from './ngon-ngu/create-or-edit-ngonngu/
     ResetPasswordDialogComponent,
     CreateOrEditCVComponent,
     CVGuiDiComponent,
-    CreateOrEditNgonnguComponent
+    CreateOrEditNgonnguComponent,
+    SendJDComponent
   ]
 })
 export class AppModule {}
