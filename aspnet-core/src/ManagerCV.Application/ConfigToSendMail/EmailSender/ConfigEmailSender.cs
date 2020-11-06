@@ -1,4 +1,5 @@
 ﻿using Abp.Domain.Repositories;
+using Abp.Extensions;
 using Abp.UI;
 using ManagerCV.ConfigToSendMail.Dto;
 using ManagerCV.Models;
@@ -87,10 +88,13 @@ namespace ManagerCV.ConfigToSendMail.EmailSender
                     Subject = input.Title,
                 };
                 messageToSend.Body = new TextPart(TextFormat.Html) { Text = input.Content };
-                // cắt email từ list email
-                foreach (var address in input.ToMail.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+               // cắt email từ list email
+                if (!input.ToMail.IsNullOrEmpty())
                 {
-                    messageToSend.To.Add(new MailboxAddress(address));
+                    foreach (var address in input.ToMail.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        messageToSend.To.Add(new MailboxAddress(address));
+                    }
                 }
 
                 if (input.CCMail != null)
@@ -100,45 +104,14 @@ namespace ManagerCV.ConfigToSendMail.EmailSender
                         messageToSend.Cc.Add(new MailboxAddress(ccMailAddress));
                     }
                 }
-                if (input.IsAttackURL)
-                {
-                    var urlReport = "<p>" + "URl report :" + "</p> " + input.URL + "<br />";
-                    input.Content = input.Content + urlReport;
-                }
                 // gửi email đính kèm PDF
                 if (input.IsAttackReport)
                 {
-                var urlFirst = _appConfiguration["UrlForGetNameReport"];
-                var first = input.ReportPath.Replace(urlFirst, "");
-                var index = first.IndexOf("&");
-                var sFileName = first.Substring(0, index);
-                CheckAttackReport(input.ReportPath);
-                    var BIServer = _appConfiguration["ReportServerBI"];
-                    var sReportSA = _appConfiguration["ReportingServerAddress"];
-                    string sServer = _appConfiguration["AccountReportServer:Server"];
-                    string sUser = _appConfiguration["AccountReportServer:Username"];
-                    string sPass = _appConfiguration["AccountReportServer:Password"];
-                    string sFormat = _appConfiguration["FormatFileReportServer:Format"];
-                    if(!String.IsNullOrEmpty(sFormat))
-                    {
-                        if (sFormat.Equals("PDF")) sFileName = sFileName + ".pdf";
-                        else if (sFormat.Equals("WORD")) sFileName = sFileName + ".doc";
-                        else if (sFormat.Equals("EXCEL")) sFileName = sFileName + ".xls";
-                        else sFileName = sFileName + ".pdf";
-                    }
-                    WebClient Client = new WebClient();
-                    //Auth
-                    NetworkCredential nwc = new NetworkCredential(sUser,sPass);
-                    Client.Credentials = nwc;
-                //Download file
-                //input.ReportPath = input.ReportPath.Replace(sServer, "http://localhost:6060") .Replace("PDF", sFormat);
-                    input.ReportPath = input.ReportPath.Replace(sReportSA, BIServer);
-
-                    byte[] myDataBuffer = Client.DownloadData(input.ReportPath);
-                    var builder = new BodyBuilder { HtmlBody = input.Content };
-                    builder.Attachments.Add(sFileName, myDataBuffer, new MimeKit.ContentType("application", ".xls"));
-                    //builder.Attachments.Add(tempFilePath);
-                    messageToSend.Body = builder.ToMessageBody();
+                input.ReportPath = "C:/Users/DELL/Downloads/new8.txt";
+                BodyBuilder bodyBuilder = new BodyBuilder();
+                bodyBuilder.HtmlBody = input.Content;
+                bodyBuilder.Attachments.Add(input.ReportPath);
+                messageToSend.Body = bodyBuilder.ToMessageBody();
                 }
             try
             {

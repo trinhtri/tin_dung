@@ -44,14 +44,10 @@
 
         <div class="col-sm-6">
             <mat-form-field>
-                <mat-select (selectionChange)="filter($event)" multiple [placeholder]="'Ngôn ngữ' | localize"  [value]="checked">
+                <mat-select required multiple [placeholder]="'Ngôn ngữ' | localize"  [value]="languageSelected">
                     <mat-option *ngFor="let languge of languages" [value]="languge.id">{{languge.ngonNgu}}</mat-option>
                 </mat-select>
             </mat-form-field>
-
-            <!-- <mat-form-field>
-                <input matInput name="ngonNgu" [placeholder]="'Ngôn Ngữ' | localize" [(ngModel)]="CV.ngonNgu" maxlength="1000" />
-            </mat-form-field> -->
         </div>
         <div class="col-sm-6">
             <mat-form-field>
@@ -80,7 +76,7 @@
         </div>
         <div class="col-sm-6">
             <mat-form-field>
-                <input matInput name="email" [placeholder]="'Email' | localize" [(ngModel)]="CV.email" maxlength="100" />
+                <input matInput name="email" email [placeholder]="'Email' | localize" [(ngModel)]="CV.email" maxlength="100" />
             </mat-form-field>
         </div>
         <div class="col-sm-6">

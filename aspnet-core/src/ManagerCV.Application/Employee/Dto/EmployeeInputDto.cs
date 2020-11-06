@@ -11,13 +11,20 @@ namespace ManagerCV.Employee.Dto
     {
         public string Filter { get; set; }
         public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime? EndDate { get; set; }    
+        public string BangCap { get; set; }
+
+        public List<int> NgonNgu { get; set; }
         public void Normalize()
         {
             if (Sorting.IsNullOrEmpty())
             {
                 Sorting = "NgonNgu";
             }
+        }
+        public EmployeeInputDto()
+        {
+            NgonNgu = new List<int>();
         }
     }
 }

@@ -60,7 +60,6 @@
                                 <table class="table table-hover table-striped gs-table" [busy]="isTableLoading" matSort (matSortChange)="sortData($event)">
                                     <thead>
                                         <tr>
-                                            <th>{{l('Tính Năng')}}</th>
                                             <th mat-sort-header="hoTen">{{ "Họ Tên" | localize }}</th>
                                             <th mat-sort-header="sdt">{{ "Số Điện Thoại" | localize }}</th>
                                             <th mat-sort-header="email">{{ "Email" | localize }}</th>
@@ -68,6 +67,7 @@
                                             <th mat-sort-header="ctyNhan">{{ "Công Ty" | localize }}</th>
                                             <th mat-sort-header="ngayHoTro">{{ "Ngày Gửi" | localize }}</th>
                                             <th mat-sort-header="ketQua">{{ "Kết Quả" | localize }}</th>
+                                            <th>{{l('Tính Năng')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -78,6 +78,17 @@
                                                     totalItems: totalItems
                                                   }
                                                   ">
+
+                                            <td>{{ employee.hoTen }}</td>
+                                            <td>{{ employee.sdt}}</td>
+                                            <td>{{ employee.email }}</td>
+                                            <td>{{ employee.nguyenVong }}</td>
+                                            <td>{{ employee.ctyNhan}}</td>
+                                            <td>{{ employee.ngayHoTro?.format("L")}}</td>
+                                            <td>
+                                                <span class="btn btn-danger" *ngIf="!employee.ketQua">Chưa nhận</span>
+                                                <span class="btn btn-success" *ngIf="employee.ketQua">Đã nhận</span>
+                                            </td>
                                             <td>
                                                 <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
                                                     <mat-icon>menu</mat-icon>
@@ -108,17 +119,6 @@
                                                     </button>
 
                                                 </mat-menu>
-                                            </td>
-                                            <td>{{ employee.hoTen }}</td>
-                                            <td>{{ employee.sdt}}</td>
-                                            <td>{{ employee.email }}</td>
-                                            <td>{{ employee.nguyenVong }}</td>
-                                            <td>{{ employee.ctyNhan}}</td>
-                                            <td>{{ employee.ngayHoTro?.format("L")}}</td>
-                                            <td>
-                                                <span class="btn btn-danger" *ngIf="!employee.ketQua">Chưa nhận</span>
-                                                <span class="btn btn-success" *ngIf="employee.ketQua">Đã nhận</span>
-                                                <!-- {{ employee.ketQua}} -->
                                             </td>
                                         </tr>
                                     </tbody>

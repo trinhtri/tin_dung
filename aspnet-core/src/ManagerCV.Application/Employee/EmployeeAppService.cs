@@ -22,17 +22,20 @@ namespace ManagerCV.Employee
     {
         private readonly IRepository<Models.Employee> _employeeRepository;
         private readonly IRepository<Models.EmployeeLanguage> _employeeLanguageRepository;
+        private readonly IRepository<Models.CtgLanguage> _ctLganguageRepository;
         private readonly IAppFolders _appFolders;
         private readonly EmployeeListExcelExporter _employeeListExcelExporter;
         public EmployeeAppService(IRepository<Models.Employee> employeeRepository,
             IAppFolders appFolders, 
             EmployeeListExcelExporter employeeListExcelExporter,
+            IRepository<Models.CtgLanguage> ctgLanguageRepository,
             IRepository<Models.EmployeeLanguage> employeeLanguageRepository)
         {
             _employeeRepository = employeeRepository;
             _appFolders = appFolders;
             _employeeListExcelExporter = employeeListExcelExporter;
             _employeeLanguageRepository = employeeLanguageRepository;
+            _ctLganguageRepository = ctgLanguageRepository;
         }
         public async Task<long> Create(CreateEmployeeDto input)
         {
@@ -89,8 +92,12 @@ namespace ManagerCV.Employee
                 input.Filter = Regex.Replace(input.Filter.Trim(), @"\s+", " ");
             }
             var query = _employeeRepository.GetAll()
-                      .Where(x => x.TrangThai == false)
-                      .WhereIf(!input.Filter.IsNullOrEmpty(),
+                       .Include(x => x.EmployeeLanguages)
+                       .ThenInclude(l => l.CtgLanguage_)
+                       .Where(x => x.TrangThai == false)
+                       .WhereIf(!input.BangCap.IsNullOrEmpty(), x=>x.BangCap == input.BangCap)
+                       .WhereIf(input.NgonNgu.Count > 0 , x=> x.EmployeeLanguages.Any(x=> input.NgonNgu.Any(a=>a == x.CtgLanguage_Id)))
+                       .WhereIf(!input.Filter.IsNullOrEmpty(),
                        x => x.HoTen.ToUpper().Contains(input.Filter.ToUpper())
                       || x.NgonNgu.ToUpper().Contains(input.Filter.ToUpper())
                       || x.ChoOHienTai.ToUpper().Contains(input.Filter.ToUpper())
@@ -99,12 +106,28 @@ namespace ManagerCV.Employee
                       || x.KinhNghiem.ToUpper().Contains(input.Filter.ToUpper())
                       || x.BangCap.ToUpper().Contains(input.Filter.ToUpper())
                       ).WhereIf(input.StartDate.HasValue, x => x.NgayNhanCV >= input.StartDate)
-                       .WhereIf(input.EndDate.HasValue, x => x.NgayNhanCV <= input.EndDate); 
+                       .WhereIf(input.EndDate.HasValue, x => x.NgayNhanCV <= input.EndDate);
+
             var tatolCount = await query.CountAsync();
             var result = await query.OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
-            return new PagedResultDto<EmployeeListDto>(tatolCount, ObjectMapper.Map<List<EmployeeListDto>>(result));
+            var output = ObjectMapper.Map<List<EmployeeListDto>>(result);
+            foreach(var item in output)
+            {
+                item.NhungNgonNgu =await GetLangugeName(item.Id);
+            }
+            return new PagedResultDto<EmployeeListDto>(tatolCount, output);
+        }
+        public async Task<string> GetLangugeName(int input)
+        {
+            var result = "";
+            var els = await _employeeLanguageRepository.GetAll().Include(x=>x.CtgLanguage_).Where(x => x.Employee_Id == input).ToListAsync();
+            foreach(var item in els)
+            {
+                result = result + item.CtgLanguage_.NgonNgu + ',';
+            }
+            return result;
         }
 
         public async Task<PagedResultDto<EmployeeListDto>> GetAll_Gui(EmployeeGuiInputDto input)
@@ -135,7 +158,10 @@ namespace ManagerCV.Employee
         public async Task<CreateEmployeeDto> GetId(int id)
         {
             var dto = await _employeeRepository.FirstOrDefaultAsync(id);
-            return ObjectMapper.Map<CreateEmployeeDto>(dto);
+            var result = ObjectMapper.Map<CreateEmployeeDto>(dto);
+            var languages = await _employeeLanguageRepository.GetAll().Where(x => x.Employee_Id == id).Select(x => x.CtgLanguage_Id).ToListAsync();
+            result.Languages = languages;
+            return result;
  
         }
 
@@ -178,6 +204,35 @@ namespace ManagerCV.Employee
             emp.SDT = input.SDT;
             emp.TrangThai = input.TrangThai;
             emp.TenantId = (int)input.TenantId;
+
+
+            var listEmployeeLanguege = _employeeLanguageRepository.GetAll().Where(x => x.Employee_Id == input.Id);
+
+            // tìm cái đã xóa trong lst
+            foreach (var item in listEmployeeLanguege)
+            {
+                var index = input.Languages.Any(x => x == item.CtgLanguage_Id);
+                if (index != true)
+                {
+                    await _employeeLanguageRepository.DeleteAsync(item.Id);
+                }
+            }
+            // tìm những cái chưa có để thêm mới trong danh sách
+            foreach (var item in input.Languages)
+            {
+                var index = listEmployeeLanguege.Where(x => x.Id == item);
+                if (index.Count() < 1)
+                {
+                    var el = new EmployeeLanguage
+                    {
+                        Employee_Id = input.Id,
+                        TenantId = AbpSession.TenantId ?? 1,
+                        CtgLanguage_Id = item,
+                    };
+                    await _employeeLanguageRepository.InsertAsync(el);
+                }
+            }
+
             await _employeeRepository.UpdateAsync(emp);
         }
 
@@ -244,6 +299,20 @@ namespace ManagerCV.Employee
             var list = await GetAll_Gui(inputDto);
             var dto = list.Items.ToList();
             return _employeeListExcelExporter.Export_CVNhan(dto);
+        }
+
+        public async Task<string> GetListEmail(List<int> inputs)
+        {
+            var result = "";
+            var emps = await _employeeRepository.GetAll().Where(x => inputs.Any(a => a == x.Id)).ToListAsync();
+            foreach(var item in emps)
+            {
+                if (!item.Email.IsNullOrEmpty())
+                {
+                    result = result + item.Email + ";";
+                }
+            }
+            return result;
         }
     }
 }

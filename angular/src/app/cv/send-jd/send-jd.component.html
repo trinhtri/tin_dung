@@ -3,23 +3,28 @@
     <mat-dialog-content style="width:800px;">
         <div class="col-sm-12">
             <mat-form-field>
-                <input matInput name="EmailGuiDi" [placeholder]="'Email người gửi' | localize" [(ngModel)]="language.ngonNgu" maxlength="1000" required/>
+                <input matInput required name="Title" [placeholder]="'Tiêu đề' | localize" [(ngModel)]="email.title" maxlength="1000"/>
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput name="Title" [placeholder]="'Tiêu đề' | localize" [(ngModel)]="language.ngonNgu" maxlength="1000"/>
+                <input matInput name="Content" [placeholder]="'Nội dung' | localize" [(ngModel)]="email.content"/>
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput name="Content" [placeholder]="'Nội dung' | localize" [(ngModel)]="language.ngonNgu"/>
-            </mat-form-field>
-
-            <mat-form-field>
-                <textarea matInput name="BBC" [placeholder]="'BCC' | localize" [(ngModel)]="language.ngonNgu"></textarea>
+                <textarea matInput name="BCC" required [placeholder]="'BCC' | localize" [(ngModel)]="email.ccMail"></textarea>
             </mat-form-field>
 
             <mat-form-field>
                 <textarea matInput name="CC" [placeholder]="'CC' | localize" [(ngModel)]="language.ngonNgu"></textarea>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [placeholder]="l('File JD')" name="documentName" [(ngModel)]="fileJD" readonly />
+                <button mat-icon-button matSuffix (click)="selectFile($event)">
+                  <mat-icon style="font-size:20px;"> description
+                </mat-icon>
+                </button>
+                <input id="documentFileInput" name = "fileJD" #documentFileInput  [(ngModel)]="fileJD" type="file" class="form-control-file" style="display:none;" />
             </mat-form-field>
         </div>
 

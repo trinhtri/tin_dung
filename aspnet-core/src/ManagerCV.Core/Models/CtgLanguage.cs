@@ -14,5 +14,7 @@ namespace ManagerCV.Models
 		public int TenantId { get; set; }
 		[StringLength(200)]
 		public string NgonNgu { get; set; }
+		//public ICollection<EmployeeLanguage> EmployeeLanguages { get; set; }
+
 	}
 }

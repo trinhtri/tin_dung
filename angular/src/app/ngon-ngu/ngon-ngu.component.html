@@ -25,9 +25,6 @@
                                         <button mat-raised-button color="primary" (click)="createCV()">
                                             {{ "Thêm mới" | localize }}
                                         </button>
-                                        <!-- <button mat-raised-button (click)="export()">
-                                                {{ "Xuất Excel" | localize }}
-                                            </button> -->
                                     </div>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
@@ -35,8 +32,8 @@
                                 <table class="table table-hover table-striped gs-table" [busy]="isTableLoading" matSort (matSortChange)="sortData($event)">
                                     <thead>
                                         <tr>
-                                            <th>{{l('Tính Năng')}}</th>
                                             <th mat-sort-header="ngonNgu">{{ "Ngôn Ngữ" | localize }}</th>
+                                            <th>{{l('Tính Năng')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -47,6 +44,7 @@
                                                     totalItems: totalItems
                                                   }
                                                   ">
+                                            <td>{{language.ngonNgu}}</td>
                                             <td>
                                                 <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
                                                     <mat-icon>menu</mat-icon>
@@ -64,12 +62,11 @@
 
                                                 </mat-menu>
                                             </td>
-                                            <td>{{language.ngonNgu}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
 
-                                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onChangedPanigation($event)">
+                                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100,200,500,1000]" (page)="onChangedPanigation($event)">
                                 </mat-paginator>
 
                                 <div class="abp-pagination-controls-wrapper" *ngIf="totalItems > pageSize">

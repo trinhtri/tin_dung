@@ -1,0 +1,64 @@
+https://ad1.mualoc.com/wc-auth/v1/authorize?app_name=Ecomwwings&scope=read_write&user_id=3&return_url=http://localhost:4200/app/store/create/woocommerce&
+callback_url=https://wordpress.org/support/topic/error-an-error-occurred-in-the-request-and-at-the-time-were-unable-to-send-the/
+
+
+
+https://ad1.mualoc.com//wc-auth/v1/authorize?app_name=Ecomwwings&scope=read_write&user_id=1&
+return_url=https://ecomwings.ngvgroup.vn/app/store/create/shopify&
+callback_url='http://localhost:22742/Ui/Login
+
+
+https://ad1.mualoc.com
+
+https://www.mualoc.com
+
+https://ad1.mualoc.com/		
+
+
+	let return_url = this.appUrlService.appRootUrl + 'app/store/create/woocommerce'
+		// let return_url = 'https://www.wpbeginner.com/wp-tutorials/how-to-fix-wordpress-posts-returning-404-error/'
+		let callback_url = 'http://localhost:22742/Ui/Login'
+		
+		
+		https://www.liliesinthecity.org/shop/wc-auth/v1/authorize?app_name=ShippingEasy
+		&callback_url=https%3A%2F%2Fapp1.shippingeasy.com%2Fsettings%2Fstores%2Fwoocommerce%2Fcallback%2Fcallback
+		&return_url=https%3A%2F%2Fapp1.shippingeasy.com%2Fsettings%2Fstores%2Fwoocommerce%2Fregistration%2Flanding%2F5fc0f988-23f6-41a4-8d44-5c1ff90f5e8f&scope=read_write
+		&user_id=BAh7CDoHaWRpA2plussignpAToNYmFzZV91cmxJIipodHRwczovL3d3dy5saWxpZXNpbnRoZWNpdHkub3JnL3Nob3AvBjoGRVQ6CHNpZEkiKTVmYzBmOTg4LTIzZjYtNDFhNC04ZDQ0LTVjMWZmOTBmNWU4ZgY7B0Y%3D--8207afc27912b1a767d1685d8d103974d458eddb
+		
+		
+		https://ad1.mualoc.com//wc-auth/v1/authorize?app_name=Ecomwwings&scope=read_write&user_id=1&
+		return_url=https://ecomwings.ngvgroup.vn/app/store/create/shopify&callback_url=https://ecomwings.ngvgroup.vn/api/WCommerce/Test
+		
+		
+		
+		        let callback_url = 'https://ecomwings.ngvgroup.vn/api/WCommerce/Test'
+				
+				
+				
+				https://ad1.mualoc.com/
+				
+				
+				
+				https://ad1.mualoc.com//wc-auth/v1/authorize?app_name=Ecomwwings&scope=read_write&user_id=51
+				&return_url=https://ecomwings.ngvgroup.vn/app/store/create/woocommerce&callback_url=https://ecomwings.ngvgroup.vn/api/WoocommerChannel/CreateWoocommerce
+			
+				
+				https://ad1.mualoc.com//wc-auth/v1/authorize?app_name=Ecomwwings&scope=read_write&user_id=51
+				&return_url=https://ecomtest.ecomwings.com/app/store/create/woocommerce&callback_url=https://ecomtest.ecomwings.com/api/WoocommerChannel/CreateWoocommerce
+				
+				https://ad1.mualoc.com//wc-auth/v1/access_granted/?app_name=Ecomwwings&user_id=51
+				&return_url=https%3A%2F%2FECOMTEST.ecomwings.com%2Fapp%2Fstore%2Fcreate%2Fwoocommerce&callback_url=https%3A%2F%2FECOMTEST.ecomwings.com%2Fapi%2FWoocommerChannel%2FCreateWoocommerce&scope=read_write&wc_auth_nonce=f798b8d7f0
+				
+				
+				
+						let newElementNull: Select2OptionData = { id: '0', text: this.l('Select'), additional: '' }
+				this.lstCountry.unshift(newElementNull)
+				console.log('this.lstCountry', this.lstCountry)
+				
+				
+				
+				
+				
+				https://ad1.mualoc.com//wc-auth/v1/authorize?app_name=Ecomwwings&scope=read_write&user_id=51&return_url=https://ECOMTEST.ecomwings.com/app/store/create/woocommerce&
+				
+				callback_url=https://ECOMTEST.ecomwings.com/api/WoocommerChannel/CreateWoocommerce

@@ -47,6 +47,8 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
     }
   getClient(id) {
   this._EmployeeService.getId(id).subscribe( result => {
+    console.log('employee', result);
+    this.languageSelected = result.languages;
     this.CV = result;
     this.startDate = this.CV.ngayNhanCV.toDate();
   });
@@ -89,7 +91,8 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
 
   }
     save() {
-      this.CV.languages = this.languageSelected.value;
+      console.log('this.languageSelected.value',this.languageSelected.value)
+      this.CV.languages =  this.languageSelected.value;
       this.CV.trangThai = false;
       this.CV.ngayNhanCV = moment(this.startDate);
       this.saving = true;
