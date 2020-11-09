@@ -99,12 +99,10 @@ namespace ManagerCV.Employee
                        .WhereIf(input.NgonNgu.Count > 0 , x=> x.EmployeeLanguages.Any(x=> input.NgonNgu.Any(a=>a == x.CtgLanguage_Id)))
                        .WhereIf(!input.Filter.IsNullOrEmpty(),
                        x => x.HoTen.ToUpper().Contains(input.Filter.ToUpper())
-                      || x.NgonNgu.ToUpper().Contains(input.Filter.ToUpper())
                       || x.ChoOHienTai.ToUpper().Contains(input.Filter.ToUpper())
                       || x.Email.ToUpper().Contains(input.Filter.ToUpper())
                       || x.SDT.ToUpper().Contains(input.Filter.ToUpper())
                       || x.KinhNghiem.ToUpper().Contains(input.Filter.ToUpper())
-                      || x.BangCap.ToUpper().Contains(input.Filter.ToUpper())
                       ).WhereIf(input.StartDate.HasValue, x => x.NgayNhanCV >= input.StartDate)
                        .WhereIf(input.EndDate.HasValue, x => x.NgayNhanCV <= input.EndDate);
 
@@ -121,12 +119,13 @@ namespace ManagerCV.Employee
         }
         public async Task<string> GetLangugeName(int input)
         {
-            var result = "";
+            var ls = "";
             var els = await _employeeLanguageRepository.GetAll().Include(x=>x.CtgLanguage_).Where(x => x.Employee_Id == input).ToListAsync();
             foreach(var item in els)
             {
-                result = result + item.CtgLanguage_.NgonNgu + ',';
+                ls = ls + item.CtgLanguage_.NgonNgu + ',';
             }
+            var result = ls.Substring(0, ls.Length - 1);
             return result;
         }
 

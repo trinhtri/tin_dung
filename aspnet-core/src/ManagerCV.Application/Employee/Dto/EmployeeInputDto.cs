@@ -19,7 +19,7 @@ namespace ManagerCV.Employee.Dto
         {
             if (Sorting.IsNullOrEmpty())
             {
-                Sorting = "NgonNgu";
+                Sorting = "CreationTime DESC";
             }
         }
         public EmployeeInputDto()

@@ -17,7 +17,7 @@ export class SideBarNavComponent extends AppComponentBase {
         new MenuItem(this.l('Roles'), 'Pages.Roles', 'local_offer', '/app/roles'),
         new MenuItem(this.l('Ngôn ngữ'), 'Pages.Roles', 'languages', '/app/Languages'),
         new MenuItem(this.l('Quản lý CV'), 'Pages.Roles', 'people', '/app/CVs'),
-        new MenuItem(this.l('CV Ứng Viên Gửi Đi'), 'Pages.Roles', 'local_offer', '/app/CV_Gui'),
+        new MenuItem(this.l('CV Ứng Viên Gửi Đi'), 'Pages.Roles', 'send', '/app/CV_Gui'),
 
         // new MenuItem(this.l('About'), '', 'info', '/app/about'),
 

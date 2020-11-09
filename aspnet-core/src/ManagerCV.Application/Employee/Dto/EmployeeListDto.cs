@@ -38,5 +38,6 @@ namespace ManagerCV.Employee.Dto
         public string CVUrl { get; set; }
         public DateTime? NgayNhanCV { get; set; }
         public string NhungNgonNgu { get; set; }
+        public DateTime CreationTime { get; set; }
     }
 }
