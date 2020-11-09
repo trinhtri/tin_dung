@@ -91,8 +91,10 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
 
   }
     save() {
-      console.log('this.languageSelected.value',this.languageSelected.value)
-      this.CV.languages =  this.languageSelected.value;
+      // if(this.languageSelected){
+      //   console.log('this.languageSelected.value',this.languageSelected)
+      //   this.CV.languages =  this.languageSelected.value;
+      // }
       this.CV.trangThai = false;
       this.CV.ngayNhanCV = moment(this.startDate);
       this.saving = true;

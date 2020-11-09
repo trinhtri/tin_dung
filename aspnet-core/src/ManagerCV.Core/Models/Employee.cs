@@ -36,17 +36,13 @@ namespace ManagerCV.Models
         public string BangCap { get; set; }
         [StringLength(600)]
         public string Truong { get; set; }
-        [StringLength(600)]
-        public string Nganh { get; set; }
-        [StringLength(50)]
-        public string NamTotNghiep { get; set; }
+     
         [StringLength(1000)]
         public string FaceBook { get; set; }
         [StringLength(2000)]
         public string KinhNghiem { get; set; }
         [StringLength(1000)]
         public string LuongMongMuon { get; set; }
-        [StringLength(2000)]
         public string NoiDung { get; set; }
         [StringLength(2000)]
         public string CtyNhan { get; set; }

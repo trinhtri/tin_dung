@@ -44,7 +44,7 @@
 
         <div class="col-sm-6">
             <mat-form-field>
-                <mat-select required multiple [placeholder]="'Ngôn ngữ' | localize"  [value]="languageSelected">
+                <mat-select required multiple [placeholder]="'Ngôn ngữ' | localize" [(ngModel)] = "CV.languages"  name="languages">
                     <mat-option *ngFor="let languge of languages" [value]="languge.id">{{languge.ngonNgu}}</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -95,22 +95,12 @@
         </div>
         <div class="col-sm-6">
             <mat-form-field>
-                <input matInput name="nganh" [placeholder]="'Ngành' | localize" [(ngModel)]="CV.nganh" maxlength="600" />
-            </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput name="namTotNghiep" [placeholder]="'Năm Tốt Nghiệp' | localize" [(ngModel)]="CV.namTotNghiep" maxlength="50" />
-            </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-            <mat-form-field>
                 <input matInput name="faceBook" [placeholder]="'FaceBook' | localize" [(ngModel)]="CV.faceBook" maxlength="1000" />
             </mat-form-field>
         </div>
         <div class="col-sm-6">
             <mat-form-field>
-                <input matInput name="moTaCV" [placeholder]="'Mô Tả Công Việc' | localize" [(ngModel)]="CV.kinhNghiem" maxlength="2000" />
+                <input matInput name="moTaCV" [placeholder]="'Kinh nghiệm' | localize" [(ngModel)]="CV.kinhNghiem" maxlength="2000" />
             </mat-form-field>
         </div>
         <div class="col-sm-6">
@@ -120,7 +110,7 @@
         </div>
         <div class="col-sm-6">
             <mat-form-field>
-                <input matInput name="noiDung" [placeholder]="'Nội Dung' | localize" [(ngModel)]="CV.noiDung" maxlength="2000" />
+                <input matInput name="noiDung" [placeholder]="'Nguyện vọng' | localize" [(ngModel)]="CV.noiDung" maxlength="2000" />
             </mat-form-field>
         </div>
 

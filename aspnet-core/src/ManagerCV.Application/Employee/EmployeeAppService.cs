@@ -193,8 +193,6 @@ namespace ManagerCV.Employee
             emp.KinhNghiem = input.KinhNghiem;
             emp.LuongMongMuon = input.LuongMongMuon;
             emp.NamSinh = input.NamSinh;
-            emp.NamTotNghiep = input.NamTotNghiep;
-            emp.Nganh = input.Nganh;
             emp.NgayHoTro = input.NgayHoTro;
             emp.NgayNhanCV = input.NgayNhanCV;
             emp.NgonNgu = input.NgonNgu;
