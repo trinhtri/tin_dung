@@ -7,7 +7,7 @@
                     <form>
                         <div class="col-md-4">
                             <mat-form-field>
-                                <input matInput [placeholder]="l('Tìm kiếm')" [(ngModel)]="keyword" name="keyword" />
+                                <input matInput [placeholder]="l('Tìm kiếm')" [(ngModel)]="keyword" name="keyword" (ngModelChange) = "getAll()"/>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
@@ -60,7 +60,7 @@
                                         <button mat-raised-button (click)="export()">
                                                 {{ "Xuất Excel" | localize }}
                                         </button>
-                                        <button mat-raised-button color="accent" (click)="SendJD()" [disabled] = "selectedRecordId.length == 0">
+                                        <button mat-raised-button color="warn" (click)="SendJD()" [disabled] = "selectedRecordId.length == 0">
                                             {{ "Gửi JD" | localize }}
                                         </button>
                                     </div>
@@ -140,7 +140,7 @@
                                     </tbody>
                                 </table>
 
-                                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100,200,500,1000]" (page)="onChangedPanigation($event)">
+                                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100,200,500,1000,10000]" (page)="onChangedPanigation($event)">
                                 </mat-paginator>
 
                                 <div class="abp-pagination-controls-wrapper" *ngIf="totalItems > pageSize">

@@ -24,14 +24,6 @@ namespace ManagerCV.Web.Host.Controllers
         {
             _appFolders = appFolders;
         }
-
-        public string get1()
-        {
-            return "namtv";
-        }
-       
-
-
         public UploadDocumentFileOutput UploadDocumentFile()
         {
             try
@@ -73,6 +65,49 @@ namespace ManagerCV.Web.Host.Controllers
                 };
             }
         }
+
+        public UploadDocumentFileOutput UploadFileJD()
+        {
+            try
+            {
+                var documentFile = Request.Form.Files.First();
+
+                if (documentFile == null)
+                {
+                    throw new UserFriendlyException(L("File_Change_Error_Message"), L("Document_Change_Error_Details"));
+                }
+
+                if (documentFile.Length > MaxProfilePictureSize)
+                {
+                    throw new UserFriendlyException(L("File_Warn_SizeLimit_Message"), L("File_Warn_SizeLimit_Details", 10));
+                }
+
+                byte[] fileBytes;
+                using (var stream = documentFile.OpenReadStream())
+                {
+                    fileBytes = stream.GetAllBytes();
+                }
+
+                var fileInfo = new FileInfo(documentFile.FileName);
+                var tempFilePath = Path.Combine(_appFolders.TempFileUploadJDFolder, documentFile.FileName);
+                System.IO.File.WriteAllBytes(tempFilePath, fileBytes);
+
+                return new UploadDocumentFileOutput()
+                {
+                    ContentType = documentFile.ContentType,
+                    FileName = documentFile.FileName,
+                    FileSize = Math.Round((decimal)documentFile.Length / 1048576, 2)
+                };
+            }
+            catch (UserFriendlyException ex)
+            {
+                return new UploadDocumentFileOutput
+                {
+                    ErrorInfo = new ErrorInfo(ex.Message, ex.Details)
+                };
+            }
+        }
+
 
         public ActionResult DownloadTempFile(FileDto file)
         {

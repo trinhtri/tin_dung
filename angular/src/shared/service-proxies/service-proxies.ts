@@ -207,8 +207,8 @@ export class ConfigEmailSenderServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    sendMailList(body: CreateConfigToSendMailDto | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/ConfigEmailSender/SendMailList";
+    sendJDForCustomer(body: SenJDForCustomerDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ConfigEmailSender/SendJDForCustomer";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -223,11 +223,11 @@ export class ConfigEmailSenderServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processSendMailList(response_);
+            return this.processSendJDForCustomer(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processSendMailList(<any>response_);
+                    return this.processSendJDForCustomer(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -236,111 +236,7 @@ export class ConfigEmailSenderServiceProxy {
         }));
     }
 
-    protected processSendMailList(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    sendEmaiForSchedule(body: SendEmiling | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/ConfigEmailSender/SendEmaiForSchedule";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json", 
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processSendEmaiForSchedule(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processSendEmaiForSchedule(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processSendEmaiForSchedule(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param input (optional) 
-     * @return Success
-     */
-    checkAttackReport(input: string | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/ConfigEmailSender/CheckAttackReport?";
-        if (input === null)
-            throw new Error("The parameter 'input' cannot be null.");
-        else if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCheckAttackReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCheckAttackReport(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCheckAttackReport(response: HttpResponseBase): Observable<void> {
+    protected processSendJDForCustomer(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2081,6 +1977,58 @@ export class EmployeeServiceProxy {
             }));
         }
         return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param file (optional) 
+     * @return Success
+     */
+    deleteFileJD(file: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Employee/DeleteFileJD?";
+        if (file === null)
+            throw new Error("The parameter 'file' cannot be null.");
+        else if (file !== undefined)
+            url_ += "file=" + encodeURIComponent("" + file) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteFileJD(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteFileJD(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteFileJD(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -4336,15 +4284,17 @@ export interface ICreateConfigToSendMailDto {
     id: number;
 }
 
-export class SendEmiling implements ISendEmiling {
+export class SenJDForCustomerDto implements ISenJDForCustomerDto {
+    tenantId: number | undefined;
+    title: string | undefined;
+    useSSL: number;
     toMail: string | undefined;
+    ccMail: string | undefined;
     content: string | undefined;
-    isAttackFile: boolean;
-    isUrl: boolean;
-    url: string | undefined;
-    attackFile: string | undefined;
+    jdName: string | undefined;
+    isAttackJD: boolean;
 
-    constructor(data?: ISendEmiling) {
+    constructor(data?: ISenJDForCustomerDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4355,48 +4305,54 @@ export class SendEmiling implements ISendEmiling {
 
     init(data?: any) {
         if (data) {
+            this.tenantId = data["tenantId"];
+            this.title = data["title"];
+            this.useSSL = data["useSSL"];
             this.toMail = data["toMail"];
+            this.ccMail = data["ccMail"];
             this.content = data["content"];
-            this.isAttackFile = data["isAttackFile"];
-            this.isUrl = data["isUrl"];
-            this.url = data["url"];
-            this.attackFile = data["attackFile"];
+            this.jdName = data["jdName"];
+            this.isAttackJD = data["isAttackJD"];
         }
     }
 
-    static fromJS(data: any): SendEmiling {
+    static fromJS(data: any): SenJDForCustomerDto {
         data = typeof data === 'object' ? data : {};
-        let result = new SendEmiling();
+        let result = new SenJDForCustomerDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["tenantId"] = this.tenantId;
+        data["title"] = this.title;
+        data["useSSL"] = this.useSSL;
         data["toMail"] = this.toMail;
+        data["ccMail"] = this.ccMail;
         data["content"] = this.content;
-        data["isAttackFile"] = this.isAttackFile;
-        data["isUrl"] = this.isUrl;
-        data["url"] = this.url;
-        data["attackFile"] = this.attackFile;
+        data["jdName"] = this.jdName;
+        data["isAttackJD"] = this.isAttackJD;
         return data; 
     }
 
-    clone(): SendEmiling {
+    clone(): SenJDForCustomerDto {
         const json = this.toJSON();
-        let result = new SendEmiling();
+        let result = new SenJDForCustomerDto();
         result.init(json);
         return result;
     }
 }
 
-export interface ISendEmiling {
+export interface ISenJDForCustomerDto {
+    tenantId: number | undefined;
+    title: string | undefined;
+    useSSL: number;
     toMail: string | undefined;
+    ccMail: string | undefined;
     content: string | undefined;
-    isAttackFile: boolean;
-    isUrl: boolean;
-    url: string | undefined;
-    attackFile: string | undefined;
+    jdName: string | undefined;
+    isAttackJD: boolean;
 }
 
 export class GetConfigToSendMailListDto implements IGetConfigToSendMailListDto {

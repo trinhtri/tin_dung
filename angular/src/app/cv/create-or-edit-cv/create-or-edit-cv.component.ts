@@ -29,8 +29,9 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
   languages: LanguageDto[] = [];
   languageSelected: any;
   checked: any;
+  bangCap: number;
   constructor(injector: Injector,
-    private _EmployeeService: EmployeeServiceProxy,
+    private _employeeService: EmployeeServiceProxy,
     private _languageService: LanguageServiceProxy,
     private _tokenService: TokenService,
     private dialogRef: MatDialogRef<CreateOrEditCVComponent>,
@@ -46,10 +47,11 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
       }
     }
   getClient(id) {
-  this._EmployeeService.getId(id).subscribe( result => {
+  this._employeeService.getId(id).subscribe( result => {
     console.log('employee', result);
     this.languageSelected = result.languages;
     this.CV = result;
+    this.bangCap = + result.bangCap;
     this.startDate = this.CV.ngayNhanCV.toDate();
   });
   }
@@ -82,31 +84,25 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
       }
     };
     this.documentUploader.setOptions(this._uploaderOptions);
-
     // get languges
     this._languageService.getAll(undefined, undefined, 0, 10000000).subscribe(result => {
       this.languages = result.items;
-      console.log('languages', this.languages);
     });
 
   }
     save() {
-      // if(this.languageSelected){
-      //   console.log('this.languageSelected.value',this.languageSelected)
-      //   this.CV.languages =  this.languageSelected.value;
-      // }
       this.CV.trangThai = false;
       this.CV.ngayNhanCV = moment(this.startDate);
       this.saving = true;
       this.CV.isSeletedFile = this.isSelectedFile;
       if (this.CV.id) {
-        this._EmployeeService.update(this.CV)
+        this._employeeService.update(this.CV)
           .subscribe(() => {
             abp.notify.success(this.l('Chỉnh sửa thành công.'));
             this.close(true);
           });
       } else {
-        this._EmployeeService.create(this.CV)
+        this._employeeService.create(this.CV)
           .subscribe(() => {
             abp.notify.success(this.l('Tạo mới thành công.'));
             this.close(true);
@@ -127,7 +123,7 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
     }
     deleteTempFile() {
       if (this.CV.cvName) {
-        this._EmployeeService.deleteDocumentTempFile(this.CV.cvName).subscribe();
+        this._employeeService.deleteDocumentTempFile(this.CV.cvName).subscribe();
       }
     }
 }

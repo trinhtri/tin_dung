@@ -81,10 +81,12 @@ namespace ManagerCV
 
             appFolders.TempFileDownloadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Downloads");
             appFolders.TempFileUploadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Uploads");
+            appFolders.TempFileUploadJDFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}JD");
             appFolders.AttachmentsFolder = Path.Combine(_env.WebRootPath, $"Files{Path.DirectorySeparatorChar}Documents");
             DirectoryHelper.CreateIfNotExists(appFolders.TempFileDownloadFolder);
             DirectoryHelper.CreateIfNotExists(appFolders.TempFileUploadFolder);
             DirectoryHelper.CreateIfNotExists(appFolders.AttachmentsFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.TempFileUploadJDFolder);
         }
     }
 }

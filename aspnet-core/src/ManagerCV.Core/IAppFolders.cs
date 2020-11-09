@@ -15,5 +15,7 @@ namespace ManagerCV
         string AttachmentsFolder { get; }
 
         string TempFileUploadFolder { get; }
+
+        string TempFileUploadJDFolder { get; set; }
     }
 }

@@ -198,7 +198,7 @@ namespace ManagerCV.Employee
             emp.NgonNgu = input.NgonNgu;
             emp.NguyenVong = input.NguyenVong;
             emp.NoiDung = input.NoiDung;
-            emp.QueQuan = input.NoiDung;
+            emp.QueQuan = input.QueQuan;
             emp.SDT = input.SDT;
             emp.TrangThai = input.TrangThai;
             emp.TenantId = (int)input.TenantId;
@@ -311,6 +311,14 @@ namespace ManagerCV.Employee
                 }
             }
             return result;
+        }
+        public void DeleteFileJD(string file)
+        {
+            var filePath = Path.Combine(_appFolders.TempFileUploadJDFolder, file);
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
         }
     }
 }
