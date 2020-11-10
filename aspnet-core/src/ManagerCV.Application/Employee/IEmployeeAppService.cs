@@ -19,6 +19,7 @@ namespace ManagerCV.Employee
         Task<long> Create(CreateEmployeeDto input);
         [HttpPost]
         Task CapNhat(CreateEmployeeDto input);
+        [HttpDelete]
         Task Delete(int id);
         Task<CreateEmployeeDto> GetId(int id);
 
@@ -31,6 +32,5 @@ namespace ManagerCV.Employee
 
         Task GuiCV(int id,string tencty,DateTime? NgayPV);
 
-    
     }
 }

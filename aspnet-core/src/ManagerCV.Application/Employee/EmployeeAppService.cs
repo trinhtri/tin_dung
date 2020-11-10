@@ -38,6 +38,7 @@ namespace ManagerCV.Employee
             _employeeLanguageRepository = employeeLanguageRepository;
             _ctLganguageRepository = ctgLanguageRepository;
         }
+        [HttpPost]
         public async Task<long> Create(CreateEmployeeDto input)
         {
             input.TenantId = AbpSession.TenantId;
@@ -77,6 +78,7 @@ namespace ManagerCV.Employee
             dto.NgayHoTro = input.NgayHoTro;
         }
 
+        [HttpDelete]
         public async Task Delete(int id)
         {
             var cv = _employeeRepository.Get(id);
@@ -220,7 +222,7 @@ namespace ManagerCV.Employee
             // tìm những cái chưa có để thêm mới trong danh sách
             foreach (var item in input.Languages)
             {
-                var index = listEmployeeLanguege.Where(x => x.Id == item);
+                var index = listEmployeeLanguege.Where(x => x.CtgLanguage_Id == item);
                 if (index.Count() < 1)
                 {
                     var el = new EmployeeLanguage
@@ -316,6 +318,7 @@ namespace ManagerCV.Employee
             }
             return result;
         }
+        [HttpDelete]
         public void DeleteFileJD(string file)
         {
             var filePath = Path.Combine(_appFolders.TempFileUploadJDFolder, file);
