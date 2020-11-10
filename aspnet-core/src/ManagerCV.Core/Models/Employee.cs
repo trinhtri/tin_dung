@@ -56,7 +56,7 @@ namespace ManagerCV.Models
         public string CVUrl { get; set; }
         public DateTime? NgayNhanCV { get; set; }
         public string ContentType { get; set; }
-
+        public DateTime? NgayPhongVan { get; set; }
         public virtual List<EmployeeLanguage> EmployeeLanguages { get; set; }
 
     }
