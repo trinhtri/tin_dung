@@ -1,6 +1,7 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using ManagerCV.Employee.Dto;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +17,8 @@ namespace ManagerCV.Employee
         Task<FileDto> GetCVToExcel(EmployeeInputDto input);
         Task<FileDto> GetGuiCVToExcel(EmployeeGuiInputDto inputDto);
         Task<long> Create(CreateEmployeeDto input);
-        Task Update(CreateEmployeeDto input);
+        [HttpPost]
+        Task CapNhat(CreateEmployeeDto input);
         Task Delete(int id);
         Task<CreateEmployeeDto> GetId(int id);
 
@@ -27,7 +29,7 @@ namespace ManagerCV.Employee
 
         Task ChuyenVeQLCV(int id);
 
-        Task GuiCV(int id,string tencty);
+        Task GuiCV(int id,string tencty,DateTime? NgayPV);
 
     
     }

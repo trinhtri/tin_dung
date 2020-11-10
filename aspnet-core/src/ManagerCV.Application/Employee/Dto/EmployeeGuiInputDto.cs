@@ -13,6 +13,7 @@ namespace ManagerCV.Employee.Dto
         public bool? KetQua { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public DateTime? NgayPhongVan { get; set; }
         public void Normalize()
         {
             if (Sorting.IsNullOrEmpty())

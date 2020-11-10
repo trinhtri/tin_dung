@@ -15,6 +15,7 @@ using ManagerCV.IO;
 using System.IO;
 using ManagerCV.Employee.Exporting;
 using ManagerCV.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerCV.Employee
 {
@@ -146,7 +147,8 @@ namespace ManagerCV.Employee
                       || x.Email.ToUpper().Contains(input.Filter.ToUpper())
                       ).WhereIf(input.StartDate.HasValue, x=>x.NgayHoTro >= input.StartDate)
                        .WhereIf(input.EndDate.HasValue, x => x.NgayHoTro <= input.EndDate)
-                        .WhereIf(input.KetQua.HasValue, x => x.KetQua == input.KetQua);
+                       .WhereIf(input.NgayPhongVan.HasValue, x=>x.NgayPhongVan == input.NgayPhongVan)
+                       .WhereIf(input.KetQua.HasValue, x => x.KetQua == input.KetQua);
             var tatolCount = await query.CountAsync();
             var result = await query.OrderBy(input.Sorting)
                 .PageBy(input)
@@ -164,7 +166,8 @@ namespace ManagerCV.Employee
  
         }
 
-        public async Task Update(CreateEmployeeDto input)
+        [HttpPost]
+        public async Task CapNhat(CreateEmployeeDto input)
         {
             var emp = await _employeeRepository.FirstOrDefaultAsync(x => x.Id == input.Id);
             if (input.CVName != null && input.IsSeletedFile)
@@ -274,14 +277,16 @@ namespace ManagerCV.Employee
             emp.TrangThai = false;
             emp.NgayHoTro = null;
             emp.CtyNhan = null;
+            emp.NgayPhongVan = null;
         }
 
-        public async Task GuiCV(int id, string tencty)
+        public async Task GuiCV(int id, string tencty,DateTime? NgayPV)
         {
             var emp = await _employeeRepository.FirstOrDefaultAsync(id);
             emp.TrangThai = true;
             emp.CtyNhan = tencty;
             emp.NgayHoTro = DateTime.Now;
+            emp.NgayPhongVan = NgayPV;
         }
 
         public async Task<FileDto> GetCVToExcel(EmployeeInputDto input)

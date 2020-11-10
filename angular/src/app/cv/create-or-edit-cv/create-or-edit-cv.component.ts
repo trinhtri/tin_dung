@@ -96,7 +96,7 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
       this.saving = true;
       this.CV.isSeletedFile = this.isSelectedFile;
       if (this.CV.id) {
-        this._employeeService.update(this.CV)
+        this._employeeService.capNhat(this.CV)
           .subscribe(() => {
             abp.notify.success(this.l('Chỉnh sửa thành công.'));
             this.close(true);

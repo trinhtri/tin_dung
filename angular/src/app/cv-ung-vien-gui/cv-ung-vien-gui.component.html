@@ -66,6 +66,7 @@
                                             <th mat-sort-header="nguyenVong">{{ "Vị Trí Ứng Tuyển" | localize }}</th>
                                             <th mat-sort-header="ctyNhan">{{ "Công Ty" | localize }}</th>
                                             <th mat-sort-header="ngayHoTro">{{ "Ngày Gửi" | localize }}</th>
+                                            <th mat-sort-header="NgayPhongVancd">{{ "Ngày Phỏng Vấn" | localize }}</th>
                                             <th mat-sort-header="ketQua">{{ "Kết Quả" | localize }}</th>
                                             <th>{{l('Tính Năng')}}</th>
                                         </tr>
@@ -85,6 +86,7 @@
                                             <td>{{ employee.nguyenVong }}</td>
                                             <td>{{ employee.ctyNhan}}</td>
                                             <td>{{ employee.ngayHoTro?.format("L")}}</td>
+                                            <td>{{ employee.ngayPhongVan?.format("L")}}</td>
                                             <td>
                                                 <span class="btn btn-danger" *ngIf="!employee.ketQua">Chưa nhận</span>
                                                 <span class="btn btn-success" *ngIf="employee.ketQua">Đã nhận</span>

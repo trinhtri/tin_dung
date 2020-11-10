@@ -13,7 +13,7 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   public isLoading = false;
   public CV: CreateEmployeeDto = new CreateEmployeeDto();
   saving = false;
-  startDate: any;
+  ngayPV: any;
   constructor(injector: Injector,
     private _EmployeeService: EmployeeServiceProxy,
     private dialogRef: MatDialogRef<CVGuiDiComponent>,
@@ -30,14 +30,18 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   getClient(id) {
   this._EmployeeService.getId(id).subscribe( result => {
     this.CV = result;
+    this.ngayPV = this.CV.ngayPhongVan.toDate();
   });
   }
     save() {
       this.saving = true;
       this.CV.trangThai = true;
       this.CV.ketQua = false;
+      if(this.ngayPV){
+        this.CV.ngayPhongVan = moment(this.ngayPV);
+      }
       if (this.CV.id) {
-        this._EmployeeService.guiCV(this.CV.id, this.CV.ctyNhan)
+        this._EmployeeService.guiCV(this.CV.id, this.CV.ctyNhan,this.ngayPV)
           .subscribe(() => {
             abp.notify.success(this.l('Lưu thành công.'));
             this.close(true);
@@ -46,7 +50,7 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   }
     close(result: any): void {
       this.saving = false;
-      this.startDate = null;
+      this.ngayPV = null;
       this.CV = new CreateEmployeeDto();
       this.dialogRef.close(result);
     }
