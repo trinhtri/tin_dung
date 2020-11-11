@@ -18,40 +18,44 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
     private _EmployeeService: EmployeeServiceProxy,
     private dialogRef: MatDialogRef<CVGuiDiComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private data: any,
-    ) {
-      super(injector);
-     }
+  ) {
+    super(injector);
+  }
 
-     ngOnInit(): void {
-      if (this.data) {
+  ngOnInit(): void {
+    if (this.data) {
       this.getClient(this.data);
-      }
     }
+  }
   getClient(id) {
-  this._EmployeeService.getId(id).subscribe( result => {
-    this.CV = result;
-    this.ngayPV = this.CV.ngayPhongVan.toDate();
-  });
-  }
-    save() {
-      this.saving = true;
-      this.CV.trangThai = true;
-      this.CV.ketQua = false;
-      if(this.ngayPV){
-        this.CV.ngayPhongVan = moment(this.ngayPV);
+    this._EmployeeService.getId(id).subscribe(result => {
+      this.CV = result;
+      if (this.CV.ngayPhongVan) {
+        this.ngayPV = this.CV.ngayPhongVan.toDate();
       }
-      if (this.CV.id) {
-        this._EmployeeService.guiCV(this.CV.id, this.CV.ctyNhan,this.ngayPV)
-          .subscribe(() => {
-            abp.notify.success(this.l('Lưu thành công.'));
-            this.close(true);
-          });
+    });
+  }
+  save() {
+    this.saving = true;
+    this.CV.trangThai = true;
+    this.CV.ketQua = false;
+    if (this.ngayPV) {
+      this.CV.ngayPhongVan = moment(this.ngayPV);
+    } else {
+      this.CV.ngayPhongVan = undefined;
+    }
+    if (this.CV.id) {
+      this._EmployeeService.guiCV(this.CV.id, this.CV.ctyNhan, this.CV.ngayPhongVan)
+        .subscribe(() => {
+          abp.notify.success(this.l('Lưu thành công.'));
+          this.close(true);
+        });
     }
   }
-    close(result: any): void {
-      this.saving = false;
-      this.ngayPV = null;
-      this.CV = new CreateEmployeeDto();
-      this.dialogRef.close(result);
-    }
+  close(result: any): void {
+    this.saving = false;
+    this.ngayPV = null;
+    this.CV = new CreateEmployeeDto();
+    this.dialogRef.close(result);
   }
+}

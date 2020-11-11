@@ -95,6 +95,7 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
       this.CV.ngayNhanCV = moment(this.startDate);
       this.saving = true;
       this.CV.isSeletedFile = this.isSelectedFile;
+      this.CV.bangCap =   this.bangCap.toString();
       if (this.CV.id) {
         this._employeeService.capNhat(this.CV)
           .subscribe(() => {

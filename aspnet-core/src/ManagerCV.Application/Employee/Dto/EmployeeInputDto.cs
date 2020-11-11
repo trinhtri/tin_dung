@@ -12,7 +12,7 @@ namespace ManagerCV.Employee.Dto
         public string Filter { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }    
-        public string BangCap { get; set; }
+        public List<string> BangCap { get; set; }
 
         public List<int> NgonNgu { get; set; }
         public void Normalize()
@@ -25,6 +25,7 @@ namespace ManagerCV.Employee.Dto
         public EmployeeInputDto()
         {
             NgonNgu = new List<int>();
+            BangCap = new List<string>();
         }
     }
 }

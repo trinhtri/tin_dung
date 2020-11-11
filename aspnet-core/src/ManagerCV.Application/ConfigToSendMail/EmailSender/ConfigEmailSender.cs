@@ -122,9 +122,9 @@ namespace ManagerCV.ConfigToSendMail.EmailSender
 					await emailClient.DisconnectAsync(true);
 				}
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				throw new UserFriendlyException(L("ConfigToSendMailFail.PleaseChecked."));
+				throw e;
 			}
 		}
 	}

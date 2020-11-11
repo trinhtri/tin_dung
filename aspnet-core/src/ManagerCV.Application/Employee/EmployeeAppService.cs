@@ -98,7 +98,7 @@ namespace ManagerCV.Employee
                        .Include(x => x.EmployeeLanguages)
                        .ThenInclude(l => l.CtgLanguage_)
                        .Where(x => x.TrangThai == false)
-                       .WhereIf(!input.BangCap.IsNullOrEmpty(), x=>x.BangCap == input.BangCap)
+                       .WhereIf(input.BangCap.Count > 0, x=> input.BangCap.Any(a=>a == x.BangCap))
                        .WhereIf(input.NgonNgu.Count > 0 , x=> x.EmployeeLanguages.Any(x=> input.NgonNgu.Any(a=>a == x.CtgLanguage_Id)))
                        .WhereIf(!input.Filter.IsNullOrEmpty(),
                        x => x.HoTen.ToUpper().Contains(input.Filter.ToUpper())

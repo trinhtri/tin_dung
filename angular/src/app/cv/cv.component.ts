@@ -14,7 +14,7 @@ import { SendJDComponent } from './send-jd/send-jd.component';
   styleUrls: ['./cv.component.css'],
   animations: [appModuleAnimation()]
 })
-export class CVComponent  extends AppComponentBase implements OnInit {
+export class CVComponent extends AppComponentBase implements OnInit {
   public employees: EmployeeListDto[] = [];
   public pageSize = 10;
   public pageNumber = 1;
@@ -30,7 +30,9 @@ export class CVComponent  extends AppComponentBase implements OnInit {
   bangCap: any;
   private sorting = undefined;
   private skipCount = (this.pageNumber - 1) * this.pageSize;
-  languageSelected: number [] = [];
+  languageSelected: number[] = [];
+  certificateSelected: string[] = [];
+
   // tslint:disable-next-line: member-ordering
   languages: LanguageDto[] = [];
   selected: any;
@@ -39,23 +41,26 @@ export class CVComponent  extends AppComponentBase implements OnInit {
     private _fileDownLoadService: FileDownloadService,
     private _languageService: LanguageServiceProxy,
     private _dialog: MatDialog) {
-      super(injector);
-    }
+    super(injector);
+  }
   ngOnInit() {
     this.getAll();
     this.initData();
   }
-  initData(){
-      // get languges
-      this._languageService.getAll(undefined, undefined, 0, 10000000).subscribe(result => {
-        this.languages = result.items;
-      });
+  initData() {
+    // get languges
+    this._languageService.getAll(undefined, undefined, 0, 10000000).subscribe(result => {
+      this.languages = result.items;
+    });
   }
   filter(data) {
-    console.log(data.value);
     this.languageSelected = data.value;
     this.getAll();
-
+  }
+  filterbyCertificate(data) {
+    console.log(data.value);
+    this.certificateSelected = data.value;
+    this.getAll();
   }
   getAll() {
     this.skipCount = (this.pageNumber - 1) * this.pageSize;
@@ -66,7 +71,8 @@ export class CVComponent  extends AppComponentBase implements OnInit {
     if (this.endDate == null) {
       this.endDate = undefined;
     }
-    this._employeeService.getAll(this.keyword, this.startDate, this.endDate, this.bangCap, this.languageSelected  ,this.sorting, this.skipCount, this.pageSize)
+    this._employeeService.getAll(this.keyword, this.startDate, this.endDate, this.certificateSelected, this.languageSelected,
+      this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this.employees = result.items;
         this.totalItems = result.totalCount;
@@ -75,7 +81,7 @@ export class CVComponent  extends AppComponentBase implements OnInit {
         this.selectedRecordId = [];
         this.checkedAll = false;
         result.items.forEach(i => {
-            this.allRecordId.push(i.id);
+          this.allRecordId.push(i.id);
         });
 
         this.isTableLoading = false;
@@ -133,88 +139,89 @@ export class CVComponent  extends AppComponentBase implements OnInit {
   }
   SendJD() {
     let createOrEditGrade;
-      createOrEditGrade = this._dialog.open(SendJDComponent, {
-        data: this.selectedRecordId
-      });
+    createOrEditGrade = this._dialog.open(SendJDComponent, {
+      data: this.selectedRecordId
+    });
     createOrEditGrade.afterClosed().subscribe(result => {
       this.getAll();
-  });
+    });
   }
-    showAddOrEditClient(id?: any) {
-      let createOrEditGrade;
-      if (id === null || id === undefined) {
-       createOrEditGrade = this._dialog.open(CreateOrEditCVComponent);
-      } else {
-        createOrEditGrade = this._dialog.open(CreateOrEditCVComponent, {
-          data: id
-        });
-      }
-      // createOrEditGrade.componentInstance.onSaveAndAdd.subscribe(() => {
-      //   this.getAll();
-      // });
-      createOrEditGrade.afterClosed().subscribe(result => {
-        this.getAll();
-    });
-    }
-    showGuiCV(id?: any) {
-      let createOrEditGrade;
-      if (id === null || id === undefined) {
-       createOrEditGrade = this._dialog.open(CVGuiDiComponent);
-      } else {
-        createOrEditGrade = this._dialog.open(CVGuiDiComponent, {
-          data: id
-        });
-      }
-      // createOrEditGrade.componentInstance.onSaveAndAdd.subscribe(() => {
-      //   this.getAll();
-      // });
-      createOrEditGrade.afterClosed().subscribe(result => {
-        this.getAll();
-    });
-    }
-    dowload_CV(employee) {
-      this._employeeService.downloadTempAttachment(employee.id).subscribe(result => {
-        if (result.fileName) {
-          this._fileDownLoadService.downloadTempFile(result);
-        } else {
-          this.message.error(this.l('RequestedFileDoesNotExists'));
-        }
+  showAddOrEditClient(id?: any) {
+    let createOrEditGrade;
+    if (id === null || id === undefined) {
+      createOrEditGrade = this._dialog.open(CreateOrEditCVComponent);
+    } else {
+      createOrEditGrade = this._dialog.open(CreateOrEditCVComponent, {
+        data: id
       });
     }
-    export() {
-      if (this.startDate == null) {
-        this.startDate = undefined;
-      }
-      if (this.endDate == null) {
-        this.endDate = undefined;
-      }
-      this._employeeService.getCVToExcel(this.keyword, this.startDate, this.endDate, this.bangCap, this.languageSelected  ,this.sorting, this.skipCount, this.pageSize)
-        .subscribe((result) => {
-         this._fileDownLoadService.downloadTempFile(result);
-        }, (error) => {
-          this.isTableLoading = false;
-        });
+    // createOrEditGrade.componentInstance.onSaveAndAdd.subscribe(() => {
+    //   this.getAll();
+    // });
+    createOrEditGrade.afterClosed().subscribe(result => {
+      this.getAll();
+    });
+  }
+  showGuiCV(id?: any) {
+    let createOrEditGrade;
+    if (id === null || id === undefined) {
+      createOrEditGrade = this._dialog.open(CVGuiDiComponent);
+    } else {
+      createOrEditGrade = this._dialog.open(CVGuiDiComponent, {
+        data: id
+      });
     }
-    onCheckboxChanged(id: number, e: any) {
-      if (e.checked) {
-          if (!this.selectedRecordId.includes(id)) {
-              this.selectedRecordId.push(id);
-          }
+    // createOrEditGrade.componentInstance.onSaveAndAdd.subscribe(() => {
+    //   this.getAll();
+    // });
+    createOrEditGrade.afterClosed().subscribe(result => {
+      this.getAll();
+    });
+  }
+  dowload_CV(employee) {
+    this._employeeService.downloadTempAttachment(employee.id).subscribe(result => {
+      if (result.fileName) {
+        this._fileDownLoadService.downloadTempFile(result);
       } else {
-          const position = this.selectedRecordId.indexOf(id);
-          // tslint:disable-next-line:no-bitwise
-          if (~position) {
-              this.selectedRecordId.splice(position, 1);
-          }
+        this.message.error(this.l('RequestedFileDoesNotExists'));
       }
+    });
+  }
+  export() {
+    if (this.startDate == null) {
+      this.startDate = undefined;
+    }
+    if (this.endDate == null) {
+      this.endDate = undefined;
+    }
+    this._employeeService.getCVToExcel(this.keyword, this.startDate, this.endDate, this.certificateSelected,
+      this.languageSelected, this.sorting, this.skipCount, this.pageSize)
+      .subscribe((result) => {
+        this._fileDownLoadService.downloadTempFile(result);
+      }, (error) => {
+        this.isTableLoading = false;
+      });
+  }
+  onCheckboxChanged(id: number, e: any) {
+    if (e.checked) {
+      if (!this.selectedRecordId.includes(id)) {
+        this.selectedRecordId.push(id);
+      }
+    } else {
+      const position = this.selectedRecordId.indexOf(id);
+      // tslint:disable-next-line:no-bitwise
+      if (~position) {
+        this.selectedRecordId.splice(position, 1);
+      }
+    }
     console.log('selectedRecordId', this.selectedRecordId);
   }
   onAllCheckboxChanged(e: any) {
     if (e) {
-        this.selectedRecordId = Object.assign([], this.allRecordId);
+      this.selectedRecordId = Object.assign([], this.allRecordId);
     } else {
-        this.selectedRecordId = [];
+      this.selectedRecordId = [];
     }
     console.log('selectedRecordId', this.selectedRecordId);
-}
+  }
 }

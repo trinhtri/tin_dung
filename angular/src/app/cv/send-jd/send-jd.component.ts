@@ -2,7 +2,7 @@ import { Component, ElementRef, Inject, Injector, OnDestroy, OnInit, Optional, V
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AppComponentBase } from '@shared/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
-import { ConfigEmailSenderServiceProxy, CreateConfigToSendMailDto, EmployeeServiceProxy, LanguageDto, LanguageServiceProxy, SenJDForCustomerDto } from '@shared/service-proxies/service-proxies';
+import { ConfigEmailSenderServiceProxy, EmployeeServiceProxy, LanguageDto, LanguageServiceProxy, SenJDForCustomerDto } from '@shared/service-proxies/service-proxies';
 import { IAjaxResponse } from 'abp-ng2-module/dist/src/abpHttpInterceptor';
 import { TokenService } from 'abp-ng2-module/dist/src/auth/token.service';
 import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
@@ -43,15 +43,15 @@ export class SendJDComponent extends AppComponentBase implements OnInit, OnDestr
   }
   ngOnDestroy(): void {
     if (this.fileName) {
-      this._employeeService.deleteFileJD(this.fileName).subscribe(() => { })
+      this._employeeService.deleteFileJD(this.fileName).subscribe(() => { });
     }
   }
 
   ngOnInit(): void {
     if (this.data) {
       this._employeeService.getListEmail(this.data).subscribe(result => {
-        this.email.toMail = result
-      })
+        this.email.toMail = result;
+      });
     }
     this.initUploaders();
   }
@@ -104,7 +104,7 @@ export class SendJDComponent extends AppComponentBase implements OnInit, OnDestr
   validationEmail(lstemail: string) {
     if (lstemail.length > 0) {
       // kiểm tra xem kí tự cuối cùng của dãy có phải là ; hay không, nếu có thì xóa đi ra khỏi dãy
-      let final = lstemail[lstemail.length - 1];
+      const final = lstemail[lstemail.length - 1];
       if (final === ';') {
         lstemail = lstemail.substring(0, lstemail.length - 1);
       }
@@ -119,9 +119,9 @@ export class SendJDComponent extends AppComponentBase implements OnInit, OnDestr
   }
   // hàm kiểm tra xem đầu vào có phải email không ?
   validateEmail(email) {
-    let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    let a = !re.test(email);
-    return a;
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const result = !re.test(email);
+    return result;
   }
 }
 

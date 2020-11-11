@@ -1095,7 +1095,7 @@ export class EmployeeServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
+    getAll(filter: string | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1112,7 +1112,7 @@ export class EmployeeServiceProxy {
         if (bangCap === null)
             throw new Error("The parameter 'bangCap' cannot be null.");
         else if (bangCap !== undefined)
-            url_ += "BangCap=" + encodeURIComponent("" + bangCap) + "&"; 
+            bangCap && bangCap.forEach(item => { url_ += "BangCap=" + encodeURIComponent("" + item) + "&"; });
         if (ngonNgu === null)
             throw new Error("The parameter 'ngonNgu' cannot be null.");
         else if (ngonNgu !== undefined)
@@ -1767,7 +1767,7 @@ export class EmployeeServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getCVToExcel(filter: string | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
+    getCVToExcel(filter: string | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetCVToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1784,7 +1784,7 @@ export class EmployeeServiceProxy {
         if (bangCap === null)
             throw new Error("The parameter 'bangCap' cannot be null.");
         else if (bangCap !== undefined)
-            url_ += "BangCap=" + encodeURIComponent("" + bangCap) + "&"; 
+            bangCap && bangCap.forEach(item => { url_ += "BangCap=" + encodeURIComponent("" + item) + "&"; });
         if (ngonNgu === null)
             throw new Error("The parameter 'ngonNgu' cannot be null.");
         else if (ngonNgu !== undefined)
@@ -2436,7 +2436,7 @@ export class LanguageServiceProxy {
             })
         };
 
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processUpdate(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {

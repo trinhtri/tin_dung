@@ -12,10 +12,10 @@
                         </div>
                         <div class="col-md-4">
                             <mat-form-field>
-                                <mat-select [placeholder]="'Bằng cấp' | localize" name="bangCap" [(ngModel)]="bangCap" (selectionChange)="getAll()">
+                                <mat-select [placeholder]="'Bằng cấp' | localize" multiple name="bangCap" (selectionChange)="filterbyCertificate($event)">
                                     <mat-option [value]="1">{{ "Đại học" | localize}}</mat-option>
                                     <mat-option [value]="2">{{ "Cao đẳng" | localize}}</mat-option>
-                                    <mat-option [value]="undefined">{{ "Đại học + Cao đẳng" | localize}}</mat-option>
+                                    <mat-option [value]="3">{{ "THPT" | localize}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>

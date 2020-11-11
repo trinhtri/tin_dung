@@ -26,9 +26,9 @@ import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent },
                     { path: 'update-password', component: ChangePasswordComponent },
-                    { path: 'CVs', component: CVComponent, canActivate: [AppRouteGuard] },
-                    { path: 'CV_Gui', component: CVUngVienGuiComponent, canActivate: [AppRouteGuard] },
-                    { path: 'Languages', component: NgonNguComponent, canActivate: [AppRouteGuard] },
+                    { path: 'cvs', component: CVComponent, canActivate: [AppRouteGuard] },
+                    { path: 'cv_gui', component: CVUngVienGuiComponent, canActivate: [AppRouteGuard] },
+                    { path: 'languages', component: NgonNguComponent, canActivate: [AppRouteGuard] },
                 ]
             }
         ])
