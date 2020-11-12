@@ -48,6 +48,7 @@ import { FileDownloadService } from '@shared/Utils/file-download.service';
 import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
 import { CreateOrEditNgonnguComponent } from './ngon-ngu/create-or-edit-ngonngu/create-or-edit-ngonngu.component';
 import { SendJDComponent } from './cv/send-jd/send-jd.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,7 +95,8 @@ import { SendJDComponent } from './cv/send-jd/send-jd.component';
     SharedModule,
     NgxPaginationModule,
     MatDatepickerModule,
-    FileUploadModule
+    FileUploadModule,
+    FullCalendarModule
   ],
   providers: [
     EmployeeServiceProxy,
