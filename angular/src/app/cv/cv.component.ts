@@ -7,6 +7,7 @@ import { CreateOrEditCVComponent } from './create-or-edit-cv/create-or-edit-cv.c
 import { CVGuiDiComponent } from './cv-gui-di/cv-gui-di.component';
 import { FileDownloadService } from '@shared/Utils/file-download.service';
 import { SendJDComponent } from './send-jd/send-jd.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-cv',
@@ -35,7 +36,6 @@ export class CVComponent extends AppComponentBase implements OnInit {
 
   // tslint:disable-next-line: member-ordering
   languages: LanguageDto[] = [];
-  selected: any;
   constructor(injector: Injector,
     private _employeeService: EmployeeServiceProxy,
     private _fileDownLoadService: FileDownloadService,
@@ -65,13 +65,22 @@ export class CVComponent extends AppComponentBase implements OnInit {
   getAll() {
     this.skipCount = (this.pageNumber - 1) * this.pageSize;
     this.isTableLoading = true;
+    let start;
+    let end;
     if (this.startDate == null) {
-      this.startDate = undefined;
+      start = undefined;
+    } else {
+      this.startDate.setHours(0, 0, 0, 1);
+      start = moment(this.startDate);
     }
     if (this.endDate == null) {
-      this.endDate = undefined;
+      end = undefined;
+    } else {
+      this.endDate.setHours(23, 59, 59, 59);
+      end = moment(this.endDate);
     }
-    this._employeeService.getAll(this.keyword, this.startDate, this.endDate, this.certificateSelected, this.languageSelected,
+
+    this._employeeService.getAll(this.keyword, start, end, this.certificateSelected, this.languageSelected,
       this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this.employees = result.items;
@@ -155,9 +164,6 @@ export class CVComponent extends AppComponentBase implements OnInit {
         data: id
       });
     }
-    // createOrEditGrade.componentInstance.onSaveAndAdd.subscribe(() => {
-    //   this.getAll();
-    // });
     createOrEditGrade.afterClosed().subscribe(result => {
       this.getAll();
     });
@@ -171,9 +177,6 @@ export class CVComponent extends AppComponentBase implements OnInit {
         data: id
       });
     }
-    // createOrEditGrade.componentInstance.onSaveAndAdd.subscribe(() => {
-    //   this.getAll();
-    // });
     createOrEditGrade.afterClosed().subscribe(result => {
       this.getAll();
     });
@@ -188,13 +191,21 @@ export class CVComponent extends AppComponentBase implements OnInit {
     });
   }
   export() {
+    let start;
+    let end;
     if (this.startDate == null) {
-      this.startDate = undefined;
+      start = undefined;
+    } else {
+      this.startDate.setHours(0, 0, 0, 1);
+      start = moment(this.startDate);
     }
     if (this.endDate == null) {
-      this.endDate = undefined;
+      end = undefined;
+    } else {
+      this.endDate.setHours(23, 59, 59, 59);
+      end = moment(this.endDate);
     }
-    this._employeeService.getCVToExcel(this.keyword, this.startDate, this.endDate, this.certificateSelected,
+    this._employeeService.getCVToExcel(this.keyword, start, end, this.certificateSelected,
       this.languageSelected, this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this._fileDownLoadService.downloadTempFile(result);

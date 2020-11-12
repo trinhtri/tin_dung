@@ -38,7 +38,7 @@ import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.c
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 import { CVGuiDiComponent } from './cv/cv-gui-di/cv-gui-di.component';
-import { ConfigEmailSenderServiceProxy, EmployeeServiceProxy, LanguageServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ConfigEmailSenderServiceProxy, DashboardInterviewAppserviceServiceProxy, EmployeeServiceProxy, LanguageServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CVComponent } from './cv/cv.component';
 import { CreateOrEditCVComponent } from './cv/create-or-edit-cv/create-or-edit-cv.component';
 import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.component';
@@ -102,7 +102,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     EmployeeServiceProxy,
     FileDownloadService,
     LanguageServiceProxy,
-    ConfigEmailSenderServiceProxy
+    ConfigEmailSenderServiceProxy,
+    DashboardInterviewAppserviceServiceProxy
   ],
   entryComponents: [
     // tenants

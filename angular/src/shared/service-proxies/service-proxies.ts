@@ -914,6 +914,73 @@ export class ConfigurationServiceProxy {
 }
 
 @Injectable()
+export class DashboardInterviewAppserviceServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getDataForDashboard(): Observable<GetEmployeeForChartDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/DashboardInterviewAppservice/GetDataForDashboard";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDataForDashboard(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDataForDashboard(<any>response_);
+                } catch (e) {
+                    return <Observable<GetEmployeeForChartDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetEmployeeForChartDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetDataForDashboard(response: HttpResponseBase): Observable<GetEmployeeForChartDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(GetEmployeeForChartDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetEmployeeForChartDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class EmployeeServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -4564,6 +4631,57 @@ export class ChangeUiThemeInput implements IChangeUiThemeInput {
 
 export interface IChangeUiThemeInput {
     theme: string | undefined;
+}
+
+export class GetEmployeeForChartDto implements IGetEmployeeForChartDto {
+    title: string | undefined;
+    start: moment.Moment;
+    id: number;
+
+    constructor(data?: IGetEmployeeForChartDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.start = data["start"] ? moment(data["start"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): GetEmployeeForChartDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetEmployeeForChartDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["start"] = this.start ? this.start.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): GetEmployeeForChartDto {
+        const json = this.toJSON();
+        let result = new GetEmployeeForChartDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGetEmployeeForChartDto {
+    title: string | undefined;
+    start: moment.Moment;
+    id: number;
 }
 
 export class CreateEmployeeDto implements ICreateEmployeeDto {
