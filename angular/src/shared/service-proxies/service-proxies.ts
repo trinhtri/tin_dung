@@ -1303,13 +1303,14 @@ export class EmployeeServiceProxy {
      * @param ketQua (optional) 
      * @param startDate (optional) 
      * @param endDate (optional) 
-     * @param ngayPhongVan (optional) 
+     * @param startNgayPV (optional) 
+     * @param endNgayPV (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll_Gui(filter: string | undefined, ketQua: boolean | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, ngayPhongVan: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
+    getAll_Gui(filter: string | undefined, ketQua: boolean | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, startNgayPV: moment.Moment | undefined, endNgayPV: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetAll_Gui?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1327,10 +1328,14 @@ export class EmployeeServiceProxy {
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
             url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&"; 
-        if (ngayPhongVan === null)
-            throw new Error("The parameter 'ngayPhongVan' cannot be null.");
-        else if (ngayPhongVan !== undefined)
-            url_ += "NgayPhongVan=" + encodeURIComponent(ngayPhongVan ? "" + ngayPhongVan.toJSON() : "") + "&"; 
+        if (startNgayPV === null)
+            throw new Error("The parameter 'startNgayPV' cannot be null.");
+        else if (startNgayPV !== undefined)
+            url_ += "StartNgayPV=" + encodeURIComponent(startNgayPV ? "" + startNgayPV.toJSON() : "") + "&"; 
+        if (endNgayPV === null)
+            throw new Error("The parameter 'endNgayPV' cannot be null.");
+        else if (endNgayPV !== undefined)
+            url_ += "EndNgayPV=" + encodeURIComponent(endNgayPV ? "" + endNgayPV.toJSON() : "") + "&"; 
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -1919,13 +1924,14 @@ export class EmployeeServiceProxy {
      * @param ketQua (optional) 
      * @param startDate (optional) 
      * @param endDate (optional) 
-     * @param ngayPhongVan (optional) 
+     * @param startNgayPV (optional) 
+     * @param endNgayPV (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getGuiCVToExcel(filter: string | undefined, ketQua: boolean | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, ngayPhongVan: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
+    getGuiCVToExcel(filter: string | undefined, ketQua: boolean | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, startNgayPV: moment.Moment | undefined, endNgayPV: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetGuiCVToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1943,10 +1949,14 @@ export class EmployeeServiceProxy {
             throw new Error("The parameter 'endDate' cannot be null.");
         else if (endDate !== undefined)
             url_ += "EndDate=" + encodeURIComponent(endDate ? "" + endDate.toJSON() : "") + "&"; 
-        if (ngayPhongVan === null)
-            throw new Error("The parameter 'ngayPhongVan' cannot be null.");
-        else if (ngayPhongVan !== undefined)
-            url_ += "NgayPhongVan=" + encodeURIComponent(ngayPhongVan ? "" + ngayPhongVan.toJSON() : "") + "&"; 
+        if (startNgayPV === null)
+            throw new Error("The parameter 'startNgayPV' cannot be null.");
+        else if (startNgayPV !== undefined)
+            url_ += "StartNgayPV=" + encodeURIComponent(startNgayPV ? "" + startNgayPV.toJSON() : "") + "&"; 
+        if (endNgayPV === null)
+            throw new Error("The parameter 'endNgayPV' cannot be null.");
+        else if (endNgayPV !== undefined)
+            url_ += "EndNgayPV=" + encodeURIComponent(endNgayPV ? "" + endNgayPV.toJSON() : "") + "&"; 
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
