@@ -38,7 +38,7 @@ import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.c
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 import { CVGuiDiComponent } from './cv/cv-gui-di/cv-gui-di.component';
-import { ConfigEmailSenderServiceProxy, EmployeeServiceProxy, LanguageServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ConfigEmailSenderServiceProxy, DashboardInterviewAppserviceServiceProxy, EmployeeServiceProxy, LanguageServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CVComponent } from './cv/cv.component';
 import { CreateOrEditCVComponent } from './cv/create-or-edit-cv/create-or-edit-cv.component';
 import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.component';
@@ -48,6 +48,7 @@ import { FileDownloadService } from '@shared/Utils/file-download.service';
 import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
 import { CreateOrEditNgonnguComponent } from './ngon-ngu/create-or-edit-ngonngu/create-or-edit-ngonngu.component';
 import { SendJDComponent } from './cv/send-jd/send-jd.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,13 +95,15 @@ import { SendJDComponent } from './cv/send-jd/send-jd.component';
     SharedModule,
     NgxPaginationModule,
     MatDatepickerModule,
-    FileUploadModule
+    FileUploadModule,
+    FullCalendarModule
   ],
   providers: [
     EmployeeServiceProxy,
     FileDownloadService,
     LanguageServiceProxy,
-    ConfigEmailSenderServiceProxy
+    ConfigEmailSenderServiceProxy,
+    DashboardInterviewAppserviceServiceProxy
   ],
   entryComponents: [
     // tenants
