@@ -5,59 +5,77 @@
             <div class="body table-responsive">
                 <div class="row">
                     <form>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <mat-form-field>
-                                <input matInput [placeholder]="l('Tìm kiếm')" [(ngModel)]="keyword" name="keyword" (ngModelChange) = "getAll()" />
+                                <input matInput [placeholder]="l('Tìm kiếm')" [(ngModel)]="keyword" name="keyword"
+                                    (ngModelChange)="getAll()" />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker2" [placeholder]="'Ngày bắt đầu PV' | localize"
+                                    name="startNgaypv" [(ngModel)]="startNgaypv" (dateChange)="getAll()" />
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker3" [placeholder]="'Ngày kết thúc PV' | localize"
+                                    name="endNgaypv" [(ngModel)]="endNgaypv" (dateChange)="getAll()" />
+                                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                <mat-datepicker #picker3></mat-datepicker>
                             </mat-form-field>
                         </div>
 
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="picker" [placeholder]="'Ngày bắt đầu' | localize" name="StartDate" [(ngModel)]="startDate" (dateChange)="getAll()" />
+                                <input matInput [matDatepicker]="picker" [placeholder]="'Ngày bắt đầu gửi CV' | localize"
+                                    name="StartDate" [(ngModel)]="startDate" (dateChange)="getAll()" />
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-3">
+
+                        <div class="col-md-4">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="picker1" [placeholder]="'Ngày kết thúc' | localize" name="EndDate" [(ngModel)]="endDate" (dateChange)="getAll()" />
+                                <input matInput [matDatepicker]="picker1" [placeholder]="'Ngày kết thúc gửi CV' | localize"
+                                    name="EndDate" [(ngModel)]="endDate" (dateChange)="getAll()" />
                                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                 <mat-datepicker #picker1></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-3">
+
+                        <div class="col-md-4">
                             <mat-form-field>
-                                <mat-select [placeholder]="l('Kết Quả')" [(ngModel)]="ketQua" name="isActive" (selectionChange)="getAll()">
+                                <mat-select [placeholder]="l('Kết Quả')" [(ngModel)]="ketQua" name="isActive"
+                                    (selectionChange)="getAll()">
                                     <mat-option value="">{{ 'Tất cả' | localize }}</mat-option>
                                     <mat-option value="true">{{ 'Đã Nhận' | localize }}</mat-option>
                                     <mat-option value="false">{{ 'Chưa Nhận' | localize }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <!-- <div class="col-md-1">
-                            <button mat-raised-button color="primary" class="buttonSearch pull-right mt-3" (click)="getDataPage(1)">
-                                <i class="material-icons">search</i>
-                            </button>
-                        </div> -->
                     </form>
                     <mat-accordion class="col-md-12">
                         <mat-expansion-panel [expanded]="true" hideToggle="true" disabled="true">
-                            <mat-expansion-panel-header style="background-color:#e9e9e9;" class="expansion-panel-header">
+                            <mat-expansion-panel-header style="background-color:#e9e9e9;"
+                                class="expansion-panel-header">
                                 <mat-panel-title>
                                     {{"CV Ứng Viên Gửi Đi" | localize}}
                                     <div class="btn-action">
-                                        <!-- <button mat-raised-button color="primary" (click)="createCV()">
-                                            {{ "Add" | localize }}
-                                        </button> -->
                                         <button mat-raised-button (click)="exportExcel()">
-                        {{ "Xuất Excel" | localize }}
-                      </button>
+                                            {{ "Xuất Excel" | localize }}
+                                        </button>
                                     </div>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
                             <div class="body table-responsive">
-                                <table class="table table-hover table-striped gs-table" [busy]="isTableLoading" matSort (matSortChange)="sortData($event)">
+                                <table class="table table-hover table-striped gs-table" [busy]="isTableLoading" matSort
+                                    (matSortChange)="sortData($event)">
                                     <thead>
                                         <tr>
                                             <th mat-sort-header="hoTen">{{ "Họ Tên" | localize }}</th>
@@ -92,7 +110,8 @@
                                                 <span class="btn btn-success" *ngIf="employee.ketQua">Đã nhận</span>
                                             </td>
                                             <td>
-                                                <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                                                <button class="action-button" mat-icon-button
+                                                    [matMenuTriggerFor]="actionsMenu">
                                                     <mat-icon>menu</mat-icon>
                                                 </button>
                                                 <mat-menu #actionsMenu="matMenu">
@@ -110,7 +129,8 @@
                                                         <mat-icon>clear</mat-icon>
                                                         <span>{{ "Hủy Nhận" | localize }}</span>
                                                     </button>
-                                                    <button mat-menu-item (click)="chuyenVeQLCV(employee)" class="btn-edit">
+                                                    <button mat-menu-item (click)="chuyenVeQLCV(employee)"
+                                                        class="btn-edit">
                                                         <mat-icon>settings_backup_restore</mat-icon>
                                                         <span>{{ "Chuyển Về QLCV" | localize }}</span>
                                                     </button>
@@ -126,7 +146,9 @@
                                     </tbody>
                                 </table>
 
-                                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100, 500, 1000,10000]" (page)="onChangedPanigation($event)">
+                                <mat-paginator [length]="totalItems" [pageSize]="pageSize"
+                                    [pageSizeOptions]="[5, 10, 25, 100, 500, 1000,10000]"
+                                    (page)="onChangedPanigation($event)">
                                 </mat-paginator>
 
                                 <div class="abp-pagination-controls-wrapper" *ngIf="totalItems > pageSize">

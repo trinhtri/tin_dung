@@ -149,7 +149,8 @@ namespace ManagerCV.Employee
                       || x.Email.ToUpper().Contains(input.Filter.ToUpper())
                       ).WhereIf(input.StartDate.HasValue, x=>x.NgayHoTro >= input.StartDate)
                        .WhereIf(input.EndDate.HasValue, x => x.NgayHoTro <= input.EndDate)
-                       .WhereIf(input.NgayPhongVan.HasValue, x=>x.NgayPhongVan == input.NgayPhongVan)
+                       .WhereIf(input.StartNgayPV.HasValue, x=>x.NgayPhongVan >= input.StartNgayPV)
+                       .WhereIf(input.EndNgayPV.HasValue, x=>x.NgayPhongVan <= input.EndNgayPV.Value)
                        .WhereIf(input.KetQua.HasValue, x => x.KetQua == input.KetQua);
             var tatolCount = await query.CountAsync();
             var result = await query.OrderBy(input.Sorting)

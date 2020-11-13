@@ -25,7 +25,8 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
   ketQua: any;
   startDate: any;
   endDate: any;
-  ngaypv: any;
+  startNgaypv: any;
+  endNgaypv: any;
   private sorting = undefined;
   private skipCount = (this.pageNumber - 1) * this.pageSize;
   constructor(injector: Injector,
@@ -47,7 +48,13 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
     if (this.endDate == null) {
       this.endDate = undefined;
     }
-    this._employeeService.getAll_Gui(this.keyword, this.ketQua, this.startDate, this.endDate , undefined,this.sorting, this.skipCount, this.pageSize)
+    if (this.startNgaypv == null) {
+      this.startNgaypv = undefined;
+    }
+    if (this.endNgaypv == null) {
+      this.endNgaypv = undefined;
+    }
+    this._employeeService.getAll_Gui(this.keyword, this.ketQua, this.startDate, this.endDate , this.startNgaypv, this.endNgaypv,this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this.employees = result.items;
         this.totalItems = result.totalCount;
@@ -151,7 +158,13 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
     if (this.endDate == null) {
       this.endDate = undefined;
     }
-    this._employeeService.getGuiCVToExcel(this.keyword, this.ketQua, this.startDate,undefined,
+    if (this.startNgaypv == null) {
+      this.startNgaypv = undefined;
+    }
+    if (this.endNgaypv == null) {
+      this.endNgaypv = undefined;
+    }
+    this._employeeService.getGuiCVToExcel(this.keyword, this.ketQua, this.startDate, this.startNgaypv, this.endNgaypv,
       this.endDate , this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
        this._fileDownLoadService.downloadTempFile(result);
