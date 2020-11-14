@@ -37,8 +37,7 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   }
   save() {
     this.saving = true;
-    this.CV.trangThai = true;
-    this.CV.ketQua = false;
+    this.CV.trangThai = 2;
     if (this.ngayPV) {
       this.CV.ngayPhongVan = moment(this.ngayPV);
     } else {

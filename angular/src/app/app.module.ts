@@ -50,6 +50,12 @@ import { CreateOrEditNgonnguComponent } from './ngon-ngu/create-or-edit-ngonngu/
 import { SendJDComponent } from './cv/send-jd/send-jd.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { HenPVComponent } from './cv/hen-pv/hen-pv.component';
+import { QuanLyTrangThaiCVComponent } from './quan-ly-trang-thai-cv/quan-ly-trang-thai-cv.component';
+import { CVMoiComponent } from './quan-ly-trang-thai-cv/cvmoi/cvmoi.component';
+import { DaGuiCVComponent } from './quan-ly-trang-thai-cv/da-gui-cv/da-gui-cv.component';
+import { LichPVComponent } from './quan-ly-trang-thai-cv/lich-pv/lich-pv.component';
+import { PVChuaKetQuaComponent } from './quan-ly-trang-thai-cv/pvchua-ket-qua/pvchua-ket-qua.component';
+import { DaNhanPVComponent } from './quan-ly-trang-thai-cv/da-nhan-pv/da-nhan-pv.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,7 +88,13 @@ import { HenPVComponent } from './cv/hen-pv/hen-pv.component';
     NgonNguComponent,
     CreateOrEditNgonnguComponent,
     SendJDComponent,
-    HenPVComponent
+    HenPVComponent,
+    QuanLyTrangThaiCVComponent,
+    CVMoiComponent,
+    DaGuiCVComponent,
+    LichPVComponent,
+    PVChuaKetQuaComponent,
+    DaNhanPVComponent
   ],
   imports: [
     CommonModule,

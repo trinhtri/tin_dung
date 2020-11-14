@@ -91,7 +91,7 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
 
   }
     save() {
-      this.CV.trangThai = false;
+      this.CV.trangThai = 1;
       this.CV.ngayNhanCV = moment(this.startDate);
       this.saving = true;
       this.CV.isSeletedFile = this.isSelectedFile;

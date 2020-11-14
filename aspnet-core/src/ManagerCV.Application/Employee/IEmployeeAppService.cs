@@ -22,12 +22,8 @@ namespace ManagerCV.Employee
         [HttpDelete]
         Task Delete(int id);
         Task<CreateEmployeeDto> GetId(int id);
-
         Task CVGuiDi(CVGuiDi input);
-
         Task DaNhan(int id);
-        Task HuyNhan(int id);
-
         Task ChuyenVeQLCV(int id);
 
         Task GuiCV(int id,string tencty);

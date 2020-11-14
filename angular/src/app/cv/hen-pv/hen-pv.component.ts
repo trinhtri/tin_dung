@@ -35,7 +35,6 @@ export class HenPVComponent extends AppComponentBase implements OnInit {
     });
   }
   save() {
-    console.log('appp')
     this.saving = true;
     let ngay;
     if (this.ngayPV) {

@@ -47,9 +47,15 @@ namespace ManagerCV.Models
         [StringLength(2000)]
         public string CtyNhan { get; set; }
         public DateTime? NgayHoTro { get; set; }
-        [StringLength(2000)]
-        public bool KetQua { get; set; }
-        public bool TrangThai { get; set; }
+
+        public string Note { get; set; }
+
+        // 1 vừa thêm mới
+        // 2 đã gửi đến cty
+        // 3 cty có lịch pv
+        // 4.pv chưa phản hồi
+        // 5.cv chưa đạt -> 1
+        public int TrangThai { get; set; }
         [StringLength(2000)]
         public string CVName { get; set; }
         [StringLength(2000)]

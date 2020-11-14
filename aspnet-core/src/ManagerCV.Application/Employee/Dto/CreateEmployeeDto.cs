@@ -30,8 +30,7 @@ namespace ManagerCV.Employee.Dto
         public string NoiDung { get; set; }
         public string CtyNhan { get; set; }
         public DateTime? NgayHoTro { get; set; }
-        public bool KetQua { get; set; }
-        public bool TrangThai { get; set; }
+        public int TrangThai { get; set; }
 
         public string CVName { get; set; }
         public string CVUrl { get; set; }

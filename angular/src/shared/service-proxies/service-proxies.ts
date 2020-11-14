@@ -1153,6 +1153,7 @@ export class EmployeeServiceProxy {
 
     /**
      * @param filter (optional) 
+     * @param trangThai (optional) 
      * @param startDate (optional) 
      * @param endDate (optional) 
      * @param bangCap (optional) 
@@ -1162,12 +1163,16 @@ export class EmployeeServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
+    getAll(filter: string | undefined, trangThai: number | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (trangThai === null)
+            throw new Error("The parameter 'trangThai' cannot be null.");
+        else if (trangThai !== undefined)
+            url_ += "TrangThai=" + encodeURIComponent("" + trangThai) + "&"; 
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
@@ -1300,26 +1305,28 @@ export class EmployeeServiceProxy {
 
     /**
      * @param filter (optional) 
-     * @param ketQua (optional) 
+     * @param trangThai (optional) 
      * @param startDate (optional) 
      * @param endDate (optional) 
      * @param startNgayPV (optional) 
      * @param endNgayPV (optional) 
+     * @param bangCap (optional) 
+     * @param ngonNgu (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll_Gui(filter: string | undefined, ketQua: boolean | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, startNgayPV: moment.Moment | undefined, endNgayPV: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
+    getAll_Gui(filter: string | undefined, trangThai: number | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, startNgayPV: moment.Moment | undefined, endNgayPV: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetAll_Gui?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (ketQua === null)
-            throw new Error("The parameter 'ketQua' cannot be null.");
-        else if (ketQua !== undefined)
-            url_ += "KetQua=" + encodeURIComponent("" + ketQua) + "&"; 
+        if (trangThai === null)
+            throw new Error("The parameter 'trangThai' cannot be null.");
+        else if (trangThai !== undefined)
+            url_ += "TrangThai=" + encodeURIComponent("" + trangThai) + "&"; 
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
@@ -1336,6 +1343,14 @@ export class EmployeeServiceProxy {
             throw new Error("The parameter 'endNgayPV' cannot be null.");
         else if (endNgayPV !== undefined)
             url_ += "EndNgayPV=" + encodeURIComponent(endNgayPV ? "" + endNgayPV.toJSON() : "") + "&"; 
+        if (bangCap === null)
+            throw new Error("The parameter 'bangCap' cannot be null.");
+        else if (bangCap !== undefined)
+            bangCap && bangCap.forEach(item => { url_ += "BangCap=" + encodeURIComponent("" + item) + "&"; });
+        if (ngonNgu === null)
+            throw new Error("The parameter 'ngonNgu' cannot be null.");
+        else if (ngonNgu !== undefined)
+            ngonNgu && ngonNgu.forEach(item => { url_ += "NgonNgu=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -1611,220 +1626,8 @@ export class EmployeeServiceProxy {
     }
 
     /**
-     * @param id (optional) 
-     * @return Success
-     */
-    daNhan(id: number | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Employee/DaNhan?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDaNhan(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDaNhan(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDaNhan(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    huyNhan(id: number | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Employee/HuyNhan?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHuyNhan(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHuyNhan(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHuyNhan(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    chuyenVeQLCV(id: number | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Employee/ChuyenVeQLCV?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processChuyenVeQLCV(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processChuyenVeQLCV(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processChuyenVeQLCV(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @param tencty (optional) 
-     * @return Success
-     */
-    guiCV(id: number | undefined, tencty: string | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Employee/GuiCV?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
-        if (tencty === null)
-            throw new Error("The parameter 'tencty' cannot be null.");
-        else if (tencty !== undefined)
-            url_ += "tencty=" + encodeURIComponent("" + tencty) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGuiCV(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGuiCV(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGuiCV(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
      * @param filter (optional) 
+     * @param trangThai (optional) 
      * @param startDate (optional) 
      * @param endDate (optional) 
      * @param bangCap (optional) 
@@ -1834,12 +1637,16 @@ export class EmployeeServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getCVToExcel(filter: string | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
+    getCVToExcel(filter: string | undefined, trangThai: number | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetCVToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (trangThai === null)
+            throw new Error("The parameter 'trangThai' cannot be null.");
+        else if (trangThai !== undefined)
+            url_ += "TrangThai=" + encodeURIComponent("" + trangThai) + "&"; 
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
@@ -1916,26 +1723,28 @@ export class EmployeeServiceProxy {
 
     /**
      * @param filter (optional) 
-     * @param ketQua (optional) 
+     * @param trangThai (optional) 
      * @param startDate (optional) 
      * @param endDate (optional) 
      * @param startNgayPV (optional) 
      * @param endNgayPV (optional) 
+     * @param bangCap (optional) 
+     * @param ngonNgu (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getGuiCVToExcel(filter: string | undefined, ketQua: boolean | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, startNgayPV: moment.Moment | undefined, endNgayPV: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
+    getGuiCVToExcel(filter: string | undefined, trangThai: number | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, startNgayPV: moment.Moment | undefined, endNgayPV: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetGuiCVToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
         else if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (ketQua === null)
-            throw new Error("The parameter 'ketQua' cannot be null.");
-        else if (ketQua !== undefined)
-            url_ += "KetQua=" + encodeURIComponent("" + ketQua) + "&"; 
+        if (trangThai === null)
+            throw new Error("The parameter 'trangThai' cannot be null.");
+        else if (trangThai !== undefined)
+            url_ += "TrangThai=" + encodeURIComponent("" + trangThai) + "&"; 
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
@@ -1952,6 +1761,14 @@ export class EmployeeServiceProxy {
             throw new Error("The parameter 'endNgayPV' cannot be null.");
         else if (endNgayPV !== undefined)
             url_ += "EndNgayPV=" + encodeURIComponent(endNgayPV ? "" + endNgayPV.toJSON() : "") + "&"; 
+        if (bangCap === null)
+            throw new Error("The parameter 'bangCap' cannot be null.");
+        else if (bangCap !== undefined)
+            bangCap && bangCap.forEach(item => { url_ += "BangCap=" + encodeURIComponent("" + item) + "&"; });
+        if (ngonNgu === null)
+            throw new Error("The parameter 'ngonNgu' cannot be null.");
+        else if (ngonNgu !== undefined)
+            ngonNgu && ngonNgu.forEach(item => { url_ += "NgonNgu=" + encodeURIComponent("" + item) + "&"; });
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -2120,6 +1937,63 @@ export class EmployeeServiceProxy {
 
     /**
      * @param id (optional) 
+     * @param tencty (optional) 
+     * @return Success
+     */
+    guiCV(id: number | undefined, tencty: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Employee/GuiCV?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        if (tencty === null)
+            throw new Error("The parameter 'tencty' cannot be null.");
+        else if (tencty !== undefined)
+            url_ += "tencty=" + encodeURIComponent("" + tencty) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGuiCV(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGuiCV(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGuiCV(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
      * @param ngayPV (optional) 
      * @return Success
      */
@@ -2157,6 +2031,162 @@ export class EmployeeServiceProxy {
     }
 
     protected processHenPV(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    diPV(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Employee/DiPV?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDiPV(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDiPV(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDiPV(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    daNhan(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Employee/DaNhan?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDaNhan(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDaNhan(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDaNhan(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    chuyenVeQLCV(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Employee/ChuyenVeQLCV?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processChuyenVeQLCV(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processChuyenVeQLCV(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processChuyenVeQLCV(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -4768,8 +4798,7 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
     noiDung: string | undefined;
     ctyNhan: string | undefined;
     ngayHoTro: moment.Moment | undefined;
-    ketQua: boolean;
-    trangThai: boolean;
+    trangThai: number;
     cvName: string | undefined;
     cvUrl: string | undefined;
     ngayNhanCV: moment.Moment | undefined;
@@ -4811,7 +4840,6 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
             this.noiDung = data["noiDung"];
             this.ctyNhan = data["ctyNhan"];
             this.ngayHoTro = data["ngayHoTro"] ? moment(data["ngayHoTro"].toString()) : <any>undefined;
-            this.ketQua = data["ketQua"];
             this.trangThai = data["trangThai"];
             this.cvName = data["cvName"];
             this.cvUrl = data["cvUrl"];
@@ -4858,7 +4886,6 @@ export class CreateEmployeeDto implements ICreateEmployeeDto {
         data["noiDung"] = this.noiDung;
         data["ctyNhan"] = this.ctyNhan;
         data["ngayHoTro"] = this.ngayHoTro ? this.ngayHoTro.toISOString() : <any>undefined;
-        data["ketQua"] = this.ketQua;
         data["trangThai"] = this.trangThai;
         data["cvName"] = this.cvName;
         data["cvUrl"] = this.cvUrl;
@@ -4905,8 +4932,7 @@ export interface ICreateEmployeeDto {
     noiDung: string | undefined;
     ctyNhan: string | undefined;
     ngayHoTro: moment.Moment | undefined;
-    ketQua: boolean;
-    trangThai: boolean;
+    trangThai: number;
     cvName: string | undefined;
     cvUrl: string | undefined;
     ngayNhanCV: moment.Moment | undefined;
@@ -5002,8 +5028,8 @@ export class EmployeeListDto implements IEmployeeListDto {
     noiDung: string | undefined;
     ctyNhan: string | undefined;
     ngayHoTro: moment.Moment | undefined;
-    ketQua: boolean;
-    trangThai: boolean;
+    note: string | undefined;
+    trangThai: number;
     cvName: string | undefined;
     cvUrl: string | undefined;
     ngayNhanCV: moment.Moment | undefined;
@@ -5044,7 +5070,7 @@ export class EmployeeListDto implements IEmployeeListDto {
             this.noiDung = data["noiDung"];
             this.ctyNhan = data["ctyNhan"];
             this.ngayHoTro = data["ngayHoTro"] ? moment(data["ngayHoTro"].toString()) : <any>undefined;
-            this.ketQua = data["ketQua"];
+            this.note = data["note"];
             this.trangThai = data["trangThai"];
             this.cvName = data["cvName"];
             this.cvUrl = data["cvUrl"];
@@ -5086,7 +5112,7 @@ export class EmployeeListDto implements IEmployeeListDto {
         data["noiDung"] = this.noiDung;
         data["ctyNhan"] = this.ctyNhan;
         data["ngayHoTro"] = this.ngayHoTro ? this.ngayHoTro.toISOString() : <any>undefined;
-        data["ketQua"] = this.ketQua;
+        data["note"] = this.note;
         data["trangThai"] = this.trangThai;
         data["cvName"] = this.cvName;
         data["cvUrl"] = this.cvUrl;
@@ -5128,8 +5154,8 @@ export interface IEmployeeListDto {
     noiDung: string | undefined;
     ctyNhan: string | undefined;
     ngayHoTro: moment.Moment | undefined;
-    ketQua: boolean;
-    trangThai: boolean;
+    note: string | undefined;
+    trangThai: number;
     cvName: string | undefined;
     cvUrl: string | undefined;
     ngayNhanCV: moment.Moment | undefined;

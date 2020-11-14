@@ -27,7 +27,7 @@ namespace ManagerCV.Employee
         private readonly IAppFolders _appFolders;
         private readonly EmployeeListExcelExporter _employeeListExcelExporter;
         public EmployeeAppService(IRepository<Models.Employee> employeeRepository,
-            IAppFolders appFolders, 
+            IAppFolders appFolders,
             EmployeeListExcelExporter employeeListExcelExporter,
             IRepository<Models.CtgLanguage> ctgLanguageRepository,
             IRepository<Models.EmployeeLanguage> employeeLanguageRepository)
@@ -97,9 +97,9 @@ namespace ManagerCV.Employee
             var query = _employeeRepository.GetAll()
                        .Include(x => x.EmployeeLanguages)
                        .ThenInclude(l => l.CtgLanguage_)
-                       .Where(x => x.TrangThai == false)
-                       .WhereIf(input.BangCap.Count > 0, x=> input.BangCap.Any(a=>a == x.BangCap))
-                       .WhereIf(input.NgonNgu.Count > 0 , x=> x.EmployeeLanguages.Any(x=> input.NgonNgu.Any(a=>a == x.CtgLanguage_Id)))
+                       .WhereIf(input.TrangThai.HasValue, x => x.TrangThai == input.TrangThai)
+                       .WhereIf(input.BangCap.Count > 0, x => input.BangCap.Any(a => a == x.BangCap))
+                       .WhereIf(input.NgonNgu.Count > 0, x => x.EmployeeLanguages.Any(x => input.NgonNgu.Any(a => a == x.CtgLanguage_Id)))
                        .WhereIf(!input.Filter.IsNullOrEmpty(),
                        x => x.HoTen.ToUpper().Contains(input.Filter.ToUpper())
                       || x.ChoOHienTai.ToUpper().Contains(input.Filter.ToUpper())
@@ -114,21 +114,21 @@ namespace ManagerCV.Employee
                 .PageBy(input)
                 .ToListAsync();
             var output = ObjectMapper.Map<List<EmployeeListDto>>(result);
-            foreach(var item in output)
+            foreach (var item in output)
             {
-                item.NhungNgonNgu =await GetLangugeName(item.Id);
+                item.NhungNgonNgu = await GetLangugeName(item.Id);
             }
             return new PagedResultDto<EmployeeListDto>(tatolCount, output);
         }
         public async Task<string> GetLangugeName(int input)
         {
             var ls = "";
-            var els = await _employeeLanguageRepository.GetAll().Include(x=>x.CtgLanguage_).Where(x => x.Employee_Id == input).ToListAsync();
-            foreach(var item in els)
+            var els = await _employeeLanguageRepository.GetAll().Include(x => x.CtgLanguage_).Where(x => x.Employee_Id == input).ToListAsync();
+            foreach (var item in els)
             {
                 ls = ls + item.CtgLanguage_.NgonNgu + ',';
             }
-            var result = ls.Substring(0, ls.Length - 1);
+            var result = ls.Length > 0 ? ls.Substring(0, ls.Length - 1) : ls;
             return result;
         }
 
@@ -139,24 +139,33 @@ namespace ManagerCV.Employee
                 input.Filter = Regex.Replace(input.Filter.Trim(), @"\s+", " ");
             }
             var query = _employeeRepository.GetAll()
-                      .Where(x => x.TrangThai == true)
-                      .WhereIf(!input.Filter.IsNullOrEmpty(),
+                       .Include(x => x.EmployeeLanguages)
+                       .ThenInclude(l => l.CtgLanguage_)
+                       .Where(x => x.TrangThai == input.TrangThai)
+                       .WhereIf(input.BangCap.Count > 0, x => input.BangCap.Any(a => a == x.BangCap))
+                       .WhereIf(input.NgonNgu.Count > 0, x => x.EmployeeLanguages.Any(x => input.NgonNgu.Any(a => a == x.CtgLanguage_Id)))
+                       .WhereIf(!input.Filter.IsNullOrEmpty(),
                        x => x.HoTen.ToUpper().Contains(input.Filter.ToUpper())
                       || x.NgonNgu.ToUpper().Contains(input.Filter.ToUpper())
                       || x.CtyNhan.ToUpper().Contains(input.Filter.ToUpper())
                       || x.NguyenVong.ToUpper().Contains(input.Filter.ToUpper())
                       || x.SDT.ToUpper().Contains(input.Filter.ToUpper())
                       || x.Email.ToUpper().Contains(input.Filter.ToUpper())
-                      ).WhereIf(input.StartDate.HasValue, x=>x.NgayHoTro >= input.StartDate)
+                      )
+                      .WhereIf(input.StartDate.HasValue, x => x.NgayHoTro >= input.StartDate)
                        .WhereIf(input.EndDate.HasValue, x => x.NgayHoTro <= input.EndDate)
-                       .WhereIf(input.StartNgayPV.HasValue, x=>x.NgayPhongVan >= input.StartNgayPV)
-                       .WhereIf(input.EndNgayPV.HasValue, x=>x.NgayPhongVan <= input.EndNgayPV.Value)
-                       .WhereIf(input.KetQua.HasValue, x => x.KetQua == input.KetQua);
+                       .WhereIf(input.StartNgayPV.HasValue, x => x.NgayPhongVan >= input.StartNgayPV)
+                       .WhereIf(input.EndNgayPV.HasValue, x => x.NgayPhongVan <= input.EndNgayPV.Value);
             var tatolCount = await query.CountAsync();
             var result = await query.OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
-            return new PagedResultDto<EmployeeListDto>(tatolCount, ObjectMapper.Map<List<EmployeeListDto>>(result));
+            var output = ObjectMapper.Map<List<EmployeeListDto>>(result);
+            foreach (var item in output)
+            {
+                item.NhungNgonNgu = await GetLangugeName(item.Id);
+            }
+            return new PagedResultDto<EmployeeListDto>(tatolCount, output);
         }
 
         public async Task<CreateEmployeeDto> GetId(int id)
@@ -166,7 +175,7 @@ namespace ManagerCV.Employee
             var languages = await _employeeLanguageRepository.GetAll().Where(x => x.Employee_Id == id).Select(x => x.CtgLanguage_Id).ToListAsync();
             result.Languages = languages;
             return result;
- 
+
         }
 
         [HttpPost]
@@ -194,7 +203,6 @@ namespace ManagerCV.Employee
             emp.GioiTinh = input.GioiTinh;
             emp.HoTen = input.HoTen;
             emp.Id = input.Id;
-            emp.KetQua = input.KetQua;
             emp.KinhNghiem = input.KinhNghiem;
             emp.LuongMongMuon = input.LuongMongMuon;
             emp.NamSinh = input.NamSinh;
@@ -261,35 +269,6 @@ namespace ManagerCV.Employee
             AppFileHelper.DeleteFilesInFolderIfExists(_appFolders.TempFileUploadFolder, DocumentName);
         }
 
-        public async Task DaNhan(int id)
-        {
-            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
-            emp.KetQua = true;
-        }
-
-        public async Task HuyNhan(int id)
-        {
-            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
-            emp.KetQua = false;
-        }
-
-        public async Task ChuyenVeQLCV(int id)
-        {
-            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
-            emp.KetQua = false;
-            emp.TrangThai = false;
-            emp.NgayHoTro = null;
-            emp.CtyNhan = null;
-            emp.NgayPhongVan = null;
-        }
-
-        public async Task GuiCV(int id, string tencty)
-        {
-            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
-            emp.TrangThai = true;
-            emp.CtyNhan = tencty;
-            emp.NgayHoTro = DateTime.Now;
-        }
 
         public async Task<FileDto> GetCVToExcel(EmployeeInputDto input)
         {
@@ -309,7 +288,7 @@ namespace ManagerCV.Employee
         {
             var result = "";
             var emps = await _employeeRepository.GetAll().Where(x => inputs.Any(a => a == x.Id)).ToListAsync();
-            foreach(var item in emps)
+            foreach (var item in emps)
             {
                 if (!item.Email.IsNullOrEmpty())
                 {
@@ -327,11 +306,43 @@ namespace ManagerCV.Employee
                 System.IO.File.Delete(filePath);
             }
         }
-
+        public async Task GuiCV(int id, string tencty)
+        {
+            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
+            emp.TrangThai = 2;
+            emp.CtyNhan = tencty;
+            emp.NgayHoTro = DateTime.Now;
+        }
         public async Task HenPV(int id, DateTime? ngayPV)
         {
             var emp = await _employeeRepository.FirstOrDefaultAsync(id);
             emp.NgayPhongVan = ngayPV;
+            emp.TrangThai = 3;
         }
+
+        public async Task DiPV(int id)
+        {
+            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
+            emp.TrangThai = 4;
+        }
+
+        public async Task DaNhan(int id)
+        {
+            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
+            emp.TrangThai = 5;
+        }
+
+        public async Task ChuyenVeQLCV(int id)
+        {
+            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
+            emp.TrangThai = 1;
+            emp.NgayHoTro = null;
+            emp.CtyNhan = null;
+            emp.NgayPhongVan = null;
+        }
+
+
+
+
     }
 }

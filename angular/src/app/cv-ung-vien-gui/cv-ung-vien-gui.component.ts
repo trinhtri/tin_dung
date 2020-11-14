@@ -55,17 +55,17 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
     if (this.endNgaypv == null) {
       this.endNgaypv = undefined;
     }
-    this._employeeService.getAll_Gui(this.keyword, this.ketQua, this.startDate, this.endDate ,
-       this.startNgaypv, this.endNgaypv, this.sorting, this.skipCount, this.pageSize)
-      .subscribe((result) => {
-        this.employees = result.items;
-        this.totalItems = result.totalCount;
-        this.totalPages = ((result.totalCount - (result.totalCount % this.pageSize)) / this.pageSize) + 1;
+    // this._employeeService.getAll_Gui(this.keyword, this.ketQua, this.startDate, this.endDate ,
+    //    this.startNgaypv, this.endNgaypv, this.sorting, this.skipCount, this.pageSize)
+    //   .subscribe((result) => {
+    //     this.employees = result.items;
+    //     this.totalItems = result.totalCount;
+    //     this.totalPages = ((result.totalCount - (result.totalCount % this.pageSize)) / this.pageSize) + 1;
 
-        this.isTableLoading = false;
-      }, (error) => {
-        this.isTableLoading = false;
-      });
+    //     this.isTableLoading = false;
+    //   }, (error) => {
+    //     this.isTableLoading = false;
+    //   });
   }
 
   getDataPage(page: number): void {
@@ -143,10 +143,10 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
       });
     }
     discard(employee) {
-      this._employeeService.huyNhan(employee.id).subscribe(result => {
-        abp.notify.success(this.l('Cập nhật CV thành công'));
-        this.getAll();
-      });
+      // this._employeeService.huyNhan(employee.id).subscribe(result => {
+      //   abp.notify.success(this.l('Cập nhật CV thành công'));
+      //   this.getAll();
+      // });
     }
     chuyenVeQLCV(employee) {
       // employee.trangThai = false;
@@ -172,13 +172,13 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
     if (this.endNgaypv == null) {
       this.endNgaypv = undefined;
     }
-    this._employeeService.getGuiCVToExcel(this.keyword, this.ketQua, this.startDate, this.startNgaypv, this.endNgaypv,
-      this.endDate , this.sorting, this.skipCount, this.pageSize)
-      .subscribe((result) => {
-       this._fileDownLoadService.downloadTempFile(result);
-        this.isTableLoading = false;
-      }, (error) => {
-        this.isTableLoading = false;
-      });
+    // this._employeeService.getGuiCVToExcel(this.keyword, this.ketQua, this.startDate, this.startNgaypv, this.endNgaypv,
+    //   this.endDate , this.sorting, this.skipCount, this.pageSize)
+    //   .subscribe((result) => {
+    //    this._fileDownLoadService.downloadTempFile(result);
+    //     this.isTableLoading = false;
+    //   }, (error) => {
+    //     this.isTableLoading = false;
+    //   });
     }
 }

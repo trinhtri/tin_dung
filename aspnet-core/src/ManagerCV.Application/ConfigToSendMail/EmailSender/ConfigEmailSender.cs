@@ -19,7 +19,6 @@ namespace ManagerCV.ConfigToSendMail.EmailSender
 {
 	public class ConfigEmailSender : ManagerCVAppServiceBase, IConfigEmailSender
 	{
-		private readonly IWebHostEnvironment _env;
 		private IConfigurationRoot _configRoot;
 		private readonly IAppFolders _appFolders;
 		public ConfigEmailSender(
