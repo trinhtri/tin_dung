@@ -49,6 +49,7 @@ import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
 import { CreateOrEditNgonnguComponent } from './ngon-ngu/create-or-edit-ngonngu/create-or-edit-ngonngu.component';
 import { SendJDComponent } from './cv/send-jd/send-jd.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { HenPVComponent } from './cv/hen-pv/hen-pv.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,7 +81,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CVUngVienGuiComponent,
     NgonNguComponent,
     CreateOrEditNgonnguComponent,
-    SendJDComponent
+    SendJDComponent,
+    HenPVComponent
   ],
   imports: [
     CommonModule,
@@ -119,7 +121,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CreateOrEditCVComponent,
     CVGuiDiComponent,
     CreateOrEditNgonnguComponent,
-    SendJDComponent
+    SendJDComponent,
+    HenPVComponent
   ]
 })
 export class AppModule {}

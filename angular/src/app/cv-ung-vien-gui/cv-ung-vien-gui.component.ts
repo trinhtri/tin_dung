@@ -7,6 +7,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { CVGuiDiComponent } from '@app/cv/cv-gui-di/cv-gui-di.component';
 import { FileDownloadService } from '@shared/Utils/file-download.service';
+import { HenPVComponent } from '@app/cv/hen-pv/hen-pv.component';
 @Component({
   selector: 'app-cv-ung-vien-gui',
   templateUrl: './cv-ung-vien-gui.component.html',
@@ -54,7 +55,8 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
     if (this.endNgaypv == null) {
       this.endNgaypv = undefined;
     }
-    this._employeeService.getAll_Gui(this.keyword, this.ketQua, this.startDate, this.endDate , this.startNgaypv, this.endNgaypv,this.sorting, this.skipCount, this.pageSize)
+    this._employeeService.getAll_Gui(this.keyword, this.ketQua, this.startDate, this.endDate ,
+       this.startNgaypv, this.endNgaypv, this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this.employees = result.items;
         this.totalItems = result.totalCount;
@@ -119,9 +121,15 @@ export class CVUngVienGuiComponent extends AppComponentBase implements OnInit {
           data: id
         });
       }
-      // createOrEditGrade.componentInstance.onSaveAndAdd.subscribe(() => {
-      //   this.getAll();
-      // });
+      createOrEditGrade.afterClosed().subscribe(result => {
+        this.getAll();
+    });
+    }
+    showAddOrEditPV(id) {
+      let createOrEditGrade;
+        createOrEditGrade = this._dialog.open(HenPVComponent, {
+          data: id
+        });
       createOrEditGrade.afterClosed().subscribe(result => {
         this.getAll();
     });

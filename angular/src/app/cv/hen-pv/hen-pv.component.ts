@@ -4,19 +4,17 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AppComponentBase } from '@shared/app-component-base';
 import * as moment from 'moment';
 @Component({
-  selector: 'app-cv-gui-di',
-  templateUrl: './cv-gui-di.component.html',
-  styleUrls: ['./cv-gui-di.component.css']
+  selector: 'app-hen-pv',
+  templateUrl: './hen-pv.component.html',
+  styleUrls: ['./hen-pv.component.css']
 })
-export class CVGuiDiComponent extends AppComponentBase implements OnInit {
-  ngayHoTro: any;
+export class HenPVComponent extends AppComponentBase implements OnInit {
   public isLoading = false;
-  public CV: CreateEmployeeDto = new CreateEmployeeDto();
   saving = false;
   ngayPV: any;
   constructor(injector: Injector,
     private _EmployeeService: EmployeeServiceProxy,
-    private dialogRef: MatDialogRef<CVGuiDiComponent>,
+    private dialogRef: MatDialogRef<HenPVComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private data: any,
   ) {
     super(injector);
@@ -29,33 +27,32 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   }
   getClient(id) {
     this._EmployeeService.getId(id).subscribe(result => {
-      this.CV = result;
-      if (this.CV.ngayPhongVan) {
-        this.ngayPV = this.CV.ngayPhongVan.toDate();
+      if (result.ngayPhongVan) {
+        this.ngayPV = result.ngayPhongVan.toDate();
+      } else {
+        this.ngayPV = undefined;
       }
     });
   }
   save() {
+    console.log('appp')
     this.saving = true;
-    this.CV.trangThai = true;
-    this.CV.ketQua = false;
+    let ngay;
     if (this.ngayPV) {
-      this.CV.ngayPhongVan = moment(this.ngayPV);
+      ngay = moment(this.ngayPV);
     } else {
-      this.CV.ngayPhongVan = undefined;
+      ngay = undefined;
     }
-    if (this.CV.id) {
-      this._EmployeeService.guiCV(this.CV.id, this.CV.ctyNhan)
+      this._EmployeeService.henPV(this.data, ngay)
         .subscribe(() => {
           abp.notify.success(this.l('Lưu thành công.'));
           this.close(true);
         });
-    }
   }
   close(result: any): void {
     this.saving = false;
     this.ngayPV = null;
-    this.CV = new CreateEmployeeDto();
     this.dialogRef.close(result);
   }
+
 }

@@ -115,6 +115,12 @@
                                                     <mat-icon>menu</mat-icon>
                                                 </button>
                                                 <mat-menu #actionsMenu="matMenu">
+
+                                                    <button mat-menu-item (click)="showAddOrEditPV(employee.id)" class="btn-edit">
+                                                        <mat-icon>assignment</mat-icon>
+                                                        <span>{{ "Hẹn PV" | localize }}</span>
+                                                    </button>
+
                                                     <button mat-menu-item (click)="editCV(employee)" class="btn-edit">
                                                         <mat-icon>edit</mat-icon>
                                                         <span>{{ "Chỉnh Sửa" | localize }}</span>
@@ -124,6 +130,7 @@
                                                         <mat-icon>done</mat-icon>
                                                         <span>{{ "Đã Nhận" | localize }}</span>
                                                     </button>
+
 
                                                     <button mat-menu-item (click)="discard(employee)" class="btn-edit">
                                                         <mat-icon>clear</mat-icon>

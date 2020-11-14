@@ -283,13 +283,12 @@ namespace ManagerCV.Employee
             emp.NgayPhongVan = null;
         }
 
-        public async Task GuiCV(int id, string tencty,DateTime? NgayPV)
+        public async Task GuiCV(int id, string tencty)
         {
             var emp = await _employeeRepository.FirstOrDefaultAsync(id);
             emp.TrangThai = true;
             emp.CtyNhan = tencty;
             emp.NgayHoTro = DateTime.Now;
-            emp.NgayPhongVan = NgayPV;
         }
 
         public async Task<FileDto> GetCVToExcel(EmployeeInputDto input)
@@ -327,6 +326,12 @@ namespace ManagerCV.Employee
             {
                 System.IO.File.Delete(filePath);
             }
+        }
+
+        public async Task HenPV(int id, DateTime? ngayPV)
+        {
+            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
+            emp.NgayPhongVan = ngayPV;
         }
     }
 }

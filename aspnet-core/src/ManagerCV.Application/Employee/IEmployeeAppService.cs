@@ -30,7 +30,8 @@ namespace ManagerCV.Employee
 
         Task ChuyenVeQLCV(int id);
 
-        Task GuiCV(int id,string tencty,DateTime? NgayPV);
+        Task GuiCV(int id,string tencty);
+        Task HenPV(int id, DateTime? ngayPV);
 
     }
 }
