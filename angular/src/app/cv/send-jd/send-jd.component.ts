@@ -1,5 +1,6 @@
 import { Component, ElementRef, Inject, Injector, OnDestroy, OnInit, Optional, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { AngularEditorConfig } from '@kolkov/angular-editor/lib/config';
 import { AppComponentBase } from '@shared/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { ConfigEmailSenderServiceProxy, EmployeeServiceProxy, LanguageDto, LanguageServiceProxy, SenJDForCustomerDto } from '@shared/service-proxies/service-proxies';
@@ -18,7 +19,7 @@ export class SendJDComponent extends AppComponentBase implements OnInit, OnDestr
   @ViewChild('documentFileInput', { static: true }) documentFileInput: ElementRef;
   documentUploader: FileUploader;
   _uploaderOptions: FileUploaderOptions = {};
-
+  htmlContent: string;
   public isLoading = false;
   isSelectedFile = false;
   fileName: any;
@@ -31,6 +32,35 @@ export class SendJDComponent extends AppComponentBase implements OnInit, OnDestr
   checklstemail = false;
 
   urlDeleteFile = AppConsts.remoteServiceBaseUrl + '/Profile/DeleteFileJD';
+
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '30rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    // toolbarHiddenButtons: [
+    //   ['bold'}
+    // ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText'
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ]
+  };
   constructor(injector: Injector,
     private _employeeService: EmployeeServiceProxy,
     private dialogRef: MatDialogRef<SendJDComponent>,
@@ -60,6 +90,7 @@ export class SendJDComponent extends AppComponentBase implements OnInit, OnDestr
       this.email.jdName = this.fileName;
       this.email.isAttackJD = true;
     }
+    console.log('ádfasdfa', this.email.content, this.htmlContent);
     this._configToSendEmailService.sendJDForCustomer(this.email)
       .pipe(finalize(() => this.saving = false))
       .subscribe(result => {

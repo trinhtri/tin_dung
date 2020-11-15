@@ -8,11 +8,6 @@
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput required name="Content" [placeholder]="'Nội dung' | localize"
-                    [(ngModel)]="email.content" />
-            </mat-form-field>
-
-            <mat-form-field>
                 <textarea matInput name="BCC" required [placeholder]="'BCC email' | localize" [(ngModel)]="email.toMail"
                     (ngModelChange)="validationEmail(email.toMail)"></textarea>
             </mat-form-field>
@@ -20,9 +15,13 @@
                 {{"Địa chỉ email không hợp lệ !" | localize}}
             </div>
 
-            <mat-form-field>
+            <!-- <mat-form-field>
                 <textarea matInput name="CC" [placeholder]="'CC email' | localize" [(ngModel)]="email.ccMail"></textarea>
-            </mat-form-field>
+            </mat-form-field> -->
+
+            <angular-editor [(ngModel)]="email.content" [placeholder]="'Nội dung' | localize" [config]="config" name="first"></angular-editor>
+           <br>
+
             <mat-form-field>
                 <input matInput [placeholder]="l('JD')" name="documentName" [(ngModel)]="fileName" readonly />
                 <button mat-icon-button matSuffix (click)="selectFile($event)">
@@ -32,6 +31,11 @@
                 <input id="documentFileInput" #documentFileInput [uploader]="documentUploader" #documentFileInput
                     type="file" ng2FileSelect class="form-control-file" style="display:none;" />
             </mat-form-field>
+
+            <!-- <mat-form-field>
+                <input matInput required name="Content" [placeholder]="'Nội dung' | localize"
+                    [(ngModel)]="email.content" />
+            </mat-form-field> -->
         </div>
 
     </mat-dialog-content>

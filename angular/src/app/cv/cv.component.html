@@ -15,7 +15,9 @@
                                 <mat-select [placeholder]="'Bằng cấp' | localize" multiple name="bangCap" (selectionChange)="filterbyCertificate($event)">
                                     <mat-option [value]="1">{{ "Đại học" | localize}}</mat-option>
                                     <mat-option [value]="2">{{ "Cao đẳng" | localize}}</mat-option>
-                                    <mat-option [value]="3">{{ "THPT" | localize}}</mat-option>
+                                    <mat-option [value]="3">{{ "Trung cấp" | localize}}</mat-option>
+                                    <mat-option [value]="4">{{ "THPT" | localize}}</mat-option>
+                                    <mat-option [value]="5">{{ "Semon" | localize}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -60,9 +62,9 @@
                                         <button mat-raised-button (click)="export()">
                                                 {{ "Xuất Excel" | localize }}
                                         </button>
-                                        <button mat-raised-button color="warn" (click)="SendJD()" [disabled] = "selectedRecordId.length == 0">
+                                        <!-- <button mat-raised-button color="warn" (click)="SendJD()" [disabled] = "selectedRecordId.length == 0">
                                             {{ "Gửi JD" | localize }}
-                                        </button>
+                                        </button> -->
                                     </div>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
@@ -106,7 +108,7 @@
                                             <td>{{employee.nhungNgonNgu}}</td>
                                             <td>{{ employee.sdt}}</td>
                                             <td>{{ employee.email }}</td>
-                                            <td>{{ employee.bangCap == 1 ? 'Đại học': 'Cao đẳng'}}</td>
+                                            <td>{{ getBangCap(employee.bangCap)}}</td>
                                             <td>{{ employee.kinhNghiem}}</td>
                                             <td>{{ employee.ngayNhanCV?.format("L")}}</td>
                                             <td>

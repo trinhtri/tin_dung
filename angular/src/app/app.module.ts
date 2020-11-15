@@ -56,6 +56,7 @@ import { LichPVComponent } from './quan-ly-trang-thai-cv/lich-pv/lich-pv.compone
 import { PVChuaKetQuaComponent } from './quan-ly-trang-thai-cv/pvchua-ket-qua/pvchua-ket-qua.component';
 import { DaNhanPVComponent } from './quan-ly-trang-thai-cv/da-nhan-pv/da-nhan-pv.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -112,7 +113,8 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     FullCalendarModule,
     NgxMatTimepickerModule,
     NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule
+    NgxMatNativeDateModule,
+    AngularEditorModule,
   ],
   providers: [
     EmployeeServiceProxy,

@@ -189,6 +189,25 @@ export class CVComponent extends AppComponentBase implements OnInit {
       }
     });
   }
+  getBangCap(id) {
+    switch (+id) {
+      case 1:
+        return 'Đại học';
+        break;
+      case 2:
+        return 'Cao đẳng';
+        break;
+      case 3:
+        return 'Trung cấp';
+        break;
+      case 4:
+        return 'THPT';
+        break;
+      case 5:
+        return 'Semon';
+        break;
+    }
+  }
   export() {
     let start;
     let end;

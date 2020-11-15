@@ -308,10 +308,16 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
         return 'Đại học';
         break;
       case 2:
-        return  'Cao đẳng';
+        return 'Cao đẳng';
         break;
       case 3:
-        return  'THPT';
+        return 'Trung cấp';
+        break;
+      case 4:
+        return 'THPT';
+        break;
+      case 5:
+        return 'Semon';
         break;
     }
   }

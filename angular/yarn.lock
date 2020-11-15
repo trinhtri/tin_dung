@@ -992,6 +992,13 @@
   dependencies:
     "@fullcalendar/daygrid" "~4.4.0"
 
+"@kolkov/angular-editor@^0.18.4":
+  version "0.18.8"
+  resolved "https://registry.yarnpkg.com/@kolkov/angular-editor/-/angular-editor-0.18.8.tgz#8f22ede706c56c628db45efed2382138788d3b6e"
+  integrity sha512-g9jxJDviK1RJcnqqUbfQoE/24FMMkGoAptE1ViG5iGI3oG2gS6l98VZPi63LuastDFQtmBwUI+CgZh/di+9/+Q==
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngtools/webpack@8.3.2":
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-8.3.2.tgz#e2b60056a57485b44b72fab52aa00327e5f713e8"

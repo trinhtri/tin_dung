@@ -8142,3 +8142,20 @@ html.ie11 .bs-searchbox .form-control {
 .btn-action>button:not(:last-child) {
     margin-right: 10px;
 }
+.quote {
+  color: #8cc540;
+  font-style: italic;
+}
+
+.redText {
+  color: Red;
+  font-size: 12px;
+  font-family: Arial;
+}
+
+h1.titleText {
+  color: #69a8cf;
+  text-align: left;
+  margin-top: 40px;
+  font-weight: normal;
+}

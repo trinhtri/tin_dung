@@ -76,6 +76,7 @@
     "toastr": "^2.1.2",
     "ts-helpers": "^1.1.2",
     "web-animations-js": "^2.3.2",
+    "@kolkov/angular-editor": "^0.18.4",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
