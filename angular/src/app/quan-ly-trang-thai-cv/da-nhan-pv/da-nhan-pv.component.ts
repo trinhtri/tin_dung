@@ -19,7 +19,7 @@ import { CreateOrEditCVComponent } from '@app/cv/create-or-edit-cv/create-or-edi
 export class DaNhanPVComponent extends AppComponentBase implements OnInit {
 
   public employees: EmployeeListDto[] = [];
-  public pageSize = 10;
+  public pageSize = 25;
   public pageNumber = 1;
   public totalPages = 1;
   public totalItems: number;

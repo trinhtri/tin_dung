@@ -19,7 +19,7 @@ import { EmployeeService } from '@app/employee.service';
 export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDestroy {
 
   public employees: EmployeeListDto[] = [];
-  public pageSize = 10;
+  public pageSize = 25;
   public pageNumber = 1;
   public totalPages = 1;
   public totalItems: number;
@@ -59,7 +59,7 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
     });
   }
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
   }
   initData() {
     // get languges

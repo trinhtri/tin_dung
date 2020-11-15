@@ -19,6 +19,7 @@ namespace ManagerCV.DashboardInterview
         public async Task<List<GetEmployeeForChartDto>> GetDataForDashboard()
         {
             var emps = await _employeeRepository.GetAll().Where(a => a.NgayPhongVan.HasValue)
+                .Where(x=>x.TrangThai == 3 || x.TrangThai == 4 || x.TrangThai == 5)
                 .Select(a => new GetEmployeeForChartDto
                 {
                     Id = a.Id,

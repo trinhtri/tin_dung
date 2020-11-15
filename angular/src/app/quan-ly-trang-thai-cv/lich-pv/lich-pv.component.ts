@@ -19,7 +19,7 @@ import { CreateOrEditCVComponent } from '@app/cv/create-or-edit-cv/create-or-edi
 export class LichPVComponent extends AppComponentBase implements OnInit {
 
   public employees: EmployeeListDto[] = [];
-  public pageSize = 10;
+  public pageSize = 25;
   public pageNumber = 1;
   public totalPages = 1;
   public totalItems: number;
@@ -165,9 +165,9 @@ export class LichPVComponent extends AppComponentBase implements OnInit {
   showAddOrEditClient(id?: any) {
     let createOrEditGrade;
     if (id === null || id === undefined) {
-      createOrEditGrade = this._dialog.open(CreateOrEditCVComponent);
+      createOrEditGrade = this._dialog.open(HenPVComponent);
     } else {
-      createOrEditGrade = this._dialog.open(CreateOrEditCVComponent, {
+      createOrEditGrade = this._dialog.open(HenPVComponent, {
         data: id
       });
     }

@@ -19,7 +19,7 @@ import { CreateOrEditCVComponent } from '@app/cv/create-or-edit-cv/create-or-edi
 export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestroy {
 
   public employees: EmployeeListDto[] = [];
-  public pageSize = 10;
+  public pageSize = 25;
   public pageNumber = 1;
   public totalPages = 1;
   public totalItems: number;
@@ -50,7 +50,7 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
     super(injector);
   }
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
   }
   ngOnInit() {
     this.getAll();

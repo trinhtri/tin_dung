@@ -18,7 +18,7 @@ import { EmployeeService } from '@app/employee.service';
 export class PVChuaKetQuaComponent extends AppComponentBase implements OnInit {
 
   public employees: EmployeeListDto[] = [];
-  public pageSize = 10;
+  public pageSize = 25;
   public pageNumber = 1;
   public totalPages = 1;
   public totalItems: number;
