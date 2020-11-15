@@ -56,9 +56,10 @@ export class HomeComponent extends AppComponentBase implements OnInit {
                 const temp = {
                     id: el.id,
                     title: el.title,
-                    start: el.start.toDate(),
-                    allDay: true
+                    start: el.start.toDate() ,
+                    // allDay: true
                 };
+                console.log('temp', temp);
                 this.calendarEvents.push(temp);
             });
             this.calendarApi.removeAllEventSources();

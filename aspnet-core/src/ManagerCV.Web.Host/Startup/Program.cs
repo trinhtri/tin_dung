@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using Abp.Timing;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace ManagerCV.Web.Host.Startup
@@ -7,6 +8,7 @@ namespace ManagerCV.Web.Host.Startup
     {
         public static void Main(string[] args)
         {
+            Clock.Provider = ClockProviders.Local;
             BuildWebHost(args).Run();
         }
 

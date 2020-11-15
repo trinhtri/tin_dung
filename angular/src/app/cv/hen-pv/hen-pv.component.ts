@@ -12,6 +12,13 @@ export class HenPVComponent extends AppComponentBase implements OnInit {
   public isLoading = false;
   saving = false;
   ngayPV: any;
+  showSpinners = true;
+  showSeconds = false;
+  public stepHour = 1;
+  public stepMinute = 1;
+  public stepSecond = 1;
+  touchUi = false;
+  public enableMeridian = false;
   constructor(injector: Injector,
     private _EmployeeService: EmployeeServiceProxy,
     private dialogRef: MatDialogRef<HenPVComponent>,
@@ -42,11 +49,11 @@ export class HenPVComponent extends AppComponentBase implements OnInit {
     } else {
       ngay = undefined;
     }
-      this._EmployeeService.henPV(this.data, ngay)
-        .subscribe(() => {
-          abp.notify.success(this.l('Lưu thành công.'));
-          this.close(true);
-        });
+    this._EmployeeService.henPV(this.data, ngay)
+      .subscribe(() => {
+        abp.notify.success(this.l('Lưu thành công.'));
+        this.close(true);
+      });
   }
   close(result: any): void {
     this.saving = false;

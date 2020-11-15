@@ -56,6 +56,7 @@ import { DaGuiCVComponent } from './quan-ly-trang-thai-cv/da-gui-cv/da-gui-cv.co
 import { LichPVComponent } from './quan-ly-trang-thai-cv/lich-pv/lich-pv.component';
 import { PVChuaKetQuaComponent } from './quan-ly-trang-thai-cv/pvchua-ket-qua/pvchua-ket-qua.component';
 import { DaNhanPVComponent } from './quan-ly-trang-thai-cv/da-nhan-pv/da-nhan-pv.component';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 @NgModule({
   declarations: [
     AppComponent,
@@ -110,7 +111,10 @@ import { DaNhanPVComponent } from './quan-ly-trang-thai-cv/da-nhan-pv/da-nhan-pv
     NgxPaginationModule,
     MatDatepickerModule,
     FileUploadModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule
   ],
   providers: [
     EmployeeServiceProxy,

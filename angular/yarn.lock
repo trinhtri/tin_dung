@@ -112,6 +112,20 @@
     "@angular-devkit/core" "8.3.2"
     rxjs "6.4.0"
 
+"@angular-material-components/datetime-picker@^2.0.3":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@angular-material-components/datetime-picker/-/datetime-picker-2.0.4.tgz#3a298eb29fc4a8adbbb70fe09bab0ae916d0c186"
+  integrity sha512-3nXGFz7GXbFYeBI2/72rcmPFTWtcC1ERlgdkaY+65dFHXPIc8hKGv6o+JbtCoYPg7xmVCCy4xhmOgfd/CFGyOw==
+  dependencies:
+    tslib "^1.9.0"
+
+"@angular-material-components/moment-adapter@^2.0.1":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@angular-material-components/moment-adapter/-/moment-adapter-2.0.2.tgz#9c9f160413396bc4aaa85d75519b47f3c5bd1ff1"
+  integrity sha512-QO8ftUkUzFIK8QhG9Z/f00Y5Z1BYBdOmIiEHOd6hwcKQK2PS87tAIETPLOjHnUONSAQjTVWcw8/WpQTBqCNxyA==
+  dependencies:
+    tslib "^1.9.0"
+
 "@angular/animations@^8.2.4":
   version "8.2.4"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-8.2.4.tgz#0780f9cb98a2ec3d43d80c42976420597932dc36"
