@@ -56,7 +56,6 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
     this.getAll();
     this.initData();
     this._employeeClientService.observableEvent_Click_VeMoi.subscribe(result => {
-      console.log('ve tao moi', result);
       if (result === true) {
         this.getAll();
       }
@@ -278,7 +277,7 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
       this.endDate.setHours(23, 59, 59, 59);
       end = moment(this.endDate);
     }
-    this._employeeService.getCVToExcel(this.keyword, undefined, start, end, this.certificateSelected,
+    this._employeeService.getCVToExcel(this.keyword, 1, start, end, this.certificateSelected,
       this.languageSelected, this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this._fileDownLoadService.downloadTempFile(result);

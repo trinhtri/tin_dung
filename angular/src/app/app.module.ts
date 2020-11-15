@@ -41,7 +41,6 @@ import { CVGuiDiComponent } from './cv/cv-gui-di/cv-gui-di.component';
 import { ConfigEmailSenderServiceProxy, DashboardInterviewAppserviceServiceProxy, EmployeeServiceProxy, LanguageServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CVComponent } from './cv/cv.component';
 import { CreateOrEditCVComponent } from './cv/create-or-edit-cv/create-or-edit-cv.component';
-import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { FileUploadModule } from 'ng2-file-upload';
 import { FileDownloadService } from '@shared/Utils/file-download.service';
@@ -85,7 +84,6 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     CVComponent,
     CVGuiDiComponent,
     CreateOrEditCVComponent,
-    CVUngVienGuiComponent,
     NgonNguComponent,
     CreateOrEditNgonnguComponent,
     SendJDComponent,

@@ -10,7 +10,6 @@ import { RolesComponent } from 'app/roles/roles.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { CVComponent } from './cv/cv.component';
 import { CVGuiDiComponent } from './cv/cv-gui-di/cv-gui-di.component';
-import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.component';
 import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
 import { QuanLyTrangThaiCVComponent } from './quan-ly-trang-thai-cv/quan-ly-trang-thai-cv.component';
 
@@ -28,7 +27,6 @@ import { QuanLyTrangThaiCVComponent } from './quan-ly-trang-thai-cv/quan-ly-tran
                     { path: 'about', component: AboutComponent },
                     { path: 'update-password', component: ChangePasswordComponent },
                     { path: 'cvs', component: CVComponent, canActivate: [AppRouteGuard] },
-                    { path: 'cv_gui', component: CVUngVienGuiComponent, canActivate: [AppRouteGuard] },
                     { path: 'cv_status', component: QuanLyTrangThaiCVComponent, canActivate: [AppRouteGuard] },
                     { path: 'languages', component: NgonNguComponent, canActivate: [AppRouteGuard] },
                 ]

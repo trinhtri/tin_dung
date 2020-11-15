@@ -53,7 +53,6 @@ export class DaNhanPVComponent extends AppComponentBase implements OnInit {
     this.getAll();
     this.initData();
     this._employeeClientService.observableEvent_Click_DaNhan.subscribe(result => {
-      console.log('vao gui cv', result);
       if (result === true) {
         this.getAll();
       }
@@ -206,7 +205,7 @@ export class DaNhanPVComponent extends AppComponentBase implements OnInit {
       this.endNgaypv = undefined;
     }
     this._employeeService.getGuiCVToExcel(
-      this.keyword, this.ketQua, this.startDate, this.startNgaypv, this.endNgaypv,
+      this.keyword, 5, this.startDate, this.startNgaypv, this.endNgaypv,
       this.endDate,
       this.certificateSelected,
       this.languageSelected,
@@ -273,7 +272,7 @@ export class DaNhanPVComponent extends AppComponentBase implements OnInit {
       this.endDate.setHours(23, 59, 59, 59);
       end = moment(this.endDate);
     }
-    this._employeeService.getCVToExcel(this.keyword, undefined, start, end, this.certificateSelected,
+    this._employeeService.getCVToExcel(this.keyword, 5, start, end, this.certificateSelected,
       this.languageSelected, this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this._fileDownLoadService.downloadTempFile(result);
