@@ -17,7 +17,7 @@ import * as moment from 'moment';
 })
 export class CVComponent extends AppComponentBase implements OnInit {
   public employees: EmployeeListDto[] = [];
-  public pageSize = 10;
+  public pageSize = 50;
   public pageNumber = 1;
   public totalPages = 1;
   public totalItems: number;
@@ -31,7 +31,7 @@ export class CVComponent extends AppComponentBase implements OnInit {
   bangCap: any;
   languageSelected: number[] = [];
   certificateSelected: string[] = [];
-  trangthai: any;
+  trangthaiSelected: number[] = [];
   languages: LanguageDto[] = [];
   private sorting = undefined;
   private skipCount = (this.pageNumber - 1) * this.pageSize;
@@ -61,6 +61,11 @@ export class CVComponent extends AppComponentBase implements OnInit {
     this.certificateSelected = data.value;
     this.getAll();
   }
+  filterbyStatus(data) {
+    console.log(data.value);
+    this.trangthaiSelected = data.value;
+    this.getAll();
+  }
   getAll() {
     this.skipCount = (this.pageNumber - 1) * this.pageSize;
     this.isTableLoading = true;
@@ -79,11 +84,12 @@ export class CVComponent extends AppComponentBase implements OnInit {
       end = moment(this.endDate);
     }
 
-    this._employeeService.getAll(this.keyword, undefined, start, end, this.certificateSelected, this.languageSelected,
+    this._employeeService.getAll(this.keyword, this.trangthaiSelected, start, end, this.certificateSelected, this.languageSelected,
       this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this.employees = result.items;
         this.totalItems = result.totalCount;
+        console.log('employee', this.employees);
         this.totalPages = ((result.totalCount - (result.totalCount % this.pageSize)) / this.pageSize) + 1;
         this.allRecordId = [];
         this.selectedRecordId = [];
@@ -205,6 +211,25 @@ export class CVComponent extends AppComponentBase implements OnInit {
         break;
       case 5:
         return 'Semon';
+        break;
+    }
+  }
+  getStatus(id) {
+    switch (+id) {
+      case 1:
+        return 'Quản lý chung';
+        break;
+      case 2:
+        return 'Đã gửi CV';
+        break;
+      case 3:
+        return 'Có lịch PV';
+        break;
+      case 4:
+        return 'PV chưa kết quả';
+        break;
+      case 5:
+        return 'Đã nhận';
         break;
     }
   }

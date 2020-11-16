@@ -5,12 +5,12 @@
             <div class="body table-responsive">
                 <div class="row">
                     <form>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <mat-form-field>
                                 <input matInput [placeholder]="l('Tìm kiếm')" [(ngModel)]="keyword" name="keyword" (ngModelChange) = "getAll()"/>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <mat-form-field>
                                 <mat-select [placeholder]="'Bằng cấp' | localize" multiple name="bangCap" (selectionChange)="filterbyCertificate($event)">
                                     <mat-option [value]="1">{{ "Đại học" | localize}}</mat-option>
@@ -21,7 +21,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <mat-form-field>
                                 <mat-select (selectionChange)="filter($event)" multiple [placeholder]="'Ngôn ngữ' | localize">
                                     <mat-option *ngFor="let languge of languages" [value]="languge.id">{{languge.ngonNgu}}</mat-option>
@@ -29,7 +29,7 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <mat-form-field>
                                 <input matInput [matDatepicker]="picker" [placeholder]="'Ngày bắt đầu' | localize" name="StartDate" [(ngModel)]="startDate" (dateChange)="getAll()"/>
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -42,12 +42,19 @@
                                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                 <mat-datepicker #picker1></mat-datepicker>
                             </mat-form-field>
-                        </div>
+                        </div> -->
 
-                        <div class="col-md-1">
-                            <button mat-raised-button color="primary" class="buttonSearch pull-right mt-3" (click)="getDataPage(1)">
-                                <i class="material-icons">search</i>
-                            </button>
+                        <div class="col-md-3">
+                            <mat-form-field>
+                                <mat-select [placeholder]="'Trạng thái' | localize" multiple name="trangthai"
+                                    (selectionChange)="filterbyStatus($event)">
+                                    <mat-option [value]="1">{{ "Quản lý chung" | localize}}</mat-option>
+                                    <mat-option [value]="2">{{ "Đã gửi CV" | localize}}</mat-option>
+                                    <mat-option [value]="3">{{ "Có lịch PV" | localize}}</mat-option>
+                                    <mat-option [value]="4">{{ "PV chưa kết quả" | localize}}</mat-option>
+                                    <mat-option [value]="5">{{ "Đã nhận" | localize}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
                     </form>
                     <mat-accordion class="col-md-12">
@@ -72,12 +79,6 @@
                                 <table class="table table-hover table-striped gs-table" [busy]="isTableLoading" matSort (matSortChange)="sortData($event)">
                                     <thead>
                                         <tr>
-                                            <th style="background-color: white;">
-                                                <label class="kt-checkbox" style="margin-bottom: -1px !important; ">
-                                                    <mat-checkbox class="example-margin" [(ngModel)]="checkedAll" (change)="onAllCheckboxChanged(checkedAll)"></mat-checkbox>
-                                                    <span></span>
-                                                </label>
-                                            </th>
                                             <th mat-sort-header="hoTen">{{ "Họ Tên" | localize }}</th>
                                             <th mat-sort-header="ngonNgu">{{ "Ngôn Ngữ" | localize }}</th>
                                             <th mat-sort-header="sdt">{{ "Số Điện Thoại" | localize }}</th>
@@ -85,6 +86,9 @@
                                             <th mat-sort-header="bangCap">{{ "Bằng cấp" | localize }}</th>
                                             <th mat-sort-header="KinhNghiem">{{ "Kinh Nghiệm" | localize }}</th>
                                             <th mat-sort-header="NgayNhanCV">{{ "Ngày Nhận CV" | localize }}</th>
+                                            <th mat-sort-header="trangthai">{{ "Trạng Thái" | localize }}</th>
+                                            <th mat-sort-header="CtyNhan">{{ "CTy Nhận" | localize }}</th>
+                                            <th mat-sort-header="NgayPhongVan">{{ "Ngày PV" | localize }}</th>
                                             <th>{{l('Tính Năng')}}</th>
                                         </tr>
                                     </thead>
@@ -96,14 +100,6 @@
                                                     totalItems: totalItems
                                                   }
                                                   ">
-                                                  <td>
-                                                    <label class="kt-checkbox" style="padding-top: 2px;">
-                                                    <mat-checkbox class="example-margin" [checked]="selectedRecordId.includes(employee.id) ? true : false"
-                                                    (change)="onCheckboxChanged(employee.id, $event)"></mat-checkbox>
-                                                        <span></span>
-                                                    </label>
-                                                </td>
-
                                             <td>{{ employee.hoTen }}</td>
                                             <td>{{employee.nhungNgonNgu}}</td>
                                             <td>{{ employee.sdt}}</td>
@@ -111,6 +107,10 @@
                                             <td>{{ getBangCap(employee.bangCap)}}</td>
                                             <td>{{ employee.kinhNghiem}}</td>
                                             <td>{{ employee.ngayNhanCV?.format("L")}}</td>
+                                            <td>{{ getStatus(employee.trangThai)}}</td>
+                                            <td>{{ employee.ctyNhan}}</td>
+                                            <td>{{ employee.ngayPhongVan?.format("L")}}</td>
+
                                             <td>
                                                 <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
                                                     <mat-icon>menu</mat-icon>
@@ -121,10 +121,10 @@
                                                         <span>{{ "Chỉnh Sửa" | localize }}</span>
                                                     </button>
 
-                                                    <button mat-menu-item (click)="CV_Gui(employee)">
+                                                    <!-- <button mat-menu-item (click)="CV_Gui(employee)">
                                                         <mat-icon>send</mat-icon>
                                                         <span>{{ "CV gửi đi" | localize }}</span>
-                                                    </button>
+                                                    </button> -->
 
                                                     <button mat-menu-item (click)="dowload_CV(employee)">
                                                         <mat-icon>arrow_downward</mat-icon>
@@ -142,7 +142,7 @@
                                     </tbody>
                                 </table>
 
-                                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100,200,500,1000,10000]" (page)="onChangedPanigation($event)">
+                                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[10, 25, 100,200,500,1000,10000]" (page)="onChangedPanigation($event)">
                                 </mat-paginator>
 
                                 <div class="abp-pagination-controls-wrapper" *ngIf="totalItems > pageSize">

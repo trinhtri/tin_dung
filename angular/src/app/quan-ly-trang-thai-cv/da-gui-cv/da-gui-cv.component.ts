@@ -185,39 +185,11 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
   }
 
   chuyenVeQLCV(employee) {
-    this._employeeClientService.clickVeMoi(true);
     this._employeeService.chuyenVeQLCV(employee.id).subscribe(result => {
       abp.notify.success(this.l('Chuyển CV thành công'));
       this.getAll();
+      this._employeeClientService.clickVeMoi(true);
     });
-  }
-  exportExcel() {
-    this.skipCount = (this.pageNumber - 1) * this.pageSize;
-    this.isTableLoading = true;
-    if (this.startDate == null) {
-      this.startDate = undefined;
-    }
-    if (this.endDate == null) {
-      this.endDate = undefined;
-    }
-    if (this.startNgaypv == null) {
-      this.startNgaypv = undefined;
-    }
-    if (this.endNgaypv == null) {
-      this.endNgaypv = undefined;
-    }
-    this._employeeService.getGuiCVToExcel(
-      this.keyword, 2, this.startDate, this.startNgaypv, this.endNgaypv,
-      this.endDate,
-      this.certificateSelected,
-      this.languageSelected,
-      this.sorting, this.skipCount, this.pageSize)
-      .subscribe((result) => {
-        this._fileDownLoadService.downloadTempFile(result);
-        this.isTableLoading = false;
-      }, (error) => {
-        this.isTableLoading = false;
-      });
   }
   dowload_CV(employee) {
     this._employeeService.downloadTempAttachment(employee.id).subscribe(result => {
@@ -274,7 +246,7 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
       this.endDate.setHours(23, 59, 59, 59);
       end = moment(this.endDate);
     }
-    this._employeeService.getCVToExcel(this.keyword, 2, start, end, this.certificateSelected,
+    this._employeeService.getCVToExcel(this.keyword, [2], start, end, this.certificateSelected,
       this.languageSelected, this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this._fileDownLoadService.downloadTempFile(result);

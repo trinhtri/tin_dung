@@ -78,6 +78,7 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
   }
 
   getAll() {
+    console.log('ve moi');
     this.skipCount = (this.pageNumber - 1) * this.pageSize;
     this.isTableLoading = true;
     if (this.startDate == null) {
@@ -194,34 +195,6 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
       this.getAll();
     });
   }
-  exportExcel() {
-    this.skipCount = (this.pageNumber - 1) * this.pageSize;
-    this.isTableLoading = true;
-    if (this.startDate == null) {
-      this.startDate = undefined;
-    }
-    if (this.endDate == null) {
-      this.endDate = undefined;
-    }
-    if (this.startNgaypv == null) {
-      this.startNgaypv = undefined;
-    }
-    if (this.endNgaypv == null) {
-      this.endNgaypv = undefined;
-    }
-    this._employeeService.getGuiCVToExcel(
-      this.keyword, this.ketQua, this.startDate, this.startNgaypv, this.endNgaypv,
-      this.endDate,
-      this.certificateSelected,
-      this.languageSelected,
-      this.sorting, this.skipCount, this.pageSize)
-      .subscribe((result) => {
-        this._fileDownLoadService.downloadTempFile(result);
-        this.isTableLoading = false;
-      }, (error) => {
-        this.isTableLoading = false;
-      });
-  }
   dowload_CV(employee) {
     this._employeeService.downloadTempAttachment(employee.id).subscribe(result => {
       if (result.fileName) {
@@ -230,28 +203,6 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
         this.message.error(this.l('RequestedFileDoesNotExists'));
       }
     });
-  }
-  onCheckboxChanged(id: number, e: any) {
-    if (e.checked) {
-      if (!this.selectedRecordId.includes(id)) {
-        this.selectedRecordId.push(id);
-      }
-    } else {
-      const position = this.selectedRecordId.indexOf(id);
-      // tslint:disable-next-line:no-bitwise
-      if (~position) {
-        this.selectedRecordId.splice(position, 1);
-      }
-    }
-    console.log('selectedRecordId', this.selectedRecordId);
-  }
-  onAllCheckboxChanged(e: any) {
-    if (e) {
-      this.selectedRecordId = Object.assign([], this.allRecordId);
-    } else {
-      this.selectedRecordId = [];
-    }
-    console.log('selectedRecordId', this.selectedRecordId);
   }
   SendJD() {
     let createOrEditGrade;
@@ -277,7 +228,7 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
       this.endDate.setHours(23, 59, 59, 59);
       end = moment(this.endDate);
     }
-    this._employeeService.getCVToExcel(this.keyword, 1, start, end, this.certificateSelected,
+    this._employeeService.getCVToExcel(this.keyword, [1], start, end, this.certificateSelected,
       this.languageSelected, this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this._fileDownLoadService.downloadTempFile(result);
@@ -320,5 +271,27 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
         return 'Semon';
         break;
     }
+  }
+  onCheckboxChanged(id: number, e: any) {
+    if (e.checked) {
+      if (!this.selectedRecordId.includes(id)) {
+        this.selectedRecordId.push(id);
+      }
+    } else {
+      const position = this.selectedRecordId.indexOf(id);
+      // tslint:disable-next-line:no-bitwise
+      if (~position) {
+        this.selectedRecordId.splice(position, 1);
+      }
+    }
+    console.log('selectedRecordId', this.selectedRecordId);
+  }
+  onAllCheckboxChanged(e: any) {
+    if (e) {
+      this.selectedRecordId = Object.assign([], this.allRecordId);
+    } else {
+      this.selectedRecordId = [];
+    }
+    console.log('selectedRecordId', this.selectedRecordId);
   }
 }

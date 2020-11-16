@@ -1163,7 +1163,7 @@ export class EmployeeServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, trangThai: number | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
+    getAll(filter: string | undefined, trangThai: number[] | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<EmployeeListDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1172,7 +1172,7 @@ export class EmployeeServiceProxy {
         if (trangThai === null)
             throw new Error("The parameter 'trangThai' cannot be null.");
         else if (trangThai !== undefined)
-            url_ += "TrangThai=" + encodeURIComponent("" + trangThai) + "&"; 
+            trangThai && trangThai.forEach(item => { url_ += "TrangThai=" + encodeURIComponent("" + item) + "&"; });
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
@@ -1637,7 +1637,7 @@ export class EmployeeServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getCVToExcel(filter: string | undefined, trangThai: number | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
+    getCVToExcel(filter: string | undefined, trangThai: number[] | undefined, startDate: moment.Moment | undefined, endDate: moment.Moment | undefined, bangCap: string[] | undefined, ngonNgu: number[] | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Employee/GetCVToExcel?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -1646,7 +1646,7 @@ export class EmployeeServiceProxy {
         if (trangThai === null)
             throw new Error("The parameter 'trangThai' cannot be null.");
         else if (trangThai !== undefined)
-            url_ += "TrangThai=" + encodeURIComponent("" + trangThai) + "&"; 
+            trangThai && trangThai.forEach(item => { url_ += "TrangThai=" + encodeURIComponent("" + item) + "&"; });
         if (startDate === null)
             throw new Error("The parameter 'startDate' cannot be null.");
         else if (startDate !== undefined)
@@ -2203,6 +2203,57 @@ export class EmployeeServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getTotalEmployeeForManager(): Observable<GetTotalForManager> {
+        let url_ = this.baseUrl + "/api/services/app/Employee/GetTotalEmployeeForManager";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTotalEmployeeForManager(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTotalEmployeeForManager(<any>response_);
+                } catch (e) {
+                    return <Observable<GetTotalForManager>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetTotalForManager>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTotalEmployeeForManager(response: HttpResponseBase): Observable<GetTotalForManager> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetTotalForManager.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetTotalForManager>(<any>null);
     }
 }
 
@@ -5218,6 +5269,65 @@ export class EmployeeListDtoPagedResultDto implements IEmployeeListDtoPagedResul
 export interface IEmployeeListDtoPagedResultDto {
     totalCount: number;
     items: EmployeeListDto[] | undefined;
+}
+
+export class GetTotalForManager implements IGetTotalForManager {
+    moi: number;
+    daGui: number;
+    coLichPV: number;
+    pvChuaKQ: number;
+    daNhan: number;
+
+    constructor(data?: IGetTotalForManager) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.moi = data["moi"];
+            this.daGui = data["daGui"];
+            this.coLichPV = data["coLichPV"];
+            this.pvChuaKQ = data["pvChuaKQ"];
+            this.daNhan = data["daNhan"];
+        }
+    }
+
+    static fromJS(data: any): GetTotalForManager {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetTotalForManager();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["moi"] = this.moi;
+        data["daGui"] = this.daGui;
+        data["coLichPV"] = this.coLichPV;
+        data["pvChuaKQ"] = this.pvChuaKQ;
+        data["daNhan"] = this.daNhan;
+        return data; 
+    }
+
+    clone(): GetTotalForManager {
+        const json = this.toJSON();
+        let result = new GetTotalForManager();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGetTotalForManager {
+    moi: number;
+    daGui: number;
+    coLichPV: number;
+    pvChuaKQ: number;
+    daNhan: number;
 }
 
 export class LanguageDto implements ILanguageDto {

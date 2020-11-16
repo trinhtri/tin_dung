@@ -97,7 +97,7 @@ namespace ManagerCV.Employee
             var query = _employeeRepository.GetAll()
                        .Include(x => x.EmployeeLanguages)
                        .ThenInclude(l => l.CtgLanguage_)
-                       .WhereIf(input.TrangThai.HasValue, x => x.TrangThai == input.TrangThai)
+                       .WhereIf(input.TrangThai.Count > 0, x => input.TrangThai.Any(a=>a == x.TrangThai))
                        .WhereIf(input.BangCap.Count > 0, x => input.BangCap.Any(a => a == x.BangCap))
                        .WhereIf(input.NgonNgu.Count > 0, x => x.EmployeeLanguages.Any(x => input.NgonNgu.Any(a => a == x.CtgLanguage_Id)))
                        .WhereIf(!input.Filter.IsNullOrEmpty(),
@@ -342,7 +342,24 @@ namespace ManagerCV.Employee
         }
 
 
-
+        public async Task<GetTotalForManager> GetTotalEmployeeForManager()
+        {
+            var moi = await _employeeRepository.GetAll().Where(x => x.TrangThai == 1).CountAsync();
+            var DaGui = await _employeeRepository.GetAll().Where(x => x.TrangThai == 2).CountAsync();
+            var PV = await _employeeRepository.GetAll().Where(x => x.TrangThai == 3).CountAsync();
+            var PVChuaKQ = await _employeeRepository.GetAll().Where(x => x.TrangThai == 4).CountAsync();
+            var DaNhan = await _employeeRepository.GetAll().Where(x => x.TrangThai == 5).CountAsync();
+            var reusut = new GetTotalForManager()
+            {
+                Moi = moi,
+                CoLichPV = PV,
+                DaGui = DaGui,
+                DaNhan = DaNhan,
+                PVChuaKQ = PVChuaKQ
+            };
+            return reusut;
+            
+        }
 
     }
 }

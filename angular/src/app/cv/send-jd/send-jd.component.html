@@ -18,7 +18,7 @@
             <!-- <mat-form-field>
                 <textarea matInput name="CC" [placeholder]="'CC email' | localize" [(ngModel)]="email.ccMail"></textarea>
             </mat-form-field> -->
-
+           <br>
             <angular-editor [(ngModel)]="email.content" [placeholder]="'Nội dung' | localize" [config]="config" name="first"></angular-editor>
            <br>
 
@@ -44,7 +44,7 @@
             {{ "Cancel" | localize }}
         </button>
         <button mat-flat-button type="submit" flex="15" (click)="save()" color="primary"
-            [disabled]="!form.form.valid || saving">
+            [disabled]="!form.form.valid || saving || checklstemail">
             {{ "Gửi JD" | localize }}
         </button>
     </div>

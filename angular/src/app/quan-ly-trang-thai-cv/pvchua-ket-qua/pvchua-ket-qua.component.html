@@ -59,7 +59,7 @@
                                 <mat-panel-title>
                                     {{"CV Ứng Viên Gửi Đi" | localize}}
                                     <div class="btn-action">
-                                        <button mat-raised-button (click)="exportExcel()">
+                                        <button mat-raised-button (click)="export()">
                                             {{ "Xuất Excel" | localize }}
                                         </button>
                                     </div>
@@ -117,6 +117,11 @@
                                                         class="btn-edit">
                                                         <mat-icon>settings_backup_restore</mat-icon>
                                                         <span>{{ "Chuyển Về QLCV" | localize }}</span>
+                                                    </button>
+
+                                                    <button mat-menu-item (click)="dowload_CV(employee)">
+                                                        <mat-icon>arrow_downward</mat-icon>
+                                                        <span>{{ "Tải CV" | localize }}</span>
                                                     </button>
 
                                                 </mat-menu>

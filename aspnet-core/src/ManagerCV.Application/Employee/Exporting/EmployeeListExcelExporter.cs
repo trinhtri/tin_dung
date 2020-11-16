@@ -27,7 +27,7 @@ namespace ManagerCV.Employee.Exporting
                        "Hrm-nguyen-hong.xlsx",
                        excelPackage =>
                        {
-                           var sheet = excelPackage.Workbook.Worksheets.Add(L("Hrm-NguyenHong"));
+                           var sheet = excelPackage.Workbook.Worksheets.Add(L("NguyenHong"));
                            sheet.OutLineApplyStyle = true;
                            AddHeader(
                                sheet,
@@ -44,33 +44,29 @@ namespace ManagerCV.Employee.Exporting
                                L("Bằng cấp"),
                                L("Trường"),
                                L("Ngành"),
-                               L("Năm tốt nghiệp"),
                                L("Facebook"),
                                L("Kinh nghiệm"),
                                L("Lương mong muốn"),
-                               L("Nội dung"),
-                               L("Ngày nhận CV")
+                               L("Nội dung")
                                );
                            AddObjects(sheet, 2, list,
                                _ => _.HoTen,
                                _ => _.NamSinh,
                                _ => ConvertGioiTinh(_.GioiTinh),
-                                _ => _.NgonNgu,
+                                _ => _.NhungNgonNgu,
                                _ => _.DanhGiaNgonNgu,
                                 _ => _.QueQuan,
                                _ => _.ChoOHienTai,
                                 _ => _.NguyenVong,
                                _ => _.SDT,
                                 _ => _.Email,
-                               _ => _.BangCap,
+                               _ => GetBangCap(_.BangCap),
                                 _ => _.Truong,
                                _ => _.Nganh,
-                                _ => _.NamTotNghiep,
                                _ => _.FaceBook,
                                 _ => _.KinhNghiem,
                                _ => _.LuongMongMuon,
-                               _ => _.NoiDung,
-                               _ => _timeZoneConverter.Convert(_.NgayNhanCV)
+                               _ => _.NoiDung
                                );
                            for (int i = 1; i <= 19; i++)
                            {
@@ -93,6 +89,31 @@ namespace ManagerCV.Employee.Exporting
                 return "Giới tính thứ 3";
             }
 
+        }
+
+        private string GetBangCap(string id)
+        {
+            var result = "";
+            switch (Int32.Parse(id))
+            {
+                case 1:
+                    result = "Đại học";
+                    break;
+                case 2:
+                    result =  "Cao đẳng";
+                    break;
+                case 3:
+                    result = "Trung cấp";
+                    break;
+                case 4:
+                    result = "THPT";
+                    break;
+                case 5:
+                    result = "Semon";
+                    break;
+            }
+
+            return result;
         }
         public FileDto Export_CVNhan(List<EmployeeListDto> list)
         {
