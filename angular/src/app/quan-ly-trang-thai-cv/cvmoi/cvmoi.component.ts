@@ -136,6 +136,7 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
         if (isConfirmed) {
           this._employeeService.delete(client.id)
             .subscribe(result => {
+              this._employeeClientService.clickDeleteCV(true);
               this.getAll();
               this.notify.info(this.l('Xóa thành công'));
             }
@@ -175,6 +176,7 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
       });
     }
     createOrEditGrade.afterClosed().subscribe(result => {
+      this._employeeClientService.clickAddCV(true);
       this.getAll();
     });
   }

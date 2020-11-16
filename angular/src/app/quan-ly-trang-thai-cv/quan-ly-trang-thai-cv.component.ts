@@ -53,6 +53,16 @@ export class QuanLyTrangThaiCVComponent extends AppComponentBase implements OnIn
         this.initData();
       }
     });
+    this._employeeClientService.observableEvent_Click_DeleteCV.subscribe(result => {
+      if (result === true) {
+        this.initData();
+      }
+    });
+    this._employeeClientService.observableEvent_Click_AddCV.subscribe(result => {
+      if (result === true) {
+        this.initData();
+      }
+    });
 
 
   }
