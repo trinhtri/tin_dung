@@ -119,7 +119,11 @@
 
                                             <td>{{ employee.hoTen }}</td>
                                             <td>{{employee.nhungNgonNgu}}</td>
-                                            <td>{{ employee.sdt}}</td>
+                                            <td>
+                                                <a [href]="getPhone(employee.sdt)">
+                                                    {{employee.sdt}}
+                                                </a>
+                                            </td>
                                             <td>{{ employee.email }}</td>
                                             <td>{{ getBangCap(employee.bangCap)}}</td>
                                             <td>{{ employee.kinhNghiem}}</td>

@@ -88,7 +88,11 @@
                                                   ">
 
                                             <td>{{ employee.hoTen }}</td>
-                                            <td>{{ employee.sdt}}</td>
+                                            <td>
+                                                <a [href]="getPhone(employee.sdt)">
+                                                    {{employee.sdt}}
+                                                </a>
+                                            </td>
                                             <td>{{ employee.email }}</td>
                                             <td>{{ employee.nguyenVong }}</td>
                                             <td>{{ employee.ctyNhan}}</td>

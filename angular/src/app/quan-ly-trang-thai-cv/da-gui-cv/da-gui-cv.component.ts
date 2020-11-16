@@ -222,6 +222,9 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
     }
     console.log('selectedRecordId', this.selectedRecordId);
   }
+  getPhone(input){
+    return 'tel:' + input;
+  }
   SendJD() {
     let createOrEditGrade;
     createOrEditGrade = this._dialog.open(SendJDComponent, {

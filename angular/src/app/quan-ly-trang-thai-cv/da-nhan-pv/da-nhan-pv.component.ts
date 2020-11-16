@@ -198,6 +198,9 @@ export class DaNhanPVComponent extends AppComponentBase implements OnInit {
       }
     });
   }
+  getPhone(input){
+    return 'tel:' + input;
+  }
   onCheckboxChanged(id: number, e: any) {
     if (e.checked) {
       if (!this.selectedRecordId.includes(id)) {

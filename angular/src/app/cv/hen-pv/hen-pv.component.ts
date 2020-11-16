@@ -11,7 +11,7 @@ import * as moment from 'moment';
 export class HenPVComponent extends AppComponentBase implements OnInit {
   public isLoading = false;
   saving = false;
-  ngayPV: any;
+  ngayPV = new Date();
   showSpinners = true;
   showSeconds = false;
   public stepHour = 1;

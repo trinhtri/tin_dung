@@ -195,6 +195,9 @@ export class PVChuaKetQuaComponent extends AppComponentBase implements OnInit {
       this._employeeClientService.clickVeMoi(true);
     });
   }
+  getPhone(input){
+    return 'tel:' + input;
+  }
   dowload_CV(employee) {
     this._employeeService.downloadTempAttachment(employee.id).subscribe(result => {
       if (result.fileName) {

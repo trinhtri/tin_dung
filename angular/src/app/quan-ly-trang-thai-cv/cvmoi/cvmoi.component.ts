@@ -272,6 +272,9 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
         break;
     }
   }
+  getPhone(input){
+    return 'tel:' + input;
+  }
   onCheckboxChanged(id: number, e: any) {
     if (e.checked) {
       if (!this.selectedRecordId.includes(id)) {
