@@ -10,4 +10,14 @@ export class FileDownloadService {
             '/Profile/DownloadTempFile?fileType=' + file.fileType + '&fileToken=' + file.fileToken + '&fileName=' + file.fileName;
         location.href = url;
     }
+    downloadTempFileHD(file: FileDto) {
+        const url = AppConsts.remoteServiceBaseUrl +
+            '/Profile/DownloadTempFileHD?fileType=' + file.fileType + '&fileToken=' + file.fileToken + '&fileName=' + file.fileName;
+        location.href = url;
+    }
+    downloadTempFileTT(file: FileDto) {
+        const url = AppConsts.remoteServiceBaseUrl +
+            '/Profile/DownloadTempFileTT?fileType=' + file.fileType + '&fileToken=' + file.fileToken + '&fileName=' + file.fileName;
+        location.href = url;
+    }
 }

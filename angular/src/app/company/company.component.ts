@@ -123,10 +123,20 @@ export class CompanyComponent extends AppComponentBase implements OnInit {
     getPhone(input) {
       return 'tel:' + input;
     }
-    dowload_CV(employee) {
-      this._employeeService.downloadTempAttachment(employee.id).subscribe(result => {
+    dowload_HD(company) {
+      this._companyService.downloadHD(company.id).subscribe(result => {
         if (result.fileName) {
-          this._fileDownLoadService.downloadTempFile(result);
+          this._fileDownLoadService.downloadTempFileHD(result);
+        } else {
+          this.message.error(this.l('RequestedFileDoesNotExists'));
+        }
+      });
+    }
+
+    dowload_TT(company) {
+      this._companyService.downloadTT(company.id).subscribe(result => {
+        if (result.fileName) {
+          this._fileDownLoadService.downloadTempFileTT(result);
         } else {
           this.message.error(this.l('RequestedFileDoesNotExists'));
         }

@@ -80,13 +80,22 @@ namespace ManagerCV
             var appFolders = IocManager.Resolve<AppFolders>();
 
             appFolders.TempFileDownloadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Downloads");
+            appFolders.TemFileHopDongFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}HopDong");
+            appFolders.TemFileThanhToanFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}ThanhToan");
             appFolders.TempFileUploadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Uploads");
             appFolders.TempFileUploadJDFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}JD");
             appFolders.AttachmentsFolder = Path.Combine(_env.WebRootPath, $"Files{Path.DirectorySeparatorChar}Documents");
+            appFolders.AttachHopDongFolder = Path.Combine(_env.WebRootPath, $"Files{Path.DirectorySeparatorChar}HopDong");
+            appFolders.AttachThanhToanFolder = Path.Combine(_env.WebRootPath, $"Files{Path.DirectorySeparatorChar}ThanhToan");
+           
             DirectoryHelper.CreateIfNotExists(appFolders.TempFileDownloadFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.TemFileHopDongFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.AttachHopDongFolder);
             DirectoryHelper.CreateIfNotExists(appFolders.TempFileUploadFolder);
             DirectoryHelper.CreateIfNotExists(appFolders.AttachmentsFolder);
             DirectoryHelper.CreateIfNotExists(appFolders.TempFileUploadJDFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.AttachThanhToanFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.TemFileThanhToanFolder);
         }
     }
 }

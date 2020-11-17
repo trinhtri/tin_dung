@@ -17,6 +17,8 @@ namespace ManagerCV.Company.Dto
         public string HopDong { get; set; }
         public string ContentTypeTT { get; set; }
         public string ThanhToan { get; set; }
+        public bool IsSelectHD { get; set; }
+        public bool IsSelectTT { get; set; }
 
     }
 }

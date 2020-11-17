@@ -19,6 +19,24 @@
             <mat-form-field>
                 <input matInput name="vtuvut" [placeholder]="'Note' | localize" [(ngModel)]="company.note"/>
             </mat-form-field>
+            <mat-form-field>
+                <input matInput [placeholder]="l('Hợp đồng')" name="documentName" [(ngModel)]="company.hopDong" readonly />
+                <button mat-icon-button matSuffix (click)="selectFileHD($event)">
+                  <mat-icon style="font-size:20px;"> description
+                </mat-icon>
+                </button>
+                <input id="documentFileInput" #documentFileInput [uploader]="documentUploader" #documentFileInput type="file" ng2FileSelect class="form-control-file" style="display:none;" />
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [placeholder]="l('Thanh Toán')" name="documentNameTT" [(ngModel)]="company.thanhToan" readonly />
+                <button mat-icon-button matSuffix (click)="selectFileTT($event)">
+                  <mat-icon style="font-size:20px;"> description
+                </mat-icon>
+                </button>
+                <input id="documentFileInputTT" #documentFileInputTT [uploader]="documentUploaderTT" #documentFileInputTT type="file" ng2FileSelect class="form-control-file" style="display:none;" />
+            </mat-form-field>
+
         </div>
 
     </mat-dialog-content>
