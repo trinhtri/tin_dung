@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManagerCV.Company.Dto;
 using ManagerCV.Employee.Dto;
 using ManagerCV.Language.Dto;
 using System;
@@ -17,6 +18,8 @@ namespace ManagerCV
                 .ReverseMap();
             configuration.CreateMap<Models.Employee, CreateEmployeeDto>().ReverseMap();
             configuration.CreateMap<Models.CtgLanguage, LanguageDto>().ReverseMap();
+            configuration.CreateMap<Models.Company, CreateCompanyDto>().ReverseMap();
+            configuration.CreateMap<Models.Company, CompanyListDto>().ReverseMap();
 
         }
     }

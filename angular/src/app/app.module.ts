@@ -38,7 +38,8 @@ import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.c
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 import { CVGuiDiComponent } from './cv/cv-gui-di/cv-gui-di.component';
-import { ConfigEmailSenderServiceProxy, DashboardInterviewAppserviceServiceProxy, EmployeeServiceProxy, LanguageServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CompanyServiceProxy, ConfigEmailSenderServiceProxy,
+  DashboardInterviewAppserviceServiceProxy, EmployeeServiceProxy, LanguageServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CVComponent } from './cv/cv.component';
 import { CreateOrEditCVComponent } from './cv/create-or-edit-cv/create-or-edit-cv.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -57,6 +58,8 @@ import { PVChuaKetQuaComponent } from './quan-ly-trang-thai-cv/pvchua-ket-qua/pv
 import { DaNhanPVComponent } from './quan-ly-trang-thai-cv/da-nhan-pv/da-nhan-pv.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { CompanyComponent } from './company/company.component';
+import { CreateOrEditCompanyComponent } from './company/create-or-edit-company/create-or-edit-company.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,7 +97,9 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     DaGuiCVComponent,
     LichPVComponent,
     PVChuaKetQuaComponent,
-    DaNhanPVComponent
+    DaNhanPVComponent,
+    CompanyComponent,
+    CreateOrEditCompanyComponent
   ],
   imports: [
     CommonModule,
@@ -121,7 +126,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     FileDownloadService,
     LanguageServiceProxy,
     ConfigEmailSenderServiceProxy,
-    DashboardInterviewAppserviceServiceProxy
+    DashboardInterviewAppserviceServiceProxy,
+    CompanyServiceProxy
   ],
   entryComponents: [
     // tenants
@@ -138,7 +144,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     CVGuiDiComponent,
     CreateOrEditNgonnguComponent,
     SendJDComponent,
-    HenPVComponent
+    HenPVComponent,
+    CreateOrEditCompanyComponent
   ]
 })
 export class AppModule {}

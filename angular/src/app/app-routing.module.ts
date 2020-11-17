@@ -12,6 +12,7 @@ import { CVComponent } from './cv/cv.component';
 import { CVGuiDiComponent } from './cv/cv-gui-di/cv-gui-di.component';
 import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
 import { QuanLyTrangThaiCVComponent } from './quan-ly-trang-thai-cv/quan-ly-trang-thai-cv.component';
+import { CompanyComponent } from './company/company.component';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { QuanLyTrangThaiCVComponent } from './quan-ly-trang-thai-cv/quan-ly-tran
                     { path: 'update-password', component: ChangePasswordComponent },
                     { path: 'cvs', component: CVComponent, canActivate: [AppRouteGuard] },
                     { path: 'cv_status', component: QuanLyTrangThaiCVComponent, canActivate: [AppRouteGuard] },
+                    { path: 'congty', component: CompanyComponent, canActivate: [AppRouteGuard] },
                     { path: 'languages', component: NgonNguComponent, canActivate: [AppRouteGuard] },
                 ]
             }

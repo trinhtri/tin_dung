@@ -14,6 +14,7 @@ namespace ManagerCV.EntityFrameworkCore
         public virtual DbSet<CtgLanguage> CtgLanguage { get; set; }
         public virtual DbSet<SysConfigToSendMail> SysConfigToSendMails { get; set; }
         public virtual DbSet<EmployeeLanguage> EmployeeLanguages { get; set; }
+        public virtual DbSet<Company> Company { get; set; }
         public ManagerCVDbContext(DbContextOptions<ManagerCVDbContext> options)
             : base(options)
         {

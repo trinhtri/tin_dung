@@ -13,7 +13,7 @@ export class SideBarNavComponent extends AppComponentBase {
         new MenuItem(this.l('Lịch PV'), '', 'home', '/app/home'),
         new MenuItem(this.l('Quản lý CV'), 'Pages.Roles', 'people', '/app/cvs'),
         new MenuItem(this.l('Quản lý trạng thái CV'), 'Pages.Roles', 'send', '/app/cv_status'),
-        // new MenuItem(this.l('CV Ứng Viên Gửi Đi'), 'Pages.Roles', 'send', '/app/cv_gui'),
+        new MenuItem(this.l('Quản lý công ty'), 'Pages.Roles', 'business', '/app/congty'),
         new MenuItem(this.l('Quản trị'), '', 'menu', '', [
             new MenuItem(this.l('Tenants'), 'Pages.Tenants', 'business', '/app/tenants'),
             new MenuItem(this.l('Người dùng'), 'Pages.Users', '', '/app/users'),
