@@ -91,7 +91,6 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
 
   }
     save() {
-      this.CV.trangThai = 1;
       this.CV.ngayNhanCV = moment(this.startDate);
       this.saving = true;
       this.CV.isSeletedFile = this.isSelectedFile;
@@ -103,6 +102,7 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
             this.close(true);
           });
       } else {
+        this.CV.trangThai = 1;
         this._employeeService.create(this.CV)
           .subscribe(() => {
             abp.notify.success(this.l('Tạo mới thành công.'));

@@ -4,14 +4,16 @@ using ManagerCV.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManagerCV.Migrations
 {
     [DbContext(typeof(ManagerCVDbContext))]
-    partial class ManagerCVDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201117144341_update_company")]
+    partial class update_company
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1462,12 +1464,6 @@ namespace ManagerCV.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ThanhToan")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UrlHopDong")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UrlThanhToan")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

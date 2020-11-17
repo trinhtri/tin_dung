@@ -1,9 +1,10 @@
 import { CreateOrEditCompanyComponent } from './create-or-edit-company/create-or-edit-company.component';
-import { CompanyListDto, CompanyServiceProxy } from './../../shared/service-proxies/service-proxies';
+import { CompanyListDto, CompanyServiceProxy, EmployeeServiceProxy } from './../../shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Component, Injector, OnInit } from '@angular/core';
 import { MatDialog, Sort } from '@angular/material';
+import { FileDownloadService } from '@shared/Utils/file-download.service';
 
 @Component({
   selector: 'app-company',
@@ -26,6 +27,8 @@ export class CompanyComponent extends AppComponentBase implements OnInit {
   private skipCount = (this.pageNumber - 1) * this.pageSize;
   constructor(injector: Injector,
     private _companyService: CompanyServiceProxy,
+    private _employeeService: EmployeeServiceProxy,
+    private _fileDownLoadService: FileDownloadService,
     private _dialog: MatDialog) {
       super(injector);
     }
@@ -119,5 +122,14 @@ export class CompanyComponent extends AppComponentBase implements OnInit {
 
     getPhone(input) {
       return 'tel:' + input;
+    }
+    dowload_CV(employee) {
+      this._employeeService.downloadTempAttachment(employee.id).subscribe(result => {
+        if (result.fileName) {
+          this._fileDownLoadService.downloadTempFile(result);
+        } else {
+          this.message.error(this.l('RequestedFileDoesNotExists'));
+        }
+      });
     }
 }

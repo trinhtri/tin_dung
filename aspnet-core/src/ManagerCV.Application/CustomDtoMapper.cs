@@ -19,7 +19,7 @@ namespace ManagerCV
             configuration.CreateMap<Models.Employee, CreateEmployeeDto>().ReverseMap();
             configuration.CreateMap<Models.CtgLanguage, LanguageDto>().ReverseMap();
             configuration.CreateMap<Models.Company, CreateCompanyDto>().ReverseMap();
-            configuration.CreateMap<Models.Company, CompanyListDto>().ReverseMap();
+            configuration.CreateMap<Models.Company, CompanyListDto  >().ReverseMap();
 
         }
     }

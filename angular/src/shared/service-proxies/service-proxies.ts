@@ -4710,8 +4710,12 @@ export class CreateCompanyDto implements ICreateCompanyDto {
     tenCTy: string | undefined;
     sdt: string | undefined;
     email: string | undefined;
-    soUVUT: string | undefined;
-    vtuvut: string | undefined;
+    soUVTT: string | undefined;
+    note: string | undefined;
+    contentTypeHD: string | undefined;
+    hopDong: string | undefined;
+    contentTypeTT: string | undefined;
+    thanhToan: string | undefined;
     id: number;
 
     constructor(data?: ICreateCompanyDto) {
@@ -4729,8 +4733,12 @@ export class CreateCompanyDto implements ICreateCompanyDto {
             this.tenCTy = data["tenCTy"];
             this.sdt = data["sdt"];
             this.email = data["email"];
-            this.soUVUT = data["soUVUT"];
-            this.vtuvut = data["vtuvut"];
+            this.soUVTT = data["soUVTT"];
+            this.note = data["note"];
+            this.contentTypeHD = data["contentTypeHD"];
+            this.hopDong = data["hopDong"];
+            this.contentTypeTT = data["contentTypeTT"];
+            this.thanhToan = data["thanhToan"];
             this.id = data["id"];
         }
     }
@@ -4748,8 +4756,12 @@ export class CreateCompanyDto implements ICreateCompanyDto {
         data["tenCTy"] = this.tenCTy;
         data["sdt"] = this.sdt;
         data["email"] = this.email;
-        data["soUVUT"] = this.soUVUT;
-        data["vtuvut"] = this.vtuvut;
+        data["soUVTT"] = this.soUVTT;
+        data["note"] = this.note;
+        data["contentTypeHD"] = this.contentTypeHD;
+        data["hopDong"] = this.hopDong;
+        data["contentTypeTT"] = this.contentTypeTT;
+        data["thanhToan"] = this.thanhToan;
         data["id"] = this.id;
         return data; 
     }
@@ -4767,8 +4779,12 @@ export interface ICreateCompanyDto {
     tenCTy: string | undefined;
     sdt: string | undefined;
     email: string | undefined;
-    soUVUT: string | undefined;
-    vtuvut: string | undefined;
+    soUVTT: string | undefined;
+    note: string | undefined;
+    contentTypeHD: string | undefined;
+    hopDong: string | undefined;
+    contentTypeTT: string | undefined;
+    thanhToan: string | undefined;
     id: number;
 }
 
@@ -4776,8 +4792,12 @@ export class CompanyListDto implements ICompanyListDto {
     tenCTy: string | undefined;
     sdt: string | undefined;
     email: string | undefined;
-    soUVUT: string | undefined;
-    vtuvut: string | undefined;
+    soUVTT: string | undefined;
+    note: string | undefined;
+    contentTypeHD: string | undefined;
+    hopDong: string | undefined;
+    contentTypeTT: string | undefined;
+    thanhToan: string | undefined;
     id: number;
 
     constructor(data?: ICompanyListDto) {
@@ -4794,8 +4814,12 @@ export class CompanyListDto implements ICompanyListDto {
             this.tenCTy = data["tenCTy"];
             this.sdt = data["sdt"];
             this.email = data["email"];
-            this.soUVUT = data["soUVUT"];
-            this.vtuvut = data["vtuvut"];
+            this.soUVTT = data["soUVTT"];
+            this.note = data["note"];
+            this.contentTypeHD = data["contentTypeHD"];
+            this.hopDong = data["hopDong"];
+            this.contentTypeTT = data["contentTypeTT"];
+            this.thanhToan = data["thanhToan"];
             this.id = data["id"];
         }
     }
@@ -4812,8 +4836,12 @@ export class CompanyListDto implements ICompanyListDto {
         data["tenCTy"] = this.tenCTy;
         data["sdt"] = this.sdt;
         data["email"] = this.email;
-        data["soUVUT"] = this.soUVUT;
-        data["vtuvut"] = this.vtuvut;
+        data["soUVTT"] = this.soUVTT;
+        data["note"] = this.note;
+        data["contentTypeHD"] = this.contentTypeHD;
+        data["hopDong"] = this.hopDong;
+        data["contentTypeTT"] = this.contentTypeTT;
+        data["thanhToan"] = this.thanhToan;
         data["id"] = this.id;
         return data; 
     }
@@ -4830,8 +4858,12 @@ export interface ICompanyListDto {
     tenCTy: string | undefined;
     sdt: string | undefined;
     email: string | undefined;
-    soUVUT: string | undefined;
-    vtuvut: string | undefined;
+    soUVTT: string | undefined;
+    note: string | undefined;
+    contentTypeHD: string | undefined;
+    hopDong: string | undefined;
+    contentTypeTT: string | undefined;
+    thanhToan: string | undefined;
     id: number;
 }
 

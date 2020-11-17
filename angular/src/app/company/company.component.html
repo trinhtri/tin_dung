@@ -35,8 +35,8 @@
                                             <th mat-sort-header="TenCty">{{ "Tên Cty" | localize }}</th>
                                             <th mat-sort-header="SDT">{{ "Số điện thoại" | localize }}</th>
                                             <th mat-sort-header="Email">{{ "Email" | localize }}</th>
-                                            <th mat-sort-header="SoUVUT">{{ "Số ứng viên UT" | localize }}</th>
-                                            <th mat-sort-header="VTUVUT">{{ "Vị trí ứng viên ứng tuyển" | localize }}</th>
+                                            <th mat-sort-header="SoUVUT">{{ "Số ứng trúng tuyển" | localize }}</th>
+                                            <th mat-sort-header="VTUVUT">{{ "Note" | localize }}</th>
                                             <th>{{l('Tính Năng')}}</th>
                                         </tr>
                                     </thead>
@@ -59,8 +59,8 @@
                                                     {{company.email}}
                                                 </a>
                                             </td>
-                                            <td>{{company.soUVUT}}</td>
-                                            <td>{{company.vtuvut}}</td>
+                                            <td>{{company.soUVTT}}</td>
+                                            <td>{{company.note}}</td>
                                             <td>
                                                 <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
                                                     <mat-icon>menu</mat-icon>
@@ -69,6 +69,15 @@
                                                     <button mat-menu-item (click)="editCV(company)" class="btn-edit">
                                                         <mat-icon>edit</mat-icon>
                                                         <span>{{ "Chỉnh Sửa" | localize }}</span>
+                                                    </button>
+                                                    <button mat-menu-item (click)="dowload_CV(company)">
+                                                        <mat-icon>arrow_downward</mat-icon>
+                                                        <span>{{ "Tải hợp đồng" | localize }}</span>
+                                                    </button>
+
+                                                    <button mat-menu-item (click)="dowload_CV(company)">
+                                                        <mat-icon>arrow_downward</mat-icon>
+                                                        <span>{{ "Tải thanh toán" | localize }}</span>
                                                     </button>
 
                                                     <button mat-menu-item (click)="delete(company)">
