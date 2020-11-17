@@ -222,7 +222,7 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
     }
     console.log('selectedRecordId', this.selectedRecordId);
   }
-  getPhone(input){
+  getPhone(input) {
     return 'tel:' + input;
   }
   SendJD() {
@@ -272,5 +272,8 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
     createOrEditGrade.afterClosed().subscribe(result => {
       this.getAll();
     });
+  }
+  getEmail(input) {
+    return 'mailto:' + input;
   }
 }

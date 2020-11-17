@@ -274,7 +274,7 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
         break;
     }
   }
-  getPhone(input){
+  getPhone(input) {
     return 'tel:' + input;
   }
   onCheckboxChanged(id: number, e: any) {
@@ -298,5 +298,8 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
       this.selectedRecordId = [];
     }
     console.log('selectedRecordId', this.selectedRecordId);
+  }
+  getEmail(input) {
+    return 'mailto:' + input;
   }
 }

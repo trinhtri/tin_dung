@@ -195,7 +195,7 @@ export class PVChuaKetQuaComponent extends AppComponentBase implements OnInit {
       this._employeeClientService.clickVeMoi(true);
     });
   }
-  getPhone(input){
+  getPhone(input) {
     return 'tel:' + input;
   }
   dowload_CV(employee) {
@@ -229,5 +229,8 @@ export class PVChuaKetQuaComponent extends AppComponentBase implements OnInit {
       }, (error) => {
         this.isTableLoading = false;
       });
+  }
+  getEmail(input) {
+    return 'mailto:' + input;
   }
 }

@@ -173,8 +173,11 @@ export class CVComponent extends AppComponentBase implements OnInit {
       this.getAll();
     });
   }
-  getPhone(input){
+  getPhone(input) {
     return 'tel:' + input;
+  }
+  getEmail(input) {
+    return 'mailto:' + input;
   }
   showGuiCV(id?: any) {
     let createOrEditGrade;

@@ -90,6 +90,7 @@
                                                 </label>
                                             </th>
                                             <th mat-sort-header="hoTen">{{ "Họ Tên" | localize }}</th>
+                                            <th mat-sort-header="NamSinh">{{ "Năm sinh" | localize }}</th>
                                             <th mat-sort-header="ngonNgu">{{ "Ngôn Ngữ" | localize }}</th>
                                             <th mat-sort-header="sdt">{{ "Số Điện Thoại" | localize }}</th>
                                             <th mat-sort-header="email">{{ "Email" | localize }}</th>
@@ -118,13 +119,18 @@
                                             </td>
 
                                             <td>{{ employee.hoTen }}</td>
+                                            <td>{{ employee.namSinh }}</td>
                                             <td>{{employee.nhungNgonNgu}}</td>
                                             <td>
                                                 <a [href]="getPhone(employee.sdt)">
                                                     {{employee.sdt}}
                                                 </a>
                                             </td>
-                                            <td>{{ employee.email }}</td>
+                                            <td>
+                                                <a [href]="getEmail(employee.email)">
+                                                    {{ employee.email }}
+                                                </a>
+                                            </td>
                                             <td>{{ getBangCap(employee.bangCap)}}</td>
                                             <td>{{ employee.kinhNghiem}}</td>
                                             <td>{{ employee.ngayNhanCV?.format("L")}}</td>

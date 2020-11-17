@@ -208,7 +208,7 @@ export class LichPVComponent extends AppComponentBase implements OnInit {
       }
     });
   }
-  getPhone(input){
+  getPhone(input) {
     return 'tel:' + input;
   }
   onCheckboxChanged(id: number, e: any) {
@@ -280,5 +280,8 @@ export class LichPVComponent extends AppComponentBase implements OnInit {
     createOrEditGrade.afterClosed().subscribe(result => {
       this.getAll();
     });
+  }
+  getEmail(input) {
+    return 'mailto:' + input;
   }
 }
