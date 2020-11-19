@@ -232,5 +232,16 @@ namespace ManagerCV.Web.Host.Controllers
             System.IO.File.Delete(filePath);
             return File(fileBytes, file.FileType, file.FileName);
         }
+
+        public IActionResult ViewHopDong(FileDto file)
+        {
+            var filePath = Path.Combine(_appFolders.TemFileHopDongFolder, file.FileToken);
+            return PhysicalFile(filePath, file.FileType);
+        }
+        public IActionResult ViewThanhToan(FileDto file)
+        {
+            var filePath = Path.Combine(_appFolders.TemFileThanhToanFolder, file.FileToken);
+            return PhysicalFile(filePath, file.FileType);
+        }
     }
 }

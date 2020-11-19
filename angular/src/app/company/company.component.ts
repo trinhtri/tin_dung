@@ -132,6 +132,24 @@ export class CompanyComponent extends AppComponentBase implements OnInit {
         }
       });
     }
+    open_HD(company) {
+      this._companyService.downloadHD(company.id).subscribe(result => {
+        if (result.fileName) {
+          this._fileDownLoadService.viewTempFileHD(result);
+        } else {
+          this.message.error(this.l('RequestedFileDoesNotExists'));
+        }
+      });
+    }
+    open_TT(company) {
+      this._companyService.downloadHD(company.id).subscribe(result => {
+        if (result.fileName) {
+          this._fileDownLoadService.viewTempFileTT(result);
+        } else {
+          this.message.error(this.l('RequestedFileDoesNotExists'));
+        }
+      });
+    }
 
     dowload_TT(company) {
       this._companyService.downloadTT(company.id).subscribe(result => {

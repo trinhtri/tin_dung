@@ -15,6 +15,22 @@ export class FileDownloadService {
             '/Profile/DownloadTempFileHD?fileType=' + file.fileType + '&fileToken=' + file.fileToken + '&fileName=' + file.fileName;
         location.href = url;
     }
+    viewTempFileHD(file: FileDto) {
+        const url = AppConsts.remoteServiceBaseUrl +
+            '/Profile/ViewHopDong?fileType=' + file.fileType + '&fileToken=' + file.fileToken + '&fileName=' + file.fileName;
+        window.open(
+            url,
+            '_blank'
+          );
+    }
+    viewTempFileTT(file: FileDto) {
+        const url = AppConsts.remoteServiceBaseUrl +
+            '/Profile/ViewThanhToan?fileType=' + file.fileType + '&fileToken=' + file.fileToken + '&fileName=' + file.fileName;
+        window.open(
+            url,
+            '_blank'
+          );
+    }
     downloadTempFileTT(file: FileDto) {
         const url = AppConsts.remoteServiceBaseUrl +
             '/Profile/DownloadTempFileTT?fileType=' + file.fileType + '&fileToken=' + file.fileToken + '&fileName=' + file.fileName;

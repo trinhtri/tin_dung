@@ -74,6 +74,14 @@
                                                         <mat-icon>arrow_downward</mat-icon>
                                                         <span>{{ "Tải hợp đồng" | localize }}</span>
                                                     </button>
+                                                    <button mat-menu-item (click)="open_HD(company)">
+                                                        <mat-icon>arrow_downward</mat-icon>
+                                                        <span>{{ "Xem hợp đồng" | localize }}</span>
+                                                    </button>
+                                                    <button mat-menu-item (click)="open_TT(company)">
+                                                        <mat-icon>arrow_downward</mat-icon>
+                                                        <span>{{ "Xem thanh toán" | localize }}</span>
+                                                    </button>
 
                                                     <button mat-menu-item (click)="dowload_TT(company)">
                                                         <mat-icon>arrow_downward</mat-icon>
