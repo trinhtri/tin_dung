@@ -23,7 +23,7 @@ export class CreateOrEditCompanyComponent extends AppComponentBase implements On
   @ViewChild('documentFileInput', {static: true}) documentFileInput: ElementRef;
   @ViewChild('documentFileInputTT', {static: true}) documentFileInputTT: ElementRef;
 
-  documentUploader: FileUploader;
+  documentUploader : FileUploader;
   documentUploaderTT: FileUploader;
 
   _uploaderOptions: FileUploaderOptions = {};
@@ -41,10 +41,10 @@ export class CreateOrEditCompanyComponent extends AppComponentBase implements On
   }
 
   ngOnInit(): void {
+    this.initUploaders();
+    this.initTT();
     if (this.data) {
       this.getClient(this.data);
-      this.initUploaders();
-      this.initTT();
     }
   }
   selectFileHD($event) {
@@ -61,7 +61,6 @@ export class CreateOrEditCompanyComponent extends AppComponentBase implements On
 
   initUploaders(): void {
     this.documentUploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/Profile/UploadFileHopDong' });
-
     this._uploaderOptions.autoUpload = true;
     this._uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
     this._uploaderOptions.removeAfterUpload = true;
@@ -79,8 +78,6 @@ export class CreateOrEditCompanyComponent extends AppComponentBase implements On
       }
     };
     this.documentUploader.setOptions(this._uploaderOptions);
-
-
   }
   initTT() {
     this._uploaderOptionsTT.autoUpload = true;

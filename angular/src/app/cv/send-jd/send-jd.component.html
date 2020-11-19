@@ -9,7 +9,7 @@
 
             <mat-form-field>
                 <textarea matInput name="BCC" required [placeholder]="'BCC email' | localize" [(ngModel)]="email.toMail"
-                    (ngModelChange)="validationEmail(email.toMail)"></textarea>
+                    (ngModelChange)="validationEmail(email.toMail)" style="height: 100px;"></textarea>
             </mat-form-field>
             <div class="col-md-12 p-l-0 text-danger"  *ngIf="checklstemail && (form.controls.BCC?.touched || form.controls.BCC?.dirty)">
                 {{"Địa chỉ email không hợp lệ !" | localize}}
