@@ -8,6 +8,7 @@ using Abp.AspNetCore.Mvc.Controllers;
 using Abp.IO.Extensions;
 using Abp.UI;
 using Abp.Web.Models;
+using ManagerCV.Company.Dto;
 using ManagerCV.Controllers.Dto;
 using ManagerCV.IO;
 using Microsoft.AspNetCore.Mvc;
@@ -233,14 +234,14 @@ namespace ManagerCV.Web.Host.Controllers
             return File(fileBytes, file.FileType, file.FileName);
         }
 
-        public IActionResult ViewHopDong(FileDto file)
+        public IActionResult ViewHopDong(ViewContactDto file)
         {
-            var filePath = Path.Combine(_appFolders.TemFileHopDongFolder, file.FileToken);
+            var filePath = Path.Combine(_appFolders.TemFileHopDongFolder, file.FileName);
             return PhysicalFile(filePath, file.FileType);
         }
-        public IActionResult ViewThanhToan(FileDto file)
+        public IActionResult ViewThanhToan(ViewContactDto file)
         {
-            var filePath = Path.Combine(_appFolders.TemFileThanhToanFolder, file.FileToken);
+            var filePath = Path.Combine(_appFolders.TemFileHopDongFolder, file.FileName);
             return PhysicalFile(filePath, file.FileType);
         }
     }

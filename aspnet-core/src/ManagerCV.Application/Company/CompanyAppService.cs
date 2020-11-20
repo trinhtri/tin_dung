@@ -148,5 +148,22 @@ namespace ManagerCV.Company
 			}
 			return null;
 		}
+
+		public async Task<ViewContactDto> GetHDForView(int id)
+        {
+			var company = await _ctgCompanyRepository.FirstOrDefaultAsync(id);
+			var result = new ViewContactDto();
+			result.FileName = company.HopDong;
+			result.FileType = company.ContentTypeHD;
+			return result;
+        }
+		public async Task<ViewContactDto> GetTTForView(int id)
+        {
+			var company = await _ctgCompanyRepository.FirstOrDefaultAsync(id);
+			var result = new ViewContactDto();
+			result.FileName = company.ThanhToan;
+			result.FileType = company.ContentTypeTT;
+			return result;
+        }
 	}
 }

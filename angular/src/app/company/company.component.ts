@@ -133,7 +133,7 @@ export class CompanyComponent extends AppComponentBase implements OnInit {
       });
     }
     open_HD(company) {
-      this._companyService.downloadHD(company.id).subscribe(result => {
+      this._companyService.getHDForView(company.id).subscribe(result => {
         if (result.fileName) {
           this._fileDownLoadService.viewTempFileHD(result);
         } else {
@@ -142,7 +142,7 @@ export class CompanyComponent extends AppComponentBase implements OnInit {
       });
     }
     open_TT(company) {
-      this._companyService.downloadHD(company.id).subscribe(result => {
+      this._companyService.getTTForView(company.id).subscribe(result => {
         if (result.fileName) {
           this._fileDownLoadService.viewTempFileTT(result);
         } else {

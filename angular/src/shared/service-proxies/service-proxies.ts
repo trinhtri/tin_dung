@@ -549,6 +549,118 @@ export class CompanyServiceProxy {
         }
         return _observableOf<FileDto>(<any>null);
     }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getHDForView(id: number | undefined): Observable<ViewContactDto> {
+        let url_ = this.baseUrl + "/api/services/app/Company/GetHDForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetHDForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetHDForView(<any>response_);
+                } catch (e) {
+                    return <Observable<ViewContactDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ViewContactDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetHDForView(response: HttpResponseBase): Observable<ViewContactDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ViewContactDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ViewContactDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getTTForView(id: number | undefined): Observable<ViewContactDto> {
+        let url_ = this.baseUrl + "/api/services/app/Company/GetTTForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTTForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTTForView(<any>response_);
+                } catch (e) {
+                    return <Observable<ViewContactDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ViewContactDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTTForView(response: HttpResponseBase): Observable<ViewContactDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ViewContactDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ViewContactDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -5091,6 +5203,53 @@ export interface IFileDto {
     fileName: string | undefined;
     fileType: string | undefined;
     fileToken: string | undefined;
+}
+
+export class ViewContactDto implements IViewContactDto {
+    fileName: string | undefined;
+    fileType: string | undefined;
+
+    constructor(data?: IViewContactDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.fileName = data["fileName"];
+            this.fileType = data["fileType"];
+        }
+    }
+
+    static fromJS(data: any): ViewContactDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ViewContactDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fileName"] = this.fileName;
+        data["fileType"] = this.fileType;
+        return data; 
+    }
+
+    clone(): ViewContactDto {
+        const json = this.toJSON();
+        let result = new ViewContactDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IViewContactDto {
+    fileName: string | undefined;
+    fileType: string | undefined;
 }
 
 export class CreateConfigToSendMailDto implements ICreateConfigToSendMailDto {
