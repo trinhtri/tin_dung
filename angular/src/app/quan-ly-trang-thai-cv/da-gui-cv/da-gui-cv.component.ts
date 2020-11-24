@@ -91,7 +91,7 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
     if (this.endNgaypv == null) {
       this.endNgaypv = undefined;
     }
-    this._employeeService.getAll_Gui(
+    this._employeeService.getCVByStatus(
       this.keyword,
       2,
       this.startDate,
@@ -166,7 +166,10 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
       createOrEditGrade = this._dialog.open(CVGuiDiComponent);
     } else {
       createOrEditGrade = this._dialog.open(CVGuiDiComponent, {
-        data: id
+        data: {
+          id : id,
+          status : 2
+        },
       });
     }
     createOrEditGrade.afterClosed().subscribe(result => {

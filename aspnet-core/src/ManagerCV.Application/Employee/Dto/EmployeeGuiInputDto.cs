@@ -1,6 +1,7 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Extensions;
 using Abp.Runtime.Validation;
+using ManagerCV.Const;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace ManagerCV.Employee.Dto
    public class EmployeeGuiInputDto: PagedAndSortedResultRequestDto, IShouldNormalize
     {
         public string Filter { get; set; }
-        public int TrangThai { get; set; }
+        public TrangThai TrangThai { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? StartNgayPV { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using ManagerCV.Const;
 using ManagerCV.Models;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,6 @@ namespace ManagerCV.Employee.Dto
         public string Email { get; set; }
         public string BangCap { get; set; }
         public string Truong { get; set; }
-        public string Nganh { get; set; }
         public string NamTotNghiep { get; set; }
         public string FaceBook { get; set; }
         public string KinhNghiem { get; set; }
@@ -32,10 +32,10 @@ namespace ManagerCV.Employee.Dto
         public string CtyNhan { get; set; }
         public DateTime? NgayHoTro { get; set; }
         public string Note { get; set; }
-        public int TrangThai { get; set; }
+        public TrangThai TrangThai { get; set; }
         public string CVName { get; set; }
         public string CVUrl { get; set; }
-        public DateTime? NgayNhanCV { get; set; }
+        //public DateTime? NgayNhanCV { get; set; }
         public string NhungNgonNgu { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? NgayPhongVan { get; set; }

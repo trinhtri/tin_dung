@@ -1,3 +1,4 @@
+import { DilamComponent } from './../../cv/dilam/dilam.component';
 import { Component, OnInit, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { EmployeeListDto, EmployeeServiceProxy, LanguageDto, LanguageServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -9,6 +10,7 @@ import { HenPVComponent } from '@app/cv/hen-pv/hen-pv.component';
 import { SendJDComponent } from '@app/cv/send-jd/send-jd.component';
 import * as moment from 'moment';
 import { EmployeeService } from '@app/employee.service';
+import { data } from 'jquery';
 @Component({
   selector: 'app-pvchua-ket-qua',
   templateUrl: './pvchua-ket-qua.component.html',
@@ -88,7 +90,7 @@ export class PVChuaKetQuaComponent extends AppComponentBase implements OnInit {
     if (this.endNgaypv == null) {
       this.endNgaypv = undefined;
     }
-    this._employeeService.getAll_Gui(
+    this._employeeService.getCVByStatus(
       this.keyword,
       4,
       this.startDate,
@@ -182,12 +184,19 @@ export class PVChuaKetQuaComponent extends AppComponentBase implements OnInit {
 
   // trong trường hợp CV đã được cty nhận
   approve(employee) {
-    this._employeeService.daNhan(employee.id).subscribe(result => {
-      abp.notify.success(this.l('Cập nhật CV thành công'));
+    let createOrEditGrade;
+    if (employee.id === null || employee.id === undefined) {
+      createOrEditGrade = this._dialog.open(DilamComponent);
+    } else {
+      createOrEditGrade = this._dialog.open(DilamComponent, {
+        data: employee.id
+      });
+    }
+    createOrEditGrade.afterClosed().subscribe(result => {
       this.getAll();
-      this._employeeClientService.clickDaNhan(true);
     });
   }
+
   chuyenVeQLCV(employee) {
     this._employeeService.chuyenVeQLCV(employee.id).subscribe(result => {
       abp.notify.success(this.l('Chuyển CV thành công'));

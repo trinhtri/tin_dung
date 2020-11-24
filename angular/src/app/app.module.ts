@@ -60,6 +60,7 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { CompanyComponent } from './company/company.component';
 import { CreateOrEditCompanyComponent } from './company/create-or-edit-company/create-or-edit-company.component';
+import { DilamComponent } from './cv/dilam/dilam.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -99,7 +100,8 @@ import { CreateOrEditCompanyComponent } from './company/create-or-edit-company/c
     PVChuaKetQuaComponent,
     DaNhanPVComponent,
     CompanyComponent,
-    CreateOrEditCompanyComponent
+    CreateOrEditCompanyComponent,
+    DilamComponent
   ],
   imports: [
     CommonModule,
@@ -145,7 +147,8 @@ import { CreateOrEditCompanyComponent } from './company/create-or-edit-company/c
     CreateOrEditNgonnguComponent,
     SendJDComponent,
     HenPVComponent,
-    CreateOrEditCompanyComponent
+    CreateOrEditCompanyComponent,
+    DilamComponent
   ]
 })
 export class AppModule {}

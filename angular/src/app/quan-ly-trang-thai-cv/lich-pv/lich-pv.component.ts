@@ -89,7 +89,7 @@ export class LichPVComponent extends AppComponentBase implements OnInit {
     if (this.endNgaypv == null) {
       this.endNgaypv = undefined;
     }
-    this._employeeService.getAll_Gui(
+    this._employeeService.getCVByStatus(
       this.keyword,
       3,
       this.startDate,

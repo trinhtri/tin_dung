@@ -93,7 +93,7 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
     if (this.endNgaypv == null) {
       this.endNgaypv = undefined;
     }
-    this._employeeService.getAll_Gui(
+    this._employeeService.getCVNew(
       this.keyword,
       1,
       this.startDate,
@@ -183,20 +183,16 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
   showAddOrEditPV(id) {
     let createOrEditGrade;
     createOrEditGrade = this._dialog.open(HenPVComponent, {
-      data: id
+      data: {
+        id : id,
+        status : 1
+      }
     });
     createOrEditGrade.afterClosed().subscribe(result => {
       this.getAll();
     });
   }
 
-  // trong trường hợp CV đã được cty nhận
-  approve(employee) {
-    this._employeeService.daNhan(employee.id).subscribe(result => {
-      abp.notify.success(this.l('Cập nhật CV thành công'));
-      this.getAll();
-    });
-  }
   dowload_CV(employee) {
     this._employeeService.downloadTempAttachment(employee.id).subscribe(result => {
       if (result.fileName) {

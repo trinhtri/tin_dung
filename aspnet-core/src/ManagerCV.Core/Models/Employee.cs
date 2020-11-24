@@ -20,7 +20,6 @@ namespace ManagerCV.Models
         [StringLength(1000)]
         public string NgonNgu { get; set; }
         [StringLength(2000)]
-
         public string DanhGiaNgonNgu { get; set; }
         [StringLength(2000)]
         public string QueQuan { get; set; }
@@ -45,9 +44,6 @@ namespace ManagerCV.Models
         public string LuongMongMuon { get; set; }
         public string NoiDung { get; set; }
         [StringLength(2000)]
-        public string CtyNhan { get; set; }
-        public DateTime? NgayHoTro { get; set; }
-
         public string Note { get; set; }
 
         // 1 vừa thêm mới
@@ -60,10 +56,9 @@ namespace ManagerCV.Models
         public string CVName { get; set; }
         [StringLength(2000)]
         public string CVUrl { get; set; }
-        public DateTime? NgayNhanCV { get; set; }
         public string ContentType { get; set; }
-        public DateTime? NgayPhongVan { get; set; }
         public virtual List<EmployeeLanguage> EmployeeLanguages { get; set; }
+        public virtual List<SendCV> SendCVs { get; set; }
 
     }
 }

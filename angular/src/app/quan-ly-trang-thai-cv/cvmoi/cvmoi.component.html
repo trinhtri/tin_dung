@@ -96,7 +96,7 @@
                                             <th mat-sort-header="email">{{ "Email" | localize }}</th>
                                             <th mat-sort-header="bangCap">{{ "Bằng cấp" | localize }}</th>
                                             <th mat-sort-header="KinhNghiem">{{ "Kinh Nghiệm" | localize }}</th>
-                                            <th mat-sort-header="NgayNhanCV">{{ "Ngày Nhận CV" | localize }}</th>
+                                            <th mat-sort-header="CreationTime">{{ "Ngày Nhận CV" | localize }}</th>
                                             <th>{{l('Tính Năng')}}</th>
                                         </tr>
                                     </thead>
@@ -133,7 +133,7 @@
                                             </td>
                                             <td>{{ getBangCap(employee.bangCap)}}</td>
                                             <td>{{ employee.kinhNghiem}}</td>
-                                            <td>{{ employee.ngayNhanCV?.format("L")}}</td>
+                                            <td>{{ employee.creationTime?.format("L")}}</td>
                                             <td>
                                                 <button class="action-button" mat-icon-button
                                                     [matMenuTriggerFor]="actionsMenu">

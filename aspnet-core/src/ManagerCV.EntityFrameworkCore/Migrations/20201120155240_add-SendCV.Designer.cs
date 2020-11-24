@@ -4,14 +4,16 @@ using ManagerCV.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManagerCV.Migrations
 {
     [DbContext(typeof(ManagerCVDbContext))]
-    partial class ManagerCVDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201120155240_add-SendCV")]
+    partial class addSendCV
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1708,9 +1710,6 @@ namespace ManagerCV.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("NgayDiLam")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("NgayGui")
                         .HasColumnType("datetime2");
 
@@ -2055,7 +2054,7 @@ namespace ManagerCV.Migrations
             modelBuilder.Entity("ManagerCV.Models.SendCV", b =>
                 {
                     b.HasOne("ManagerCV.Models.Employee", "Employee_")
-                        .WithMany("SendCVs")
+                        .WithMany()
                         .HasForeignKey("Employee_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

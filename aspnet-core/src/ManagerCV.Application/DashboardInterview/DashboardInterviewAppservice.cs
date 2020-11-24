@@ -12,22 +12,24 @@ namespace ManagerCV.DashboardInterview
     public class DashboardInterviewAppservice : ManagerCVAppServiceBase, IDashboardInterviewAppservice
     {
         private readonly IRepository<Models.Employee> _employeeRepository;
-        public DashboardInterviewAppservice(IRepository<Models.Employee> employeeRepository)
+        private readonly IRepository<Models.SendCV> _sendCVRepository;
+        public DashboardInterviewAppservice(IRepository<Models.Employee> employeeRepository, IRepository<Models.SendCV> sendCVRepository)
         {
             _employeeRepository = employeeRepository;
+            _sendCVRepository = sendCVRepository;
         }
         public async Task<List<GetEmployeeForChartDto>> GetDataForDashboard()
         {
-            var emps = await _employeeRepository.GetAll().Where(a => a.NgayPhongVan.HasValue)
-                .Where(x=>x.TrangThai == 3 || x.TrangThai == 4 || x.TrangThai == 5)
+            var emps = await _sendCVRepository.GetAll()
+                .Where(x=>x.NgayPhongVan.HasValue)
                 .Select(a => new GetEmployeeForChartDto
                 {
                     Id = a.Id,
-                    Title = a.CtyNhan,
+                    Title = a.TenCty,
                     Start = a.NgayPhongVan ?? DateTime.Now
                 })
                 .ToListAsync();
-            return emps;
+            return null;
         }
     }
 }

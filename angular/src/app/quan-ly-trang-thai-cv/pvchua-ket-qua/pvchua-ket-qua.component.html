@@ -76,7 +76,7 @@
                                             <th mat-sort-header="email">{{ "Email" | localize }}</th>
                                             <th mat-sort-header="nguyenVong">{{ "Vị Trí Ứng Tuyển" | localize }}</th>
                                             <th mat-sort-header="ctyNhan">{{ "Công Ty" | localize }}</th>
-                                            <th mat-sort-header="ngayHoTro">{{ "Ngày Gửi" | localize }}</th>
+                                            <th mat-sort-header="CreationTime">{{ "Ngày Gửi" | localize }}</th>
                                             <th mat-sort-header="NgayPhongVancd">{{ "Ngày Phỏng Vấn" | localize }}</th>
                                             <th>{{l('Tính Năng')}}</th>
                                         </tr>
@@ -104,7 +104,7 @@
                                             </td>
                                             <td>{{ employee.nguyenVong }}</td>
                                             <td>{{ employee.ctyNhan}}</td>
-                                            <td>{{ employee.ngayHoTro?.format("L")}}</td>
+                                            <td>{{ employee.creationTime?.format("L")}}</td>
                                             <td>{{ employee.ngayPhongVan?.format("LLL")}}</td>
                                             <td>
                                                 <button class="action-button" mat-icon-button

@@ -24,12 +24,15 @@ namespace ManagerCV.Employee
         private readonly IRepository<Models.Employee> _employeeRepository;
         private readonly IRepository<Models.EmployeeLanguage> _employeeLanguageRepository;
         private readonly IRepository<Models.CtgLanguage> _ctLganguageRepository;
+        private readonly IRepository<Models.SendCV> _sendCVRepository;
+
         private readonly IAppFolders _appFolders;
         private readonly EmployeeListExcelExporter _employeeListExcelExporter;
         public EmployeeAppService(IRepository<Models.Employee> employeeRepository,
             IAppFolders appFolders,
             EmployeeListExcelExporter employeeListExcelExporter,
             IRepository<Models.CtgLanguage> ctgLanguageRepository,
+            IRepository<Models.SendCV> sendCVRepository,
             IRepository<Models.EmployeeLanguage> employeeLanguageRepository)
         {
             _employeeRepository = employeeRepository;
@@ -37,6 +40,7 @@ namespace ManagerCV.Employee
             _employeeListExcelExporter = employeeListExcelExporter;
             _employeeLanguageRepository = employeeLanguageRepository;
             _ctLganguageRepository = ctgLanguageRepository;
+            _sendCVRepository = sendCVRepository;
         }
         [HttpPost]
         public async Task<long> Create(CreateEmployeeDto input)
@@ -74,8 +78,8 @@ namespace ManagerCV.Employee
         public async Task CVGuiDi(CVGuiDi input)
         {
             var dto = await _employeeRepository.FirstOrDefaultAsync(x => x.Id == input.EmployeeId);
-            dto.CtyNhan = input.CtyNhan;
-            dto.NgayHoTro = input.NgayHoTro;
+            //dto.CtyNhan = input.CtyNhan;
+            //dto.NgayHoTro = input.NgayHoTro;
         }
 
         [HttpDelete]
@@ -97,7 +101,8 @@ namespace ManagerCV.Employee
             var query = _employeeRepository.GetAll()
                        .Include(x => x.EmployeeLanguages)
                        .ThenInclude(l => l.CtgLanguage_)
-                       .WhereIf(input.TrangThai.Count > 0, x => input.TrangThai.Any(a=>a == x.TrangThai))
+                       .Include(x => x.SendCVs)
+                       .WhereIf(input.TrangThai.Count > 0, x => input.TrangThai.Any(a => a == x.TrangThai))
                        .WhereIf(input.BangCap.Count > 0, x => input.BangCap.Any(a => a == x.BangCap))
                        .WhereIf(input.NgonNgu.Count > 0, x => x.EmployeeLanguages.Any(x => input.NgonNgu.Any(a => a == x.CtgLanguage_Id)))
                        .WhereIf(!input.Filter.IsNullOrEmpty(),
@@ -106,8 +111,9 @@ namespace ManagerCV.Employee
                       || x.Email.ToUpper().Contains(input.Filter.ToUpper())
                       || x.SDT.ToUpper().Contains(input.Filter.ToUpper())
                       || x.KinhNghiem.ToUpper().Contains(input.Filter.ToUpper())
-                      ).WhereIf(input.StartDate.HasValue, x => x.NgayNhanCV >= input.StartDate)
-                       .WhereIf(input.EndDate.HasValue, x => x.NgayNhanCV <= input.EndDate);
+                      )
+                       .WhereIf(input.StartDate.HasValue, x => x.CreationTime >= input.StartDate)
+                       .WhereIf(input.EndDate.HasValue, x => x.CreationTime <= input.EndDate);
 
             var tatolCount = await query.CountAsync();
             var result = await query.OrderBy(input.Sorting)
@@ -120,6 +126,102 @@ namespace ManagerCV.Employee
             }
             return new PagedResultDto<EmployeeListDto>(tatolCount, output);
         }
+
+        public async Task<PagedResultDto<EmployeeListDto>> GetCVNew(EmployeeGuiInputDto input)
+        {
+            if (!input.Filter.IsNullOrEmpty())
+            {
+                input.Filter = Regex.Replace(input.Filter.Trim(), @"\s+", " ");
+            }
+            var query = _employeeRepository.GetAll()
+                       .Include(x => x.EmployeeLanguages)
+                       .ThenInclude(l => l.CtgLanguage_)
+                       .Include(x => x.SendCVs)
+                       .Where(x => x.SendCVs.Count == 0)
+                       .WhereIf(input.BangCap.Count > 0, x => input.BangCap.Any(a => a == x.BangCap))
+                       .WhereIf(input.NgonNgu.Count > 0, x => x.EmployeeLanguages.Any(x => input.NgonNgu.Any(a => a == x.CtgLanguage_Id)))
+                       .WhereIf(!input.Filter.IsNullOrEmpty(),
+                       x => x.HoTen.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.ChoOHienTai.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.Email.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.SDT.ToUpper().Contains(input.Filter.ToUpper())
+                      || x.KinhNghiem.ToUpper().Contains(input.Filter.ToUpper())
+                      )
+                       .WhereIf(input.StartDate.HasValue, x => x.CreationTime >= input.StartDate)
+                       .WhereIf(input.EndDate.HasValue, x => x.CreationTime <= input.EndDate);
+
+            var tatolCount = await query.CountAsync();
+            var result = await query.OrderBy(input.Sorting)
+                .PageBy(input)
+                .ToListAsync();
+            var output = ObjectMapper.Map<List<EmployeeListDto>>(result);
+            foreach (var item in output)
+            {
+                item.NhungNgonNgu = await GetLangugeName(item.Id);
+            }
+            return new PagedResultDto<EmployeeListDto>(tatolCount, output);
+        }
+
+        public async Task<PagedResultDto<EmployeeListDto>> GetCVByStatus(EmployeeGuiInputDto input)
+        {
+            if (!input.Filter.IsNullOrEmpty())
+            {
+                input.Filter = Regex.Replace(input.Filter.Trim(), @"\s+", " ");
+            }
+            var query = (from sendCV in _sendCVRepository.GetAll()
+                         join cv in _employeeRepository.GetAll()
+                         on sendCV.Employee_Id equals cv.Id
+                         select new EmployeeListDto
+                         {
+                             Id = sendCV.Id,
+                             BangCap = cv.BangCap,
+                             ChoOHienTai = cv.ChoOHienTai,
+                             CreationTime = sendCV.CreationTime,
+                             CtyNhan = sendCV.TenCty,
+                             CVName = cv.CVName,
+                             CVUrl = cv.CVUrl,
+                             DanhGiaNgonNgu = cv.DanhGiaNgonNgu,
+                             Email = cv.Email,
+                             FaceBook = cv.FaceBook,
+                             GioiTinh = cv.GioiTinh,
+                             HoTen = cv.HoTen,
+                             KinhNghiem = cv.KinhNghiem,
+                             LuongMongMuon = cv.LuongMongMuon,
+                             NamSinh = cv.NamSinh,
+                             NgayHoTro = sendCV.NgayNhan,
+                             NgayPhongVan = sendCV.NgayPhongVan,
+                             Truong = cv.Truong,
+                             NgonNgu = cv.NgonNgu,
+                             NguyenVong = cv.NguyenVong,
+                             NhungNgonNgu = cv.DanhGiaNgonNgu,
+                             NoiDung = cv.NoiDung,
+                             Note = sendCV.Note,
+                             QueQuan = cv.QueQuan,
+                             SDT = cv.SDT,
+                             TenantId = cv.TenantId,
+                             TrangThai = sendCV.TrangThai
+                         })
+                      .Where(x => x.TrangThai == input.TrangThai)
+                      .WhereIf(!input.Filter.IsNullOrEmpty(),
+                        x => x.HoTen.ToUpper().Contains(input.Filter.ToUpper())
+                        || x.ChoOHienTai.ToUpper().Contains(input.Filter.ToUpper())
+                        || x.Email.ToUpper().Contains(input.Filter.ToUpper())
+                        || x.SDT.ToUpper().Contains(input.Filter.ToUpper())
+                        || x.KinhNghiem.ToUpper().Contains(input.Filter.ToUpper())
+                        ).WhereIf(input.StartDate.HasValue, x => x.CreationTime >= input.StartDate)
+                        .WhereIf(input.EndDate.HasValue, x => x.CreationTime <= input.EndDate);
+
+            var tatolCount = await query.CountAsync();
+            var result = await query.OrderBy(input.Sorting)
+                .PageBy(input)
+                .ToListAsync();
+            foreach (var item in result)
+            {
+                item.NhungNgonNgu = await GetLangugeName(item.Id);
+            }
+            return new PagedResultDto<EmployeeListDto>(tatolCount, result);
+        }
+
         public async Task<string> GetLangugeName(int input)
         {
             var ls = "";
@@ -141,21 +243,19 @@ namespace ManagerCV.Employee
             var query = _employeeRepository.GetAll()
                        .Include(x => x.EmployeeLanguages)
                        .ThenInclude(l => l.CtgLanguage_)
-                       .Where(x => x.TrangThai == input.TrangThai)
                        .WhereIf(input.BangCap.Count > 0, x => input.BangCap.Any(a => a == x.BangCap))
                        .WhereIf(input.NgonNgu.Count > 0, x => x.EmployeeLanguages.Any(x => input.NgonNgu.Any(a => a == x.CtgLanguage_Id)))
                        .WhereIf(!input.Filter.IsNullOrEmpty(),
                        x => x.HoTen.ToUpper().Contains(input.Filter.ToUpper())
                       || x.NgonNgu.ToUpper().Contains(input.Filter.ToUpper())
-                      || x.CtyNhan.ToUpper().Contains(input.Filter.ToUpper())
                       || x.NguyenVong.ToUpper().Contains(input.Filter.ToUpper())
                       || x.SDT.ToUpper().Contains(input.Filter.ToUpper())
                       || x.Email.ToUpper().Contains(input.Filter.ToUpper())
-                      )
-                      .WhereIf(input.StartDate.HasValue, x => x.NgayHoTro >= input.StartDate)
-                       .WhereIf(input.EndDate.HasValue, x => x.NgayHoTro <= input.EndDate)
-                       .WhereIf(input.StartNgayPV.HasValue, x => x.NgayPhongVan >= input.StartNgayPV)
-                       .WhereIf(input.EndNgayPV.HasValue, x => x.NgayPhongVan <= input.EndNgayPV.Value);
+                      );
+            //.WhereIf(input.StartDate.HasValue, x => x.NgayHoTro >= input.StartDate)
+            // .WhereIf(input.EndDate.HasValue, x => x.NgayHoTro <= input.EndDate)
+            // .WhereIf(input.StartNgayPV.HasValue, x => x.NgayPhongVan >= input.StartNgayPV)
+            // .WhereIf(input.EndNgayPV.HasValue, x => x.NgayPhongVan <= input.EndNgayPV.Value);
             var tatolCount = await query.CountAsync();
             var result = await query.OrderBy(input.Sorting)
                 .PageBy(input)
@@ -196,7 +296,6 @@ namespace ManagerCV.Employee
             emp.BangCap = input.BangCap;
             emp.ChoOHienTai = input.ChoOHienTai;
             emp.ContentType = input.ContentType;
-            emp.CtyNhan = input.CtyNhan;
             emp.DanhGiaNgonNgu = input.DanhGiaNgonNgu;
             emp.Email = input.Email;
             emp.FaceBook = input.FaceBook;
@@ -206,8 +305,6 @@ namespace ManagerCV.Employee
             emp.KinhNghiem = input.KinhNghiem;
             emp.LuongMongMuon = input.LuongMongMuon;
             emp.NamSinh = input.NamSinh;
-            emp.NgayHoTro = input.NgayHoTro;
-            emp.NgayNhanCV = input.NgayNhanCV;
             emp.NgonNgu = input.NgonNgu;
             emp.NguyenVong = input.NguyenVong;
             emp.NoiDung = input.NoiDung;
@@ -306,49 +403,66 @@ namespace ManagerCV.Employee
                 System.IO.File.Delete(filePath);
             }
         }
-        public async Task GuiCV(int id, string tencty)
+        public async Task GuiCV(int id, string tenctys)
         {
             var emp = await _employeeRepository.FirstOrDefaultAsync(id);
-            emp.TrangThai = 2;
-            emp.CtyNhan = tencty;
-            emp.NgayHoTro = DateTime.Now;
+            foreach (var cty in tenctys.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                var send = new SendCV()
+                {
+                    TenantId = AbpSession.TenantId ?? 1,
+                    Employee_Id = id,
+                    NgayGui = DateTime.Now,
+                    TenCty = cty,
+                    TrangThai = Const.TrangThai.DaGui
+                };
+                await _sendCVRepository.InsertAsync(send);
+            }
+            await CurrentUnitOfWork.SaveChangesAsync();
         }
         public async Task HenPV(int id, DateTime? ngayPV)
         {
-            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
-            emp.NgayPhongVan = ngayPV;
-            emp.TrangThai = 3;
+            var sendCV = await _sendCVRepository.FirstOrDefaultAsync(id);
+            sendCV.TrangThai = Const.TrangThai.PV;
+            sendCV.NgayPhongVan = ngayPV;
         }
 
         public async Task DiPV(int id)
         {
-            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
-            emp.TrangThai = 4;
+            var emp = await _sendCVRepository.FirstOrDefaultAsync(id);
+            emp.TrangThai = Const.TrangThai.PVChuaKQ;
         }
 
-        public async Task DaNhan(int id)
+        public async Task DaNhan(int id,DateTime? NgayDiLam)
         {
-            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
-            emp.TrangThai = 5;
+            var sendCV = await _sendCVRepository.FirstOrDefaultAsync(id);
+            sendCV.TrangThai = Const.TrangThai.DaNhan;
+            sendCV.NgayDiLam = NgayDiLam;
+            // tìm kiếm và xóa tất cả các bản cv đã gửi đi của nhân viên đó
+            var emp = await _employeeRepository.FirstOrDefaultAsync(x => x.Id == sendCV.Employee_Id);
+            var sendDelete = await _sendCVRepository.GetAll().Where(x => x.Employee_Id == emp.Id && x.Id != id).ToListAsync();
+            foreach (var item in sendDelete)
+            {
+                await _sendCVRepository.DeleteAsync(item.Id);
+            }
         }
 
         public async Task ChuyenVeQLCV(int id)
         {
-            var emp = await _employeeRepository.FirstOrDefaultAsync(id);
-            emp.TrangThai = 1;
-            emp.NgayHoTro = null;
-            emp.CtyNhan = null;
-            emp.NgayPhongVan = null;
+            var sendCV = await _sendCVRepository.FirstOrDefaultAsync(id);
+            var sendCVs = await _sendCVRepository.GetAll().Where(x => x.Employee_Id == sendCV.Employee_Id).ToListAsync();
+            foreach (var item in sendCVs)
+            {
+                await _sendCVRepository.DeleteAsync(item.Id);
+            }
         }
-
-
         public async Task<GetTotalForManager> GetTotalEmployeeForManager()
         {
-            var moi = await _employeeRepository.GetAll().Where(x => x.TrangThai == 1).CountAsync();
-            var DaGui = await _employeeRepository.GetAll().Where(x => x.TrangThai == 2).CountAsync();
-            var PV = await _employeeRepository.GetAll().Where(x => x.TrangThai == 3).CountAsync();
-            var PVChuaKQ = await _employeeRepository.GetAll().Where(x => x.TrangThai == 4).CountAsync();
-            var DaNhan = await _employeeRepository.GetAll().Where(x => x.TrangThai == 5).CountAsync();
+            var moi = await _employeeRepository.GetAll().Include(x => x.SendCVs).Where(x => x.SendCVs.Count == 0).CountAsync();
+            var DaGui = await _sendCVRepository.GetAll().Where(x => x.TrangThai == Const.TrangThai.DaGui).CountAsync();
+            var PV = await _sendCVRepository.GetAll().Where(x => x.TrangThai == Const.TrangThai.PV).CountAsync();
+            var PVChuaKQ = await _sendCVRepository.GetAll().Where(x => x.TrangThai == Const.TrangThai.PVChuaKQ).CountAsync();
+            var DaNhan = await _sendCVRepository.GetAll().Where(x => x.TrangThai == Const.TrangThai.DaNhan).CountAsync();
             var reusut = new GetTotalForManager()
             {
                 Moi = moi,
@@ -358,8 +472,34 @@ namespace ManagerCV.Employee
                 PVChuaKQ = PVChuaKQ
             };
             return reusut;
-            
+
         }
 
+        public async Task GuiThemCV(int employeeId, string tenCty)
+        {
+            var sendCV = new SendCV
+            {
+                Employee_Id = employeeId,
+                TenantId = AbpSession.TenantId ?? 1,
+                TenCty = tenCty,
+            };
+            await _sendCVRepository.InsertAsync(sendCV);
+            await CurrentUnitOfWork.SaveChangesAsync();
+        }
+
+        public async Task DeleteSendCV(int id)
+        {
+            await _sendCVRepository.DeleteAsync(id);
+        }
+        public async Task UpdateSendCV(int id, string TenCty)
+        {
+            var sendCV = await _sendCVRepository.FirstOrDefaultAsync(id);
+            sendCV.TenCty = TenCty;
+        }
+        public async Task<SendCVDto> GetSendCV(int id)
+        {
+            var sendCV = await _sendCVRepository.FirstOrDefaultAsync(id);
+            return ObjectMapper.Map<SendCVDto>(sendCV);
+        }
     }
 }

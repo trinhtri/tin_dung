@@ -11,9 +11,11 @@ import * as moment from 'moment';
 export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   ngayHoTro: any;
   public isLoading = false;
-  public CV: CreateEmployeeDto = new CreateEmployeeDto();
   saving = false;
   ngayPV: any;
+  id: number;
+  ctyNhans: string;
+  status: number;
   constructor(injector: Injector,
     private _EmployeeService: EmployeeServiceProxy,
     private dialogRef: MatDialogRef<CVGuiDiComponent>,
@@ -23,38 +25,28 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.data) {
-      this.getClient(this.data);
+    console.log('data', this.data.status , this.data.id);
+    this.id = + this.data.id;
+    if (this.data.id) {
+      this.getSendCV(this.data);
     }
   }
-  getClient(id) {
-    this._EmployeeService.getId(id).subscribe(result => {
-      this.CV = result;
-      if (this.CV.ngayPhongVan) {
-        this.ngayPV = this.CV.ngayPhongVan.toDate();
-      }
+  getSendCV(id) {
+    this._EmployeeService.getSendCV(id).subscribe(result => {
+      this.ctyNhans = result.tenCty;
     });
   }
   save() {
     this.saving = true;
-    this.CV.trangThai = 2;
-    if (this.ngayPV) {
-      this.CV.ngayPhongVan = moment(this.ngayPV);
-    } else {
-      this.CV.ngayPhongVan = undefined;
-    }
-    if (this.CV.id) {
-      this._EmployeeService.guiCV(this.CV.id, this.CV.ctyNhan)
+      this._EmployeeService.updateSendCV(+this.id, this.ctyNhans)
         .subscribe(() => {
           abp.notify.success(this.l('Lưu thành công.'));
           this.close(true);
         });
-    }
   }
   close(result: any): void {
     this.saving = false;
     this.ngayPV = null;
-    this.CV = new CreateEmployeeDto();
     this.dialogRef.close(result);
   }
 }

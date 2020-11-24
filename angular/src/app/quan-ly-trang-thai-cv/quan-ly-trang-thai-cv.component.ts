@@ -18,7 +18,7 @@ export class QuanLyTrangThaiCVComponent extends AppComponentBase implements OnIn
   constructor(injector: Injector,
     private _employeeClientService: EmployeeService,
     private _employeeService: EmployeeServiceProxy) {
-    super(injector)
+    super(injector);
   }
 
   ngOnInit() {
@@ -75,7 +75,7 @@ export class QuanLyTrangThaiCVComponent extends AppComponentBase implements OnIn
       this.pv = 'Có lịch PV (' + this.total.coLichPV + ' )';
       this.pvchuakq = 'PV chưa có kết quả (' + this.total.pvChuaKQ + ' )';
       this.danhan = 'Đã nhận (' + this.total.daNhan + ' )';
-    })
+    });
   }
 
 
