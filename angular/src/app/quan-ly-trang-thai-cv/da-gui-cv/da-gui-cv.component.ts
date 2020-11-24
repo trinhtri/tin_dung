@@ -158,9 +158,12 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
     this.getAll();
   }
   editCV(CV) {
-    this.showAddOrEditClient(CV.id);
+    this.showAddOrEditClient(CV.id, false);
   }
-  showAddOrEditClient(id?: any) {
+  addCtyNhan(CV){
+    this.showAddOrEditClient(CV.employee_ID, true);
+  }
+  showAddOrEditClient(id?: any, stauts?: boolean) {
     let createOrEditGrade;
     if (id === null || id === undefined) {
       createOrEditGrade = this._dialog.open(CVGuiDiComponent);
@@ -168,7 +171,7 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
       createOrEditGrade = this._dialog.open(CVGuiDiComponent, {
         data: {
           id : id,
-          status : 2
+          status : stauts
         },
       });
     }
@@ -187,8 +190,8 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
     });
   }
 
-  chuyenVeQLCV(employee) {
-    this._employeeService.chuyenVeQLCV(employee.id).subscribe(result => {
+  deleteCV(employee) {
+    this._employeeService.deleteSendCV(employee.id).subscribe(result => {
       abp.notify.success(this.l('Chuyển CV thành công'));
       this.getAll();
       this._employeeClientService.clickVeMoi(true);
@@ -252,8 +255,15 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
       this.endDate.setHours(23, 59, 59, 59);
       end = moment(this.endDate);
     }
-    this._employeeService.getCVToExcel(this.keyword, [2], start, end, this.certificateSelected,
-      this.languageSelected, this.sorting, this.skipCount, this.pageSize)
+    this._employeeService.getGuiCVToExcel(this.keyword,
+      2,
+      this.startDate,
+      this.endDate,
+      this.startNgaypv,
+      this.endNgaypv,
+      this.certificateSelected,
+      this.languageSelected,
+      this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this._fileDownLoadService.downloadTempFile(result);
       }, (error) => {
@@ -269,7 +279,7 @@ export class DaGuiCVComponent extends AppComponentBase implements OnInit, OnDest
       createOrEditGrade = this._dialog.open(CVGuiDiComponent);
     } else {
       createOrEditGrade = this._dialog.open(CVGuiDiComponent, {
-        data: id
+        data:  {id : id , status: false}
       });
     }
     createOrEditGrade.afterClosed().subscribe(result => {

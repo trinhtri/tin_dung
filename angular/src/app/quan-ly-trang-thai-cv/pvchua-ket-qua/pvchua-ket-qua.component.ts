@@ -194,6 +194,7 @@ export class PVChuaKetQuaComponent extends AppComponentBase implements OnInit {
     }
     createOrEditGrade.afterClosed().subscribe(result => {
       this.getAll();
+      this._employeeClientService.clickDaNhan(true);
     });
   }
 
@@ -231,8 +232,15 @@ export class PVChuaKetQuaComponent extends AppComponentBase implements OnInit {
       this.endDate.setHours(23, 59, 59, 59);
       end = moment(this.endDate);
     }
-    this._employeeService.getCVToExcel(this.keyword, [4], start, end, this.certificateSelected,
-      this.languageSelected, this.sorting, this.skipCount, this.pageSize)
+    this._employeeService.getGuiCVToExcel(this.keyword,
+      4,
+      this.startDate,
+      this.endDate,
+      this.startNgaypv,
+      this.endNgaypv,
+      this.certificateSelected,
+      this.languageSelected,
+      this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this._fileDownLoadService.downloadTempFile(result);
       }, (error) => {
@@ -241,5 +249,12 @@ export class PVChuaKetQuaComponent extends AppComponentBase implements OnInit {
   }
   getEmail(input) {
     return 'mailto:' + input;
+  }
+  deleteCV(employee) {
+    this._employeeService.deleteSendCV(employee.id).subscribe(result => {
+      abp.notify.success(this.l('Chuyển CV thành công'));
+      this.getAll();
+      this._employeeClientService.clickVeMoi(true);
+    });
   }
 }

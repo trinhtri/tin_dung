@@ -27,8 +27,9 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   ngOnInit(): void {
     console.log('data', this.data.status , this.data.id);
     this.id = + this.data.id;
-    if (this.data.id) {
-      this.getSendCV(this.data);
+    if (this.data.id && this.data.status == false) {
+      console.log('vào')
+      this.getSendCV(this.data.id);
     }
   }
   getSendCV(id) {
@@ -38,11 +39,20 @@ export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   }
   save() {
     this.saving = true;
+    if(this.data.status == false){
       this._EmployeeService.updateSendCV(+this.id, this.ctyNhans)
-        .subscribe(() => {
-          abp.notify.success(this.l('Lưu thành công.'));
-          this.close(true);
-        });
+      .subscribe(() => {
+        abp.notify.success(this.l('Lưu thành công.'));
+        this.close(true);
+      });
+    } else {
+      this._EmployeeService.guiCV(+this.id, this.ctyNhans)
+      .subscribe(() => {
+        abp.notify.success(this.l('Lưu thành công.'));
+        this.close(true);
+      });
+    }
+
   }
   close(result: any): void {
     this.saving = false;

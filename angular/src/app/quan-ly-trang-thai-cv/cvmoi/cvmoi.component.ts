@@ -226,8 +226,15 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
       this.endDate.setHours(23, 59, 59, 59);
       end = moment(this.endDate);
     }
-    this._employeeService.getCVToExcel(this.keyword, [1], start, end, this.certificateSelected,
-      this.languageSelected, this.sorting, this.skipCount, this.pageSize)
+    this._employeeService.getCVNewToExcel( this.keyword,
+      1,
+      this.startDate,
+      this.endDate,
+      this.startNgaypv,
+      this.endNgaypv,
+      this.certificateSelected,
+      this.languageSelected,
+      this.sorting, this.skipCount, 100000000)
       .subscribe((result) => {
         this._fileDownLoadService.downloadTempFile(result);
       }, (error) => {
@@ -243,7 +250,7 @@ export class CVMoiComponent extends AppComponentBase implements OnInit, OnDestro
       createOrEditGrade = this._dialog.open(CVGuiDiComponent);
     } else {
       createOrEditGrade = this._dialog.open(CVGuiDiComponent, {
-        data: id
+        data:  {id : id , status: true}
       });
     }
     createOrEditGrade.afterClosed().subscribe(result => {

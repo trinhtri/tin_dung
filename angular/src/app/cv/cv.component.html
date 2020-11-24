@@ -44,7 +44,7 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <mat-form-field>
                                 <mat-select [placeholder]="'Trạng thái' | localize" multiple name="trangthai"
                                     (selectionChange)="filterbyStatus($event)">
@@ -55,7 +55,7 @@
                                     <mat-option [value]="5">{{ "Đã nhận" | localize}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
+                        </div> -->
                     </form>
                     <mat-accordion class="col-md-12">
                         <mat-expansion-panel [expanded]="true" hideToggle="true" disabled="true">
@@ -93,10 +93,10 @@
                                             <th mat-sort-header="email">{{ "Email" | localize }}</th>
                                             <th mat-sort-header="bangCap">{{ "Bằng cấp" | localize }}</th>
                                             <th mat-sort-header="KinhNghiem">{{ "Kinh Nghiệm" | localize }}</th>
-                                            <th mat-sort-header="NgayNhanCV">{{ "Ngày Nhận CV" | localize }}</th>
-                                            <th mat-sort-header="trangthai">{{ "Trạng Thái" | localize }}</th>
+                                            <th mat-sort-header="CreationTime">{{ "Ngày Nhận CV" | localize }}</th>
+                                            <!-- <th mat-sort-header="trangthai">{{ "Trạng Thái" | localize }}</th>
                                             <th mat-sort-header="CtyNhan">{{ "CTy Nhận" | localize }}</th>
-                                            <th mat-sort-header="NgayPhongVan">{{ "Ngày PV" | localize }}</th>
+                                            <th mat-sort-header="NgayPhongVan">{{ "Ngày PV" | localize }}</th> -->
                                             <th>{{l('Tính Năng')}}</th>
                                         </tr>
                                     </thead>
@@ -133,10 +133,10 @@
                                             </td>
                                             <td>{{ getBangCap(employee.bangCap)}}</td>
                                             <td>{{ employee.kinhNghiem}}</td>
-                                            <td>{{ employee.ngayNhanCV?.format("L")}}</td>
-                                            <td>{{ getStatus(employee.trangThai)}}</td>
+                                            <td>{{ employee.creationTime?.format("L")}}</td>
+                                            <!-- <td>{{ getStatus(employee.trangThai)}}</td>
                                             <td>{{ employee.ctyNhan}}</td>
-                                            <td>{{ employee.ngayPhongVan?.format("L")}}</td>
+                                            <td>{{ employee.ngayPhongVan?.format("L")}}</td> -->
 
                                             <td>
                                                 <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">

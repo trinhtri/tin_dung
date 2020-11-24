@@ -23,7 +23,7 @@ namespace ManagerCV.Employee.Dto
         {
             if (Sorting.IsNullOrEmpty())
             {
-                Sorting = "HoTen,NamSinh,NgonNgu,QueQuan,Email,DanhGiaNgonNgu";
+                Sorting = "CreationTime DESC";
             }
         }
         public EmployeeGuiInputDto()

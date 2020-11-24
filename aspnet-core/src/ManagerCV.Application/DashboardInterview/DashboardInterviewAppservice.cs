@@ -29,7 +29,7 @@ namespace ManagerCV.DashboardInterview
                     Start = a.NgayPhongVan ?? DateTime.Now
                 })
                 .ToListAsync();
-            return null;
+            return emps;
         }
     }
 }

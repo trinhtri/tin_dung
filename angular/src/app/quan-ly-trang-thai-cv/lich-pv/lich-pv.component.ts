@@ -257,8 +257,15 @@ export class LichPVComponent extends AppComponentBase implements OnInit {
       this.endDate.setHours(23, 59, 59, 59);
       end = moment(this.endDate);
     }
-    this._employeeService.getCVToExcel(this.keyword, [3], start, end, this.certificateSelected,
-      this.languageSelected, this.sorting, this.skipCount, this.pageSize)
+    this._employeeService.getGuiCVToExcel( this.keyword,
+      3,
+      this.startDate,
+      this.endDate,
+      this.startNgaypv,
+      this.endNgaypv,
+      this.certificateSelected,
+      this.languageSelected,
+      this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this._fileDownLoadService.downloadTempFile(result);
       }, (error) => {
@@ -283,5 +290,12 @@ export class LichPVComponent extends AppComponentBase implements OnInit {
   }
   getEmail(input) {
     return 'mailto:' + input;
+  }
+  deleteCV(employee) {
+    this._employeeService.deleteSendCV(employee.id).subscribe(result => {
+      abp.notify.success(this.l('Chuyển CV thành công'));
+      this.getAll();
+      this._employeeClientService.clickVeMoi(true);
+    });
   }
 }

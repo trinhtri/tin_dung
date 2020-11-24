@@ -17,6 +17,7 @@ export class DilamComponent  extends AppComponentBase implements OnInit {
   public stepHour = 1;
   public stepMinute = 1;
   public stepSecond = 1;
+  note: string;
   touchUi = false;
   public enableMeridian = false;
   constructor(injector: Injector,
@@ -39,6 +40,7 @@ export class DilamComponent  extends AppComponentBase implements OnInit {
       } else {
         this.ngayDiLam = undefined;
       }
+      this.note = result.note;
     });
   }
   save() {
@@ -49,7 +51,7 @@ export class DilamComponent  extends AppComponentBase implements OnInit {
     } else {
       ngay = undefined;
     }
-    this._EmployeeService.daNhan(this.data, ngay)
+    this._EmployeeService.daNhan(this.data, ngay , this.note)
       .subscribe(() => {
         abp.notify.success(this.l('Lưu thành công.'));
         this.close(true);
@@ -58,6 +60,7 @@ export class DilamComponent  extends AppComponentBase implements OnInit {
   close(result: any): void {
     this.saving = false;
     this.ngayDiLam = null;
+    this.note = null;
     this.dialogRef.close(result);
   }
 }

@@ -10,6 +10,7 @@ import { SendJDComponent } from '@app/cv/send-jd/send-jd.component';
 import * as moment from 'moment';
 import { EmployeeService } from '@app/employee.service';
 import { CreateOrEditCVComponent } from '@app/cv/create-or-edit-cv/create-or-edit-cv.component';
+import { DilamComponent } from '@app/cv/dilam/dilam.component';
 @Component({
   selector: 'app-da-nhan-pv',
   templateUrl: './da-nhan-pv.component.html',
@@ -157,7 +158,7 @@ export class DaNhanPVComponent extends AppComponentBase implements OnInit {
   }
 
   editCV(CV) {
-    this.showAddOrEditClient(CV.id);
+    this.showAddOrEditClient(CV.employee_ID);
   }
   showAddOrEditClient(id?: any) {
     let createOrEditGrade;
@@ -200,6 +201,20 @@ export class DaNhanPVComponent extends AppComponentBase implements OnInit {
   }
   getPhone(input) {
     return 'tel:' + input;
+  }
+  approve(employee) {
+    let createOrEditGrade;
+    if (employee.id === null || employee.id === undefined) {
+      createOrEditGrade = this._dialog.open(DilamComponent);
+    } else {
+      createOrEditGrade = this._dialog.open(DilamComponent, {
+        data: employee.id
+      });
+    }
+    createOrEditGrade.afterClosed().subscribe(result => {
+      this.getAll();
+      this._employeeClientService.clickDaNhan(true);
+    });
   }
   onCheckboxChanged(id: number, e: any) {
     if (e.checked) {
@@ -247,8 +262,15 @@ export class DaNhanPVComponent extends AppComponentBase implements OnInit {
       this.endDate.setHours(23, 59, 59, 59);
       end = moment(this.endDate);
     }
-    this._employeeService.getCVToExcel(this.keyword, [5], start, end, this.certificateSelected,
-      this.languageSelected, this.sorting, this.skipCount, this.pageSize)
+    this._employeeService.getGuiCVToExcel(this.keyword,
+      5,
+      this.startDate,
+      this.endDate,
+      this.startNgaypv,
+      this.endNgaypv,
+      this.certificateSelected,
+      this.languageSelected,
+      this.sorting, this.skipCount, this.pageSize)
       .subscribe((result) => {
         this._fileDownLoadService.downloadTempFile(result);
       }, (error) => {
