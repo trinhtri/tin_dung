@@ -1,8 +1,9 @@
+import { LanguageServiceProxy } from './../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, Optional, Inject, ElementRef, ViewChild } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/app-component-base';
 import * as moment from 'moment';
-import { CreateEmployeeDto, EmployeeServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CreateEmployeeDto, EmployeeServiceProxy, LanguageDto } from '@shared/service-proxies/service-proxies';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { IAjaxResponse } from 'abp-ng2-module/dist/src/abpHttpInterceptor';
@@ -25,8 +26,13 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
   public CV: CreateEmployeeDto = new CreateEmployeeDto();
   saving = false;
   startDate = new Date();
+  languages: LanguageDto[] = [];
+  languageSelected: any;
+  checked: any;
+  bangCap: number;
   constructor(injector: Injector,
-    private _EmployeeService: EmployeeServiceProxy,
+    private _employeeService: EmployeeServiceProxy,
+    private _languageService: LanguageServiceProxy,
     private _tokenService: TokenService,
     private dialogRef: MatDialogRef<CreateOrEditCVComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private data: any,
@@ -41,8 +47,11 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
       }
     }
   getClient(id) {
-  this._EmployeeService.getId(id).subscribe( result => {
+  this._employeeService.getId(id).subscribe( result => {
+    console.log('employee', result);
+    this.languageSelected = result.languages;
     this.CV = result;
+    this.bangCap = + result.bangCap;
     this.startDate = this.CV.ngayNhanCV.toDate();
   });
   }
@@ -51,8 +60,11 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
       this.documentFileInput.nativeElement.click();
     }
   }
+  filter(data) {
+    this.languageSelected = data;
+    console.log(this.CV.languages);
+  }
   initUploaders(): void {
-    console.log('a', AppConsts.remoteServiceBaseUrl);
     this.documentUploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/Profile/UploadDocumentFile' });
     this._uploaderOptions.autoUpload = true;
     this._uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
@@ -67,27 +79,31 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
         this.CV.cvName = resp.result.fileName;
         this.CV.contentType = resp.result.contentType;
         this.isSelectedFile = true;
-        console.log('b', this.isSelectedFile);
       } else {
         this.message.error(resp.result.errorInfo.details, resp.result.errorInfo.message);
       }
     };
     this.documentUploader.setOptions(this._uploaderOptions);
+    // get languges
+    this._languageService.getAll(undefined, undefined, 0, 10000000).subscribe(result => {
+      this.languages = result.items;
+    });
+
   }
     save() {
-      this.CV.trangThai = false;
       this.CV.ngayNhanCV = moment(this.startDate);
       this.saving = true;
       this.CV.isSeletedFile = this.isSelectedFile;
-      console.log('a', this.CV.isSeletedFile);
+      this.CV.bangCap =   this.bangCap.toString();
       if (this.CV.id) {
-        this._EmployeeService.update(this.CV)
+        this._employeeService.capNhat(this.CV)
           .subscribe(() => {
             abp.notify.success(this.l('Chỉnh sửa thành công.'));
             this.close(true);
           });
       } else {
-        this._EmployeeService.create(this.CV)
+        this.CV.trangThai = 1;
+        this._employeeService.create(this.CV)
           .subscribe(() => {
             abp.notify.success(this.l('Tạo mới thành công.'));
             this.close(true);
@@ -108,7 +124,7 @@ export class CreateOrEditCVComponent extends AppComponentBase implements OnInit 
     }
     deleteTempFile() {
       if (this.CV.cvName) {
-        this._EmployeeService.deleteDocumentTempFile(this.CV.cvName).subscribe();
+        this._employeeService.deleteDocumentTempFile(this.CV.cvName).subscribe();
       }
     }
 }

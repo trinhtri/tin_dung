@@ -10,14 +10,24 @@ namespace ManagerCV.Employee.Dto
     public class EmployeeInputDto : PagedAndSortedResultRequestDto, IShouldNormalize
     {
         public string Filter { get; set; }
+        public List<int> TrangThai { get; set; }
         public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime? EndDate { get; set; }    
+        public List<string> BangCap { get; set; }
+
+        public List<int> NgonNgu { get; set; }
         public void Normalize()
         {
             if (Sorting.IsNullOrEmpty())
             {
-                Sorting = "NgonNgu";
+                Sorting = "CreationTime DESC";
             }
+        }
+        public EmployeeInputDto()
+        {
+            NgonNgu = new List<int>();
+            BangCap = new List<string>();
+            TrangThai = new List<int>();
         }
     }
 }

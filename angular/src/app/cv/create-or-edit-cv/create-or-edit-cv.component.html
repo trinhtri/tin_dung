@@ -26,7 +26,7 @@
 
         <div class="col-sm-6">
             <mat-form-field>
-                <input matInput [placeholder]="l('CV')" name="documentName" [(ngModel)]="CV.cvName" readonly />
+                <input matInput [placeholder]="l('CV gửi đi')" name="documentName" [(ngModel)]="CV.cvName" readonly />
                 <button mat-icon-button matSuffix (click)="selectFile($event)">
                   <mat-icon style="font-size:20px;"> description
                 </mat-icon>
@@ -44,9 +44,37 @@
 
         <div class="col-sm-6">
             <mat-form-field>
-                <input matInput name="ngonNgu" [placeholder]="'Ngôn Ngữ' | localize" [(ngModel)]="CV.ngonNgu" maxlength="1000" />
+                <mat-select required multiple [placeholder]="'Ngôn ngữ' | localize" [(ngModel)] = "CV.languages"  name="languages">
+                    <mat-option *ngFor="let languge of languages" [value]="languge.id">{{languge.ngonNgu}}</mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
+
+        <div class="col-sm-6">
+            <mat-form-field>
+                <mat-select required [placeholder]="'Bằng cấp' | localize" name="bangCap" [(ngModel)]="bangCap">
+                    <mat-option [value]="1">{{ "Đại học" | localize}}</mat-option>
+                    <mat-option [value]="2">{{ "Cao đẳng" | localize}}</mat-option>
+                    <mat-option [value]="3">{{ "Trung cấp" | localize}}</mat-option>
+                    <mat-option [value]="4">{{ "THPT" | localize}}</mat-option>
+                    <mat-option [value]="5">{{ "Semon" | localize}}</mat-option>
+
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput type="email" required name="email" email [placeholder]="'Email' | localize" [(ngModel)]="CV.email" maxlength="100" />
+            </mat-form-field>
+        </div>
+
+        <div class="col-sm-6">
+            <mat-form-field>
+                <input matInput name="sdt" [placeholder]="'Số Điện Thoại' | localize" [(ngModel)]="CV.sdt" maxlength="30" />
+            </mat-form-field>
+        </div>
+
         <div class="col-sm-6">
             <mat-form-field>
                 <input matInput name="danhGiaNgonNgu" [placeholder]="'Đánh Giá Ngôn Ngữ' | localize" [(ngModel)]="CV.danhGiaNgonNgu" maxlength="2000" />
@@ -67,34 +95,11 @@
                 <input matInput name="nguyenVong" [placeholder]="'Nguyện Vọng' | localize" [(ngModel)]="CV.nguyenVong" maxlength="2000" />
             </mat-form-field>
         </div>
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput name="sdt" [placeholder]="'Số Điện Thoại' | localize" [(ngModel)]="CV.sdt" maxlength="30" />
-            </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput name="email" [placeholder]="'Email' | localize" [(ngModel)]="CV.email" maxlength="100" />
-            </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput name="bangCap" [placeholder]="'Bằng Cấp' | localize" [(ngModel)]="CV.bangCap" maxlength="500" />
-            </mat-form-field>
-        </div>
+
+
         <div class="col-sm-6">
             <mat-form-field>
                 <input matInput name="truong" [placeholder]="'Trường' | localize" [(ngModel)]="CV.truong" maxlength="600" />
-            </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput name="nganh" [placeholder]="'Ngành' | localize" [(ngModel)]="CV.nganh" maxlength="600" />
-            </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput name="namTotNghiep" [placeholder]="'Năm Tốt Nghiệp' | localize" [(ngModel)]="CV.namTotNghiep" maxlength="50" />
             </mat-form-field>
         </div>
         <div class="col-sm-6">
@@ -104,7 +109,7 @@
         </div>
         <div class="col-sm-6">
             <mat-form-field>
-                <input matInput name="moTaCV" [placeholder]="'Mô Tả Công Việc' | localize" [(ngModel)]="CV.kinhNghiem" maxlength="2000" />
+                <input matInput name="moTaCV" [placeholder]="'Kinh nghiệm' | localize" [(ngModel)]="CV.kinhNghiem" maxlength="2000" />
             </mat-form-field>
         </div>
         <div class="col-sm-6">
@@ -112,12 +117,6 @@
                 <input matInput name="luongMongMuon" [placeholder]="'Lương Mong Muốn' | localize" [(ngModel)]="CV.luongMongMuon" maxlength="1000" />
             </mat-form-field>
         </div>
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput name="noiDung" [placeholder]="'Nội Dung' | localize" [(ngModel)]="CV.noiDung" maxlength="2000" />
-            </mat-form-field>
-        </div>
-
     </mat-dialog-content>
     <div align="end" class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
         <button mat-raised-button type="button" (click)="close(false)" class="mr-10">

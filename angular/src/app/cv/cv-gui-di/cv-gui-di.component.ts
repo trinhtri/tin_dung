@@ -11,43 +11,52 @@ import * as moment from 'moment';
 export class CVGuiDiComponent extends AppComponentBase implements OnInit {
   ngayHoTro: any;
   public isLoading = false;
-  public CV: CreateEmployeeDto = new CreateEmployeeDto();
   saving = false;
-  startDate: any;
+  ngayPV: any;
+  id: number;
+  ctyNhans: string;
+  status: number;
   constructor(injector: Injector,
     private _EmployeeService: EmployeeServiceProxy,
     private dialogRef: MatDialogRef<CVGuiDiComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private data: any,
-    ) {
-      super(injector);
-     }
+  ) {
+    super(injector);
+  }
 
-     ngOnInit(): void {
-      if (this.data) {
-      this.getClient(this.data);
-      }
-    }
-  getClient(id) {
-  this._EmployeeService.getId(id).subscribe( result => {
-    this.CV = result;
-  });
-  }
-    save() {
-      this.saving = true;
-      this.CV.trangThai = true;
-      this.CV.ketQua = false;
-      if (this.CV.id) {
-        this._EmployeeService.guiCV(this.CV.id, this.CV.ctyNhan)
-          .subscribe(() => {
-            abp.notify.success(this.l('Lưu thành công.'));
-            this.close(true);
-          });
+  ngOnInit(): void {
+    console.log('data', this.data.status , this.data.id);
+    this.id = + this.data.id;
+    if (this.data.id && this.data.status == false) {
+      console.log('vào')
+      this.getSendCV(this.data.id);
     }
   }
-    close(result: any): void {
-      this.saving = false;
-      this.startDate = null;
-      this.CV = new CreateEmployeeDto();
-      this.dialogRef.close(result);
-    }
+  getSendCV(id) {
+    this._EmployeeService.getSendCV(id).subscribe(result => {
+      this.ctyNhans = result.tenCty;
+    });
   }
+  save() {
+    this.saving = true;
+    if(this.data.status == false){
+      this._EmployeeService.updateSendCV(+this.id, this.ctyNhans)
+      .subscribe(() => {
+        abp.notify.success(this.l('Lưu thành công.'));
+        this.close(true);
+      });
+    } else {
+      this._EmployeeService.guiCV(+this.id, this.ctyNhans)
+      .subscribe(() => {
+        abp.notify.success(this.l('Lưu thành công.'));
+        this.close(true);
+      });
+    }
+
+  }
+  close(result: any): void {
+    this.saving = false;
+    this.ngayPV = null;
+    this.dialogRef.close(result);
+  }
+}

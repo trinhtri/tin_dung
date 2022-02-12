@@ -20,7 +20,6 @@ namespace ManagerCV.Models
         [StringLength(1000)]
         public string NgonNgu { get; set; }
         [StringLength(2000)]
-
         public string DanhGiaNgonNgu { get; set; }
         [StringLength(2000)]
         public string QueQuan { get; set; }
@@ -36,30 +35,30 @@ namespace ManagerCV.Models
         public string BangCap { get; set; }
         [StringLength(600)]
         public string Truong { get; set; }
-        [StringLength(600)]
-        public string Nganh { get; set; }
-        [StringLength(50)]
-        public string NamTotNghiep { get; set; }
+     
         [StringLength(1000)]
         public string FaceBook { get; set; }
         [StringLength(2000)]
         public string KinhNghiem { get; set; }
         [StringLength(1000)]
         public string LuongMongMuon { get; set; }
-        [StringLength(2000)]
         public string NoiDung { get; set; }
         [StringLength(2000)]
-        public string CtyNhan { get; set; }
-        public DateTime? NgayHoTro { get; set; }
-        [StringLength(2000)]
-        public bool KetQua { get; set; }
-        public bool TrangThai { get; set; }
+        public string Note { get; set; }
+
+        // 1 vừa thêm mới
+        // 2 đã gửi đến cty
+        // 3 cty có lịch pv
+        // 4.pv chưa phản hồi
+        // 5.cv chưa đạt -> 1
+        public int TrangThai { get; set; }
         [StringLength(2000)]
         public string CVName { get; set; }
         [StringLength(2000)]
         public string CVUrl { get; set; }
-        public DateTime? NgayNhanCV { get; set; }
         public string ContentType { get; set; }
+        public virtual List<EmployeeLanguage> EmployeeLanguages { get; set; }
+        public virtual List<SendCV> SendCVs { get; set; }
 
     }
 }

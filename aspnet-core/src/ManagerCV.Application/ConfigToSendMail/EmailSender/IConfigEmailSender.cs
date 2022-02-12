@@ -7,7 +7,6 @@ namespace ManagerCV.ConfigToSendMail.EmailSender
     public interface IConfigEmailSender: IApplicationService
     {
         Task Contact(CreateConfigToSendMailDto input);
-        Task SendMailList(CreateConfigToSendMailDto input);
-        Task SendEmaiForSchedule(SendEmiling input);
+        Task SendJDForCustomer(SenJDForCustomerDto input);
     }
 }

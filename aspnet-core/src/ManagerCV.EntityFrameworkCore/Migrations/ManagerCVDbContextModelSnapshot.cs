@@ -1406,6 +1406,75 @@ namespace ManagerCV.Migrations
                     b.ToTable("AbpUsers");
                 });
 
+            modelBuilder.Entity("ManagerCV.Models.Company", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ContentTypeHD")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentTypeTT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HopDong")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SDT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SoUVTT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenCTy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ThanhToan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UrlHopDong")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UrlThanhToan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companys");
+                });
+
             modelBuilder.Entity("ManagerCV.Models.CtgLanguage", b =>
                 {
                     b.Property<int>("Id")
@@ -1478,10 +1547,6 @@ namespace ManagerCV.Migrations
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("CtyNhan")
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
-
                     b.Property<string>("DanhGiaNgonNgu")
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
@@ -1510,10 +1575,6 @@ namespace ManagerCV.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("KetQua")
-                        .HasColumnType("bit")
-                        .HasMaxLength(2000);
-
                     b.Property<string>("KinhNghiem")
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
@@ -1532,20 +1593,6 @@ namespace ManagerCV.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
-                    b.Property<string>("NamTotNghiep")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Nganh")
-                        .HasColumnType("nvarchar(600)")
-                        .HasMaxLength(600);
-
-                    b.Property<DateTime?>("NgayHoTro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("NgayNhanCV")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("NgonNgu")
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
@@ -1555,6 +1602,9 @@ namespace ManagerCV.Migrations
                         .HasMaxLength(2000);
 
                     b.Property<string>("NoiDung")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
 
@@ -1569,8 +1619,8 @@ namespace ManagerCV.Migrations
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("TrangThai")
-                        .HasColumnType("bit");
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
 
                     b.Property<string>("Truong")
                         .HasColumnType("nvarchar(600)")
@@ -1579,6 +1629,114 @@ namespace ManagerCV.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("ManagerCV.Models.EmployeeLanguage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("CtgLanguage_Id")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Employee_Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CtgLanguage_Id");
+
+                    b.HasIndex("Employee_Id");
+
+                    b.ToTable("EmployeeLanguages");
+                });
+
+            modelBuilder.Entity("ManagerCV.Models.SendCV", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Employee_Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("NgayDiLam")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("NgayGui")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayNhan")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayPhongVan")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenCty")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Employee_Id");
+
+                    b.ToTable("SendCV");
                 });
 
             modelBuilder.Entity("ManagerCV.Models.SysConfigToSendMail", b =>
@@ -1877,6 +2035,30 @@ namespace ManagerCV.Migrations
                     b.HasOne("ManagerCV.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+                });
+
+            modelBuilder.Entity("ManagerCV.Models.EmployeeLanguage", b =>
+                {
+                    b.HasOne("ManagerCV.Models.CtgLanguage", "CtgLanguage_")
+                        .WithMany()
+                        .HasForeignKey("CtgLanguage_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ManagerCV.Models.Employee", "Employee_")
+                        .WithMany("EmployeeLanguages")
+                        .HasForeignKey("Employee_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerCV.Models.SendCV", b =>
+                {
+                    b.HasOne("ManagerCV.Models.Employee", "Employee_")
+                        .WithMany("SendCVs")
+                        .HasForeignKey("Employee_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ManagerCV.MultiTenancy.Tenant", b =>

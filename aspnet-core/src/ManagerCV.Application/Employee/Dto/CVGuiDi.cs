@@ -11,5 +11,6 @@ namespace ManagerCV.Employee.Dto
         public DateTime? NgayHoTro { get; set; }
         public string KetQua { get; set; }
         public int TrangThai { get; set; }
+        public DateTime? NgayPhongVan { get; set; }
     }
 }

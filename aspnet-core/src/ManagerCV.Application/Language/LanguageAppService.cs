@@ -14,6 +14,7 @@ using System.Linq.Dynamic.Core;
 using ManagerCV.IO;
 using System.IO;
 using ManagerCV.Language.Dto;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerCV.Language
 {
@@ -33,6 +34,7 @@ namespace ManagerCV.Language
 			return languge.Id;
 		}
 
+		[HttpDelete]
 		public async Task Delete(int id)
 		{
 			await _ctgLanguageRepository.DeleteAsync(id);
@@ -62,6 +64,7 @@ namespace ManagerCV.Language
 			return result;
 		}
 
+		[HttpPost]
 		public async Task Update(LanguageDto input)
 		{
 			var languge = await _ctgLanguageRepository.FirstOrDefaultAsync(x => x.Id == input.Id);

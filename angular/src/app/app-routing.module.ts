@@ -10,8 +10,9 @@ import { RolesComponent } from 'app/roles/roles.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { CVComponent } from './cv/cv.component';
 import { CVGuiDiComponent } from './cv/cv-gui-di/cv-gui-di.component';
-import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.component';
 import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
+import { QuanLyTrangThaiCVComponent } from './quan-ly-trang-thai-cv/quan-ly-trang-thai-cv.component';
+import { CompanyComponent } from './company/company.component';
 
 @NgModule({
     imports: [
@@ -26,9 +27,10 @@ import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent },
                     { path: 'update-password', component: ChangePasswordComponent },
-                    { path: 'CVs', component: CVComponent, canActivate: [AppRouteGuard] },
-                    { path: 'CV_Gui', component: CVUngVienGuiComponent, canActivate: [AppRouteGuard] },
-                    { path: 'Languages', component: NgonNguComponent, canActivate: [AppRouteGuard] },
+                    { path: 'cvs', component: CVComponent, canActivate: [AppRouteGuard] },
+                    { path: 'cv_status', component: QuanLyTrangThaiCVComponent, canActivate: [AppRouteGuard] },
+                    { path: 'congty', component: CompanyComponent, canActivate: [AppRouteGuard] },
+                    { path: 'languages', component: NgonNguComponent, canActivate: [AppRouteGuard] },
                 ]
             }
         ])

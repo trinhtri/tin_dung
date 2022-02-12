@@ -38,16 +38,29 @@ import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.c
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 import { CVGuiDiComponent } from './cv/cv-gui-di/cv-gui-di.component';
-import { EmployeeServiceProxy, LanguageServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CompanyServiceProxy, ConfigEmailSenderServiceProxy,
+  DashboardInterviewAppserviceServiceProxy, EmployeeServiceProxy, LanguageServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CVComponent } from './cv/cv.component';
 import { CreateOrEditCVComponent } from './cv/create-or-edit-cv/create-or-edit-cv.component';
-import { CVUngVienGuiComponent } from './cv-ung-vien-gui/cv-ung-vien-gui.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { FileUploadModule } from 'ng2-file-upload';
 import { FileDownloadService } from '@shared/Utils/file-download.service';
 import { NgonNguComponent } from './ngon-ngu/ngon-ngu.component';
 import { CreateOrEditNgonnguComponent } from './ngon-ngu/create-or-edit-ngonngu/create-or-edit-ngonngu.component';
 import { SendJDComponent } from './cv/send-jd/send-jd.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { HenPVComponent } from './cv/hen-pv/hen-pv.component';
+import { QuanLyTrangThaiCVComponent } from './quan-ly-trang-thai-cv/quan-ly-trang-thai-cv.component';
+import { CVMoiComponent } from './quan-ly-trang-thai-cv/cvmoi/cvmoi.component';
+import { DaGuiCVComponent } from './quan-ly-trang-thai-cv/da-gui-cv/da-gui-cv.component';
+import { LichPVComponent } from './quan-ly-trang-thai-cv/lich-pv/lich-pv.component';
+import { PVChuaKetQuaComponent } from './quan-ly-trang-thai-cv/pvchua-ket-qua/pvchua-ket-qua.component';
+import { DaNhanPVComponent } from './quan-ly-trang-thai-cv/da-nhan-pv/da-nhan-pv.component';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { CompanyComponent } from './company/company.component';
+import { CreateOrEditCompanyComponent } from './company/create-or-edit-company/create-or-edit-company.component';
+import { DilamComponent } from './cv/dilam/dilam.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,10 +89,19 @@ import { SendJDComponent } from './cv/send-jd/send-jd.component';
     CVComponent,
     CVGuiDiComponent,
     CreateOrEditCVComponent,
-    CVUngVienGuiComponent,
     NgonNguComponent,
     CreateOrEditNgonnguComponent,
-    SendJDComponent
+    SendJDComponent,
+    HenPVComponent,
+    QuanLyTrangThaiCVComponent,
+    CVMoiComponent,
+    DaGuiCVComponent,
+    LichPVComponent,
+    PVChuaKetQuaComponent,
+    DaNhanPVComponent,
+    CompanyComponent,
+    CreateOrEditCompanyComponent,
+    DilamComponent
   ],
   imports: [
     CommonModule,
@@ -94,12 +116,20 @@ import { SendJDComponent } from './cv/send-jd/send-jd.component';
     SharedModule,
     NgxPaginationModule,
     MatDatepickerModule,
-    FileUploadModule
+    FileUploadModule,
+    FullCalendarModule,
+    NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    AngularEditorModule,
   ],
   providers: [
     EmployeeServiceProxy,
     FileDownloadService,
-    LanguageServiceProxy
+    LanguageServiceProxy,
+    ConfigEmailSenderServiceProxy,
+    DashboardInterviewAppserviceServiceProxy,
+    CompanyServiceProxy
   ],
   entryComponents: [
     // tenants
@@ -115,7 +145,10 @@ import { SendJDComponent } from './cv/send-jd/send-jd.component';
     CreateOrEditCVComponent,
     CVGuiDiComponent,
     CreateOrEditNgonnguComponent,
-    SendJDComponent
+    SendJDComponent,
+    HenPVComponent,
+    CreateOrEditCompanyComponent,
+    DilamComponent
   ]
 })
 export class AppModule {}

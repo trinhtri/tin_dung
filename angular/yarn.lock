@@ -112,6 +112,20 @@
     "@angular-devkit/core" "8.3.2"
     rxjs "6.4.0"
 
+"@angular-material-components/datetime-picker@^2.0.3":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@angular-material-components/datetime-picker/-/datetime-picker-2.0.4.tgz#3a298eb29fc4a8adbbb70fe09bab0ae916d0c186"
+  integrity sha512-3nXGFz7GXbFYeBI2/72rcmPFTWtcC1ERlgdkaY+65dFHXPIc8hKGv6o+JbtCoYPg7xmVCCy4xhmOgfd/CFGyOw==
+  dependencies:
+    tslib "^1.9.0"
+
+"@angular-material-components/moment-adapter@^2.0.1":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@angular-material-components/moment-adapter/-/moment-adapter-2.0.2.tgz#9c9f160413396bc4aaa85d75519b47f3c5bd1ff1"
+  integrity sha512-QO8ftUkUzFIK8QhG9Z/f00Y5Z1BYBdOmIiEHOd6hwcKQK2PS87tAIETPLOjHnUONSAQjTVWcw8/WpQTBqCNxyA==
+  dependencies:
+    tslib "^1.9.0"
+
 "@angular/animations@^8.2.4":
   version "8.2.4"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-8.2.4.tgz#0780f9cb98a2ec3d43d80c42976420597932dc36"
@@ -925,6 +939,65 @@
     esutils "^2.0.2"
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
+
+"@fullcalendar/angular@4.0.2-beta":
+  version "4.0.2-beta"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/angular/-/angular-4.0.2-beta.tgz#04b7d06fe6164c7ab72dcb04220fb28af75ca0d5"
+  integrity sha512-+FYRJDMP3g2kOTt/d+rnaDcT3Zw0kgI8a3FmuhzGGUq7pXAN4tJeLgNBIkyG8/ecw+tt3FTsHg2YITvX43O3Tw==
+  dependencies:
+    "@fullcalendar/core" "^4.0.2"
+    tslib "^1.9.0"
+
+"@fullcalendar/core@^4.0.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-4.4.2.tgz#864abe98cce4497a163c01a8fc30389f15d3d4e1"
+  integrity sha512-vq7KQGuAJ1ieFG5tUqwxwUwmXYtblFOTjHaLAVHo6iEPB52mS7DS45VJfkhaQmX4+5/+BHRpg82G1qkuAINwtg==
+
+"@fullcalendar/daygrid@^4.0.1", "@fullcalendar/daygrid@~4.4.0":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-4.4.2.tgz#568bfb3c7cc97f83b57cf3aef0fa3ed1bf6eda16"
+  integrity sha512-axjfMhxEXHShV3r2TZjf+2niJ1C6LdAxkHKmg7mVq4jXtUQHOldU5XsjV0v2lUAt1urJBFi2zajfK8798ukL3Q==
+
+"@fullcalendar/interaction@^4.0.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-4.4.2.tgz#0a6be06538f843b6f0f4e9b4de87a5e3ec3629fb"
+  integrity sha512-3ItpGFnxcYQT4NClqhq93QTQwOI8x3mlMf5M4DgK5avVaSzpv9g8p+opqeotK2yzpFeINps06cuQyB1h7vcv1Q==
+
+"@fullcalendar/resource-common@~4.4.0":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/resource-common/-/resource-common-4.4.2.tgz#fd317d68d8790083e0ed5b99545bd2618bf0b489"
+  integrity sha512-aypS0cu1pao5iRzhDkSGCSpizqDIFELcMyxZTzkzv9dozccU9wCgDK3rM6qFnSldn7CdOdGRgrUDAAvb3OmzFQ==
+
+"@fullcalendar/resource-daygrid@~4.4.0":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/resource-daygrid/-/resource-daygrid-4.4.2.tgz#f2c38286af33f54be2bb82d51e8e14fb17bc4604"
+  integrity sha512-5FAVe+FqSuvbhSd3c3QFMqGySgI3pupiU3Frlr80xtwN193A3lZdzDf9SCKU3py0wY5IImv+whS4/pOIPRuZTw==
+  dependencies:
+    "@fullcalendar/daygrid" "~4.4.0"
+    "@fullcalendar/resource-common" "~4.4.0"
+
+"@fullcalendar/resource-timegrid@^4.3.0":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/resource-timegrid/-/resource-timegrid-4.4.2.tgz#eb361469efee0818f240d656f82b80ac95f31e0c"
+  integrity sha512-QI6gn8I4uYi7lIgA68k/EDLNTSiSBD3+HZUziCP7ivPx/AwrL38PY2OZVep/uDjYWG/In44Laf6SSWRdWTkOQA==
+  dependencies:
+    "@fullcalendar/resource-common" "~4.4.0"
+    "@fullcalendar/resource-daygrid" "~4.4.0"
+    "@fullcalendar/timegrid" "~4.4.0"
+
+"@fullcalendar/timegrid@^4.2.0", "@fullcalendar/timegrid@~4.4.0":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-4.4.2.tgz#9d5b26204cd2b0928e7498c54f758a6d07b15191"
+  integrity sha512-M5an7qii8OUmI4ogY47k5pn2j/qUbLp6sa6Vo0gO182HR5pb9YtrEZnoQhnScok+I0BkDkLFzMQoiAMTjBm2PQ==
+  dependencies:
+    "@fullcalendar/daygrid" "~4.4.0"
+
+"@kolkov/angular-editor@^0.18.4":
+  version "0.18.8"
+  resolved "https://registry.yarnpkg.com/@kolkov/angular-editor/-/angular-editor-0.18.8.tgz#8f22ede706c56c628db45efed2382138788d3b6e"
+  integrity sha512-g9jxJDviK1RJcnqqUbfQoE/24FMMkGoAptE1ViG5iGI3oG2gS6l98VZPi63LuastDFQtmBwUI+CgZh/di+9/+Q==
+  dependencies:
+    tslib "^1.9.0"
 
 "@ngtools/webpack@8.3.2":
   version "8.3.2"
